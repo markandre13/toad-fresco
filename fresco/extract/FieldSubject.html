@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;FieldSubject</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/widgets.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> A field subject is a string of text.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>long count();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the number of characters in the string.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void append_char(in CharCode c);<BR>void prepend_char(in CharCode c);<BR>void insert_char(in long index, in CharCode c);<BR>void insert_chars(in long index, in CharString str);<BR></FONT></B>
+</TD></TR></TABLE>
+ Inserting at index 0 prepends and inserting at index count()-1
+ appends to the string.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void replace_char(in long index, in CharCode c);<BR>void replace_chars(in long first, in long last, in CharString str);<BR>void replace_all(in CharString str);<BR>void delete_chars(in long first, in long last);<BR>void delete_all();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations are used to delete or replace regions
+ of the string.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>CharCode get_char(in long index);<BR>string get_chars(in long first, in long last);<BR>string get_all();<BR></FONT></B>
+</TD></TR></TABLE>
+ Returns copy of char, string, or string within given region.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void copy(in FieldSubject fs);<BR></FONT></B>
+</TD></TR></TABLE>
+ Copy the given field subject into this subject. 
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

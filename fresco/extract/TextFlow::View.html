@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::View</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="Glyph.html">Glyph</A>, <A HREF="Observer.html">Observer</A><P> A view that represents some document subject and provides
+ a mapping between the two.  
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Subject get_subject();<BR>Range get_range();<BR>Element element();<BR></FONT></B>
+</TD></TR></TABLE>
+ get_subject fetchs the document subject associated 
+ with this view.  get_range retrieves the amount of coverage 
+ within the subject that this view applies.  get_element
+ fetchs the element associated with this glyph.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean position_to_coord(in Position pos, inout Vertex lower, inout Vertex upper);<BR>Position coord_to_position(in GlyphTraversal t, in Vertex pt);<BR></FONT></B>
+</TD></TR></TABLE>
+ position_to_coord and coord_to_position provide a mapping 
+ between	 subject and view.  The coordinates are in terms of 
+ the window the glyph is contained in.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void damage_range(in Range rng);<BR></FONT></B>
+</TD></TR></TABLE>
+ cause a region corresponding to a portion of the subject to be
+ redrawn.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean can_insert(in Position pos);<BR></FONT></B>
+</TD></TR></TABLE>
+ indicates whether the given position can be used as an
+ insert position within this view.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Breakable break_behavior();<BR></FONT></B>
+</TD></TR></TABLE>
+ return the breakability of the view, if the glyph
+ supports breaking by a formatter.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void background(in Glyph bg);<BR></FONT></B>
+</TD></TR></TABLE>
+ set background of the view... if the view supports
+ backgrounds.  
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::Breakable</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><P> A Breakable is information for use in determining where to create 
+ breaks.  A Breakable defines multiple looks for use under 
+ different break conditions.  The Breakable behavior may
+ be either static or dynamic (ie. returning shared glyphs or
+ creating glyphs on the fly for different break conditions).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void broken_look(in Axis a, in Coord len, out Glyph pre, out Glyph sep, out Glyph post,out Breakable br_pre, out Breakable br_sep, out Breakable br_post);<BR></FONT></B>
+</TD></TR></TABLE>
+ The various possible looks, depending upon the break condition.
+ A Breakable implementing static breaking behavior may ignore
+ the len argument which indicates where the desired break should
+ occur.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>const long penalty_good = -10000;<BR>const long penalty_bad = 10000;<BR></FONT></B>
+</TD></TR></TABLE>
+ These are the bounds for penalties used for determining breaks.
+ A good penalty value should always be less than a bad penalty
+ value.  The penalty_good value is a value that is 
+ considered a forced break (ie. a value <= this value will 
+ be guaranteed to cause a break).  The penalty_bad value 
+ is a value that is considered to be unbreakable (ie. a
+ value >= this value will be guaranteed not to break).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void penalty(in Axis a, in Coord len, out long break_penalty,out long resize_penalty);<BR>boolean is_forced_break(in Axis a);<BR></FONT></B>
+</TD></TR></TABLE>
+	The penalty function determines the penalty for taking a break.
+	The len argument specifies where a potential break is desired
+	within the span of the glyphs unbroken requirements.
+	Breakable's with dynamic breaking behavior (ie those that have
+	different broken looks depending upon where the break is
+	requested) are not allowed to span across a forced break, so a
+	length is not needed to determine if a breakable describes a
+	forced break.
+.
+	The size_penalty function determines the penalty for changing
+	the size of the breakable if it supports multiple sizes.  Some
+	compositors may look at this information and use it to
+	determine whether to break or resize based upon it.  Other
+	simpler compositors may ignore this value and enforce their own
+	policy of break versus resize.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

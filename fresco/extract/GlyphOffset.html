@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;GlyphOffset</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/glyph.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> A glyph offset is a reference to a glyph within an aggregate.
+ Because a glyph might appear twice within the same composite,
+ a glyph itself is insufficient to identify its position within
+ its parent.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph parent();<BR>Glyph child();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the composite parent and child glyph to which
+ the offset refers.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>GlyphOffset next_child();<BR>GlyphOffset prev_child();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the next or previous offset within the list
+ of children.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void allocations(inout Glyph::AllocationInfoSeq a);<BR></FONT></B>
+</TD></TR></TABLE>
+ Compute cumulative information for each allocation
+ of the glyph.  This operation normally need not
+ be called directly; it is normally called
+ by an implementation Glyph::allocations.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void insert(in Glyph g);<BR></FONT></B>
+</TD></TR></TABLE>
+ Insert the given glyph into the composite before the glyph
+ referred to by the target offset.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void replace(in Glyph g);<BR></FONT></B>
+</TD></TR></TABLE>
+ Put the given glyph in place of the glyph at this offset.
+ The replace operation is equivalent to an atomic transaction
+ that removes the old glyph and inserts the new one.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void remove();<BR></FONT></B>
+</TD></TR></TABLE>
+ Take the glyph at this offset out of the composite.  The
+ offset will now refer to the following glyph.  If the offset
+ refers to the end of the composite, then this operation
+ will have no effect.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void notify();<BR></FONT></B>
+</TD></TR></TABLE>
+ Notify the composite that the desired size of the glyph
+ at this offset has changed.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void traverse(in GlyphTraversal t);<BR></FONT></B>
+</TD></TR></TABLE>
+ Traverse along to the child glyph.  Normally, this
+ operation simply would call child->traverse(t), but
+ in some cases the parent may want to use a child-specific
+ traversal operation.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void visit_trail(in GlyphTraversal t);<BR></FONT></B>
+</TD></TR></TABLE>
+ Notify the composite that the desired size of the glyph
+ at this offset has changed.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void child_allocate(inout Glyph::AllocationInfo a);<BR></FONT></B>
+</TD></TR></TABLE>
+ Determine the allocation for the child given the
+ allocation information for the parent.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

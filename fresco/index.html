@@ -1,0 +1,228 @@
+<HTML>
+	<HEAD>
+		<TITLE>
+			FRESCO
+		</TITLE>
+	</HEAD>
+	<BODY BGCOLOR=#FFD080>
+	<CENTER>
+	<H1>
+		FRESCO
+	</H1>
+	<BR>
+	<SMALL>
+		Eine kurze Übersicht von Mark-André Hopf
+	</SMALL>
+	</CENTER>
+	<HR>
+
+	<H3>
+	Das Fresco Projekt ist seit langem eingestellt worden.
+	</H3>
+
+    <H2>Einleitung</H2>
+    Ich durfte mich im Rahmen meines Informatikstudiums mit Fresco
+    beschäftigen und so war es nötig, eine Einführung in dieses Toolkit
+    zu schreiben, weil soetwas leider nicht existent war.
+    <P>
+    Dummerweise schreibe ich selbst an einem GUI Toolkit namens TOAD, so daß
+    ich es mir nicht verkneifen kann, an allen möglichen Stellen einen bösen
+    Kommentar abzugeben. Aber ich hätte TOAD ja nicht so designed, wenn ich
+    nicht davon überzeugt wäre. Außerdem, Colani schimpft noch mehr herum,
+    somit bin ich immerhin in populärer Gesellschaft.
+
+		<H2>Was ist Fresco?</H2>
+		Fresco ist ein GUI Toolkit, das einmal Teil von X11R6 war, dann aber
+		eingestampft wurde, als das X Consortium in der X/Open aufging. Die
+		Fresco Entwicklung lief als "Forschungsprojekt", wodurch sich erklärt,
+		warum Fresco gelegentlich über's Ziel hinausschießt.<P>
+		Die größten Haken von Fresco sind, meiner Meinung nach, die umständliche
+		Handhabung, schlechte Performance und zu viele benötigte Daten beim
+		Compilieren eines	simplen "Hello World" Programms, so daß GCC 2.7.2.2 mit 
+		circa <B>18MB</B>	unter	Linux herumwerkeln muß. Da hört der Spaß auf, wenn
+		man nur 16MB RAM hat und System und X11 schon 8MB für sich belegen.
+		<P>
+		Hier nun eine Übersicht der wichtigsten Features:
+		<UL>
+			<LI>
+				Fresco benutzt CORBA, um alle Objekte auch außerhalb des Programms
+				zugänglich zu machen. Damit sollen OpenDoc bzw. OLE ähnliche
+				Techniken möglich werden.<BR>
+				<I>(Ich mag ja lieber den OpenDoc Ansatz. Zwar wurde dieses Projekt
+				von IBM und Apple eingestampft, aber die Sourcecodes stehen jetzt
+				immerhin zur Verfügung.)</I>
+			<LI>
+				Alle Graphikoperationen arbeiten mit Gleitkommazahlen. Das was "alle"
+				heißt, sieht man, wenn man mit Fresco z.B. Scrollbars, Menüzeilen usw.
+				rotiert.<BR>
+				<I>(Ich glaube, daß dieses Feature jedoch mehr die Performance drückt,
+				als daß es nützt.)</I>
+			<LI>
+				Unterstützung von Posix Threads<BR>
+				<I>(Werden sogar zwingend benötigt für die CORBA Emulation. Da sich
+				zudem immer mehr Multiprozessorsysteme durchsetzten und BeOS gezeigt
+				hat, wo's langgeht...)</I>
+			<LI>
+				Importfilter für unterschiedliche Grafikformate wie PNG, TIFF, JPEG,
+				BMP, XPM und GIF.
+			<LI>
+				Objekte können aus DLLs geladen werden.<BR>
+				<I>(Soweit ich es bis jetzt gesehen habe, wurde das in die CORBA
+				Implementation von Fresco integriert. Das DLL Verfahren läßt sich
+				nämlich nicht direkt an C++ anbinden.)</I>
+		</UL>
+		
+		<B>Anmerkungen</B>:<BR>
+		Die von mit verwendete Version steht im Verzeichnis Fresco-0.1.7 und
+		ist vermutlich aus dem Jahr 1996. Im Internet ist das Programm kaum
+		noch aufzustöbern, seit es nicht mehr auf der FTP Site von Fujitsu
+		liegt.<P>
+		Ich habe das ganze unter GNU/Linux compiliert: Kernel&nbsp;2.1.124, 
+		GLIBC&nbsp;2.0.6.
+
+
+	<H2>Kits</H2>
+	Auf den 'new'-Operator sollte man unter Fresco wegen der Kits 
+	(Factory Method) verzichten und statt dessen deren Methoden zur 
+	Objekterzeugung verwenden.
+
+	<P>	
+
+	Die folgenden Kits sind vorhanden:
+	<UL>
+		<LI>
+			<A HREF="LayoutKit.html">LayoutKit</A><BR>
+			Hier finden sich Glyphs zum Positionieren, zum Setzen der Größe von Glyphs, etc..
+		<LI>
+			<A HREF="WidgetKit.html">WidgetKit</A><BR>
+			Rahmen, leere Flächen, Buttons, Scrollbars, ...
+		<LI>
+			<A HREF="MenuKit.html">MenuKit</A><BR>
+			Kit zum Erstellen von Menübalken.
+		<LI>
+			<A HREF="DialogKit.html">DialogKit</A><BR>
+			Kit zum Erstellen von Dialogen.
+	</UL>
+	Ein paar andere Objekte, z.B. der Klasse <CODE>ActionCallback</CODE>,
+	müssen jedoch mit <CODE>new</CODE> erstellt werden.
+	</P>
+	
+	<H2>SmartPointer</H2>
+	Da Fresco auf CORBA aufbaut sind auch die dort verwendeten SmartPointer zu
+	verwenden. Manchmal.<BR>
+	Das Verfahren ist ein wenig uneinheitlich, da einige Klassen nicht aus einer
+	CORBA Spezifikation heraus abgeleitet sind und diese sind dann in altbekannter
+	C++ Manier zu handhaben.
+	</P>
+	<P>
+		Die SmartPointer sind für normale Variablen zu verwenden:<BR>
+		<PRE>
+			Glyph_var vb = layoutkit->vbox();
+		</PRE>
+		<P>
+		Und für temporäre Variablen, damit es auch schön hirnrissig und auch
+		das kleinste Projekt zum absoluten Overkill wird:<BR>
+		<PRE>
+			DoSomething( Glyph_var(layoutkit->vbox()) );
+		</PRE>
+	</P>
+	
+	<H2>Callbacks</H2>
+	<P>
+		Ein einfaches Beispiel für Callbacks findet sich in dem
+		<A HREF="MenuKit.html">Beispielprogramm</A> zum
+		Erzeugen der Menübalken.
+	</P>
+	<P>
+	Einige FRESCO Versionen implementieren Callbacks noch nicht als Template sondern als
+	Makros. Mit GNU C++ 2.7.2 sollte es jedoch keine Probleme geben, so daß man die
+	Templatedefinition in <CODE><A HREF="action.h">action.h</A></CODE> verwenden sollte.
+	</P>
+
+	<H2>Klassen</H2>
+	Die meisten Fresco Klassen sind Implementationen von CORBA Klassen. D.h.
+	diese Klassen sind in CORBAs Interface Definition Language (IDL)
+	definiert.<BR>
+	So findet sich die Definition der Klasse <I>Viewer</I> in der Datei
+	<CODE>viewer.idl</CODE>. Der IDL Compiler <CODE>ixx</CODE> von Fresco
+	erzeugt daraus die Dateien <CODE>viewer.h</CODE> und
+	<CODE>viewer.cxx</CODE>.<BR>
+	Dort findet sich dann eine Klasse <I>XfViewer</I> und irgendwo, hab ich
+	nicht gefunden, eine Klasse <I>Viewer</I>. Die definieren die
+	Schnittstellen zwischen C++ und CORBA, die dann wirklich funktionierende
+	Fresco Klasse heißt <I>ViewerImpl</I> und von der können wir dann unsere
+	eigenen C++ Klassen ableiten oder aber selbst eine IDL Datei anlegen und
+	aus dem so enstandenen Code unsere Klasse ableiten.
+	<P>
+		<UL>
+			<LI>
+				<A HREF="Glyph.html">Glyph</A> ()
+			<LI>
+				<A HREF="Telltale.html">Telltale</A> (ButtonState)
+			<LI>
+				<A HREF="Painter.html">Painter</A> (Objekt zum Zeichnen)
+			<LI>
+				<A HREF="Viewer.html">Viewer</A> ()
+		</UL>
+	</P>
+
+	<H2>Reste</H2>
+	<P>
+	<UL>
+		<LI>
+			<A HREF="fdraw.html">fdraw Dokumentation</A>
+		<LI>
+			<A HREF="extract/index.html">Some original Fresco Documentation</A>
+	</UL>
+
+	<H2>Was ich an Fresco nicht mag</H2>
+	<UL>
+		<LI>
+			Die "Fabrikmuster"<BR>
+			Sie wurden eingeführt, damit man das Outfit der Programme frei wählen
+			kann, in Extermfällen sogar zur Laufzeit. Dieser zweifelhafte Nutzen,
+			den man auch durch das hinzulinken unterschiedlicher Bibliotheken auf
+			das Betriebssystem hätte abwälzen können wird durch eine Reihe von
+			Nachteilen erkauft:<BR>
+			<UL>
+				<LI>
+					Objekte können nur direkt über die Kits (Factorys) erzeugt werden,
+					wodurch der Objekttyp nicht mehr klar ersichtlich ist und das
+					Verständnis der Programmstruktur eingeschränkt wird.
+				<LI>
+					Die den von den Kits zurückgelierten Objekten zugrundeliegenden
+					Klassen können nicht abgeleitet werden, da diese bei Fresco nicht
+					in Headerfiles definiert sind.
+			</UL>
+		<LI>
+			Die Art, wie CORBA verwendet wurde<BR>
+			Die Idee <EMPH>alle</EMPH> Basisklassen per CORBA im Netz zugänglich
+			zu machen ist zwar sehr interessant, aber auch hier ist der Nutzen
+			zweifelhaft, da man einen wesentlichen Teil der Arbeit, ein Programm
+			in einem anderen laufen zu lassen, X11 hätte aufbürden können.<BR>
+			Warum? Nun, die Verwendung von CORBA führt zu erheblich längeren
+			Compilerlaufzeiten und ich persönlich bin sowieso eher ein Fan von
+			OpenDoc.<BR>
+			Ein weiteres Problem ist, daß die Fresco nicht mehr kompatibel zum
+			Sprachmapping von CORBA 2.1 ist.
+		<LI>
+			Das Layoutmanagement<BR>
+			InterViews und Fresco kommen mit einer Unmenge von Klassen an, die
+			das Layoutmanagement übernehmen sollen. Ihre Handhabung ist jedoch
+			so umständlich, daß ihr Nutzen schon wieder zweifelhaft wird.<BR>
+			Sicher Geschmacksache, aber ich halte einen Layoutmanager wie das
+			Form Widget von Motif für den besseren Ansatz.
+		<LI>
+			Fenster<BR>
+			Fresco benutzt nur Fenster, die direkte Nachfahren des Rootwindows
+			sind. Alle anderen Events und deren Verteilung werden simuliert, d.h.
+			daß unter X11 alle Fenster MotionEvents bekommen, was unötigerweise
+			die Netzverbindung zwischen Server und Client belastet.
+	</UL>
+
+	<HR>
+	<SMALL>
+		Copyright &copy; 1997 by Mark-André Hopf
+	</SMALL>
+	</BODY>
+</HTML>

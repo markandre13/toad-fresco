@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Raster</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/drawing.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> A raster is a two-dimensional array of primitive elements,
+ which include a color and a blending factor between zero and one.
+ Zero means nothing is blended and one means everything is blended.
+.
+ There are three uses of rasters: (1) as a color image,
+ (2) as a monochrome image, where the colors are only
+ black or white, and (3) as a mask, where the blending factors
+ are only zero or one.  In X terminology, uses (2) and (3) are
+ called a "bitmap," while use (1) is a "pixmap."
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef long Index;<BR></FONT></B>
+</TD></TR></TABLE>
+ The Index type defines the range of values for indices
+ into the array of elements.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>struct Info {<BR>&nbsp;&nbsp;Index rows;<BR>&nbsp;&nbsp;Index columns;<BR>&nbsp;&nbsp;Index origin_x;<BR>&nbsp;&nbsp;Index origin_y;<BR>&nbsp;&nbsp;<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ The Info structure defines the dimensions, in terms of
+ rows and columns, and the origin for the raster.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean equal(in Raster r);<BR>unsigned long hash();<BR></FONT></B>
+</TD></TR></TABLE>
+ The equal operation tests whether two raster objects
+ refer to the same image or bitmap data.  The hash operation
+ will return the same value for two equal rasters,
+ though there is also some chance it will return
+ the same value for two unequal rasters.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void raster_info(out Info i);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the metric information for this raster.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void set_color(in Index row, in Index col, in Color c);<BR>void set_color_blend(in Index row, in Index col, in Color c, in float blend);<BR>void set_mask(in Index row, in Index col, in boolean on);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations write the raster element specified
+ by a row and column.  The operations have no effect
+ if either the row or column are out of range for
+ the raster.
+.
+ The set_color operation indicates a color and
+ assumes a blending factor of one.  The set_color_blend
+ operation specifies both the color and the blending factor.
+ The set_mask operation does not specify a color
+ and indicates a blending factor of one (if the boolean
+ parameter is true) or zero (if the parameter is false).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Color get_color(in Index row, in Index col);<BR>void get_color_blend(in Index row, in Index col, out Color c, out float blend);<BR>boolean get_mask(in Index row, in Index col);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations read the raster element specified
+ by a row and column.  The operations have no effect
+ if either the row or column are out of range for
+ the raster.
+.
+ The get_color operation returns the color, get_color_blend
+ returns both the color and the blending factor, and
+ get_mask returns true if the blending factor is non-zero.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Coord scale;<BR></FONT></B>
+</TD></TR></TABLE>
+ Define the mapping between raster indices and coordinates.
+ If the scale is zero (the default value), then one index
+ will correspond to one pixel on the output device.  Otherwise,
+ the scale defines the size of a raster element in
+ resolution-independent units.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>readonly attribute unsigned long version;<BR></FONT></B>
+</TD></TR></TABLE>
+ Each time the raster data is changed the version number
+ changes so that objects that cache raster data can tell
+ when the cached data is stale.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

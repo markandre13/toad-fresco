@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Event</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/event.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> An event is a device-level object that arrives on a single stream
+ per display.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef long ButtonIndex;<BR></FONT></B>
+</TD></TR></TABLE>
+ A button index is an integer value that indicates
+ to which button a down or up event refers.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef unsigned long TimeStamp;<BR></FONT></B>
+</TD></TR></TABLE>
+ A time stamp on an event is an integral number of milliseconds.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>enum Modifier {<BR>&nbsp;&nbsp; control, shift, capslock, meta, alt <BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ A modifier is a key that is normally held down
+ when entering a second key.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>enum TypeId {<BR>&nbsp;&nbsp;motion, enter, leave, down, up, key_press, key_release,focus_in, focus_out, other<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ The predefined event types are pointer motion, pointer enter
+ or leave the main viewer, button down, button up, key press
+ or release, and receiving or losing focus.  Most platforms
+ provide additional kinds of events, which will be delivered
+ to a viewer with the type other.  An application object
+ wishing to process other events can narrow the event object
+ to the platform-specific event type.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>TypeId type();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the event's type.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>TimeStamp time();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a time-stamp indicating when the event occurred.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean double_click(in TimeStamp previous);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return true if the difference between the event's time-stamp
+ and the given time-stamp is below the double click
+ threshold defined by the event's display.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean positional();<BR></FONT></B>
+</TD></TR></TABLE>
+ The event specifies a position, such as for a pointing device.
+ Focused (non-positional) events may also report the current
+ location of a pointing device, but will return false
+ to this operation.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean hits(in Viewer v);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return true if a pick on the event would hit the
+ given viewer.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Coord pointer_x();<BR>Coord pointer_y();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the pointer location for the event in coordinates
+ relative to the lower-left corner of the main viewer
+ in which the event occurred, or in the case of dragging
+ the coordinates are relative to where the original down
+ event occurred.  Pointer locations are defined for motion,
+ button, and keyboard events.  The values for other events
+ are undefined.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>ButtonIndex pointer_button();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the button associated with a down or up event.
+ The return value is undefined for non-button events.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean button_is_down(in ButtonIndex b);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return true if the specified button was down \emphasis{before}
+ the event occurred.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean modifier_is_down(in Modifier m);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return true if the given modifier was down \emphasis{before}
+ the event occurred.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>KeySym key();<BR>CharCode character();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the keysym or character code associated with
+ a key event. For modifier key events (control, shift,
+ capslock, meta, alt) the character code returned is zero.
+ The result is undefined for non-key events.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void unread();<BR></FONT></B>
+</TD></TR></TABLE>
+ Put the event back on the display's input queue
+ for re-delivery.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::Compositor</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><P> This is a strategy object that formats a composition.  It carries
+ out its task through a CompositorIter.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean need_break(in CompositorIter iter, in Coord span,in Glyph::Requirement total);<BR> </FONT></B>
+</TD></TR></TABLE>
+ Take the given iterator, determine if the line should be broken
+ and remove the current break if a re-break is desired.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void make_break(in CompositorIter iter, in Coord span);<BR></FONT></B>
+</TD></TR></TABLE>
+ Take the line the iterator is positioned over and break it
+ once according to the strategy that this object represents.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void make_places(in CompositorIter iter, in Coord span,in Glyph::Requirement total);<BR></FONT></B>
+</TD></TR></TABLE>
+ create positions for the glyphs contained in the line the
+ iterator is currently placed over.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef unsigned long Tag;<BR></FONT></B>
+</TD></TR></TABLE>
+ A tag represents a value used for associative access.
+ Typically, tags are returned when an association is created and
+ passed to remove or otherwise refer to the association.
+ Tags are always \emphasis{relative} to the object that
+ creates them; they are not unique ids.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>//// Base type for all Fresco interfaces.//</FONT></B>
+</TD></TR></TABLE>
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;ChooserDialog</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/dialogs.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="MessageDialog.html">MessageDialog</A><P> A ChooserDialog allows the user to pick an item from a list
+ of choices.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> string caption;<BR>attribute string subcaption;<BR></FONT></B>
+</TD></TR></TABLE>
+ The caption and subcaption strings are used to decorate
+ the chooser viewer.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> CosNaming::Name path;<BR></FONT></B>
+</TD></TR></TABLE>
+ The path is the chosen name.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void choose();<BR></FONT></B>
+</TD></TR></TABLE>
+ For non-modal dialogs, sets path attribute to currently
+ selected item. 
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

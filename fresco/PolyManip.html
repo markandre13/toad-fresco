@@ -1,0 +1,554 @@
+<HTML>
+	<HEAD>
+		<TITLE>
+			FRESCO
+		</TITLE>
+	</HEAD>
+	<BODY BGCOLOR=#FFD080>
+<H2>PolyManip</H2>
+It seems that there is no documentation available on PolyManip. All a can guess
+is that PolyManip is a object for Polygon-Manipulation.
+	<PRE>
+class _figures_impl_dll PolyManip : ixx_extends(Manipulator)
+{
+  public:
+    PolyManip(PolyManip* m = nil);
+    virtual ~PolyManip();
+  
+    ixx_class_decl(PolyManip);
+    streaming_decl(PolyManip);
+
+    virtual void externalize_to_stream(CosStream::StreamIO_ptr targetStreamIO,
+    virtual void internalize_from_stream(CosStream::StreamIO_ptr sourceStreamIO
+
+    virtual void execute(FCommand*);
+    virtual void unexecute(FCommand*);
+
+    virtual Manipulator* shallow_copy();
+    virtual Manipulator* deep_copy();
+};
+
+PolyManip::PolyManip(PolyManip* m) 
+  :Manipulator(m)
+{
+  if (is_nil(m)) {
+    FigureKit* figures = KitFactory::instance()->figures();
+    body(Glyph_var(figures->group()));
+  }
+}
+
+PolyManip::~PolyManip(){}
+
+void PolyManip::execute (FCommand* cmd)
+{
+  if (info_ != nil && info_->manipulating_) {
+    return;
+  }
+  
+  <FONT COLOR=#008000>// Style Command</FONT>
+  FigViewer_var v = cmd->figviewer();
+  StyleCmd* stylecmd = StyleCmd::_narrow(cmd);
+  if (is_not_nil(stylecmd)) {
+    CmdVisitor cv(stylecmd);
+    cv.visit_children(offset_->child_);
+    CORBA::release(stylecmd);
+    return;
+  }
+  
+  <FONT COLOR=#008000>// Natural Command</FONT>
+  NaturalCmd* natcmd = NaturalCmd::_narrow(cmd);
+  if (is_not_nil(natcmd)) {
+    CmdVisitor cv(natcmd);
+    cv.visit_children(offset_->child_);
+    CORBA::release(natcmd);
+    return;
+  }
+  
+  <FONT COLOR=#008000>// Group Command</FONT>
+  GroupCmd* groupcmd = GroupCmd::_narrow(cmd);
+  if (is_not_nil(groupcmd)) {
+    Selection* sel = v->selection()->copy();
+    long n = sel->count();
+    if (n < 1) {
+      delete sel;
+      CORBA::release(groupcmd);
+      return;
+    }
+    glyphmap_.clear();
+    Manipulator* pm = deep_copy();
+    XfGlyph_var pf = pm->body();
+
+    SelectCmd unselectcmd(v, false);
+    SelectCmd selectcmd(v);
+    pm->execute(&selectcmd);
+
+    Manipulator* m0 = sel->item(0);
+    OffsetVisitor ov;
+    ov.visit_parents(m0);
+
+    Remover* remover = new Remover;
+    for (ULong i = 0; i < sel->count(); i++) {
+      Manipulator* m = sel->item(i);
+      m->execute(&unselectcmd);
+      remover->visit_parents(m);
+      pf->append(m);
+    }
+    for (ULong j = 0; j < ov.offset_count(); j++) {
+      ov.offset(j)->insert(pm);
+    }
+    delete remover;
+    pm->need_redraw();
+    delete sel;
+    CORBA::release(groupcmd);
+    return;
+  }
+
+  <FONT COLOR=#008000>// Ungroup Command</FONT>
+  UngroupCmd* ungroupcmd = UngroupCmd::_narrow(cmd);
+  if (is_not_nil(ungroupcmd)) {
+    Glyph_var holder = Glyph::_duplicate(this);
+    XfGlyph_var g = body();
+    Transform_var gtx = g->transformation();
+    Counter counter;
+    counter.visit_children(g);
+    if (counter.count() == 0) {
+      return;
+    }
+
+    TransformImpl t;
+    t.copy(tx_);
+    t.premultiply(gtx);
+    ManipCopier mc;
+    mc.visit_children(g);
+
+    ManipList* ml = mc.manipulators();
+    Long i;
+    for (i = 0; i < ml->count(); i++) {
+      Manipulator* man = ml->item(i);
+      Transform_var tr = man->transformation();
+      tr->postmultiply(&t);
+    }
+    Inserter inserter(*ml);
+    inserter.visit_parents(this);
+
+    Remover* remover = new Remover;
+    remover->visit_parents(this);
+
+    for (ULong j = 0; j < remover->offset_count(); j++) {
+       Glyph_var p = remover->offset(j)->parent();
+       p->need_resize();
+    }
+
+    remover->visit_children(this);
+    remove_viewer();
+
+    SelectCmd unselectcmd(v, false);
+    execute(&unselectcmd);
+
+    delete remover;
+
+    SelectCmd selectcmd(v);
+    for (i = 0; i < ml->count(); i++) {
+      Manipulator* man = ml->item(i);
+      man->execute(&selectcmd);
+    }
+    CORBA::release(ungroupcmd);
+    return;
+  }
+  
+  <FONT COLOR=#008000>// leave the rest to Manipulator</FONT>
+  Manipulator::execute(cmd);
+}
+
+void Manipulator::execute (FCommand* cmd)
+{
+  if (info_ != nil && info_->manipulating_) {
+    return;
+  }
+  FigViewer_var v = cmd->figviewer();
+
+  <FONT COLOR=#008000>// Select Command</FONT>
+  SelectCmd* selectcmd = SelectCmd::_narrow(cmd);
+  if (is_not_nil(selectcmd)) {
+    Boolean s = selectcmd->selected();
+    if (s != selected_) {
+      if (selectcmd->mode_change()) {
+        editing(true);
+      }
+      selected_ = true;
+      need_redraw();
+      selected_ = s;
+      if (!selected_) {
+        delete info_;
+        info_ = nil;
+      }
+      if (v != nil) {
+        if (selected_) {
+          v->selection()->add(this);
+        } else {
+          v->selection()->remove(this);
+      }
+      if (is_nil(SelectAllCmd::_narrow(cmd))) {
+        if (selected_) {
+          Focus_var f = v->request_focus(this, false);
+        } else {
+          Focus_var f = v->request_focus(v, false);
+        }
+      } else {
+       CORBA::release(cmd);
+      }
+    }
+    need_resize();
+    } else if (s) {
+      if (selectcmd->mode_change() && editing_) {
+        editing(false);
+        need_redraw();
+        need_resize();
+      }
+    }
+    CORBA::release(selectcmd);
+    return;
+  }
+  
+  <FONT COLOR=#008000>// Delete Command</FONT>
+  DeleteCmd* deletecmd = DeleteCmd::_narrow(cmd);
+  if (is_not_nil(deletecmd)) {
+    Glyph_var keeper = Glyph::_narrow(this);
+    XfGlyph_var g = body();
+    if (info_ != nil && info_->obj_manip_) {
+      delete info_;
+      info_ = nil;
+      CmdVisitor cv(deletecmd);
+      cv.visit_parents(g);
+    } else {
+      SelectCmd unselectcmd(v, false);
+      execute(&unselectcmd);
+      Remover remover;
+      remover.visit_parents(this);
+    }
+    RemoveViewerCmd rvcmd(v);
+    execute(&rvcmd);
+    notify_observers();
+    CORBA::release(deletecmd);
+    return;
+  }
+
+	<FONT COLOR=#008000>// New Command</FONT>
+  NewCmd* newcmd = NewCmd::_narrow(cmd);
+  if (is_not_nil(newcmd)) {
+    RegionImpl r;
+    glyphmap_.clear();
+    Manipulator_var man = deep_copy();
+    v->selection()->remove_all();
+    v->extension(nil_info, &r);
+    v->root(man);
+    v->extension(nil_info, &r);
+    v->need_redraw_region(&r);
+
+    CORBA::release(cmd);
+    return;
+  }
+  
+  <FONT COLOR=#008000>// Copy Command</FONT>
+  InstanceCmd* instancecmd = InstanceCmd::_narrow(cmd);
+  CopyCmd* copycmd = CopyCmd::_narrow(cmd);
+  if (is_not_nil(instancecmd) || is_not_nil(copycmd)) {
+    Manipulator* man = nil;
+    glyphmap_.clear();
+    if (is_not_nil(instancecmd)) {
+      man = shallow_copy();
+    } else {
+      man = deep_copy();
+    }
+    if (is_nil(man)) {
+      CORBA::release(cmd);
+      return;
+    }
+
+    SelectCmd unselectcmd(v, false);
+    execute(&unselectcmd);
+
+    Transform_var tr = man->transformation();
+
+    Vertex delta;
+    delta.x = Coord(4);
+    delta.y = Coord(4);
+    delta.z = Coord(0);
+
+    tr->translate(delta);
+    Appender app(man);
+    app.visit_parents(this);
+
+    SelectCmd selectcmd(v);
+    man->execute(&selectcmd);
+    man->need_redraw();
+    CORBA::release(man);
+    CORBA::release(instancecmd);
+    CORBA::release(copycmd);
+    return;
+  }
+ 
+  <FONT COLOR=#008000>// Select Info Command</FONT>
+  SelectInfoCmd* scmd = SelectInfoCmd::_narrow(cmd);
+  if (is_not_nil(scmd)) {
+    if (info_ != nil) {
+      scmd->select_info(info_->sinfo_);
+    }
+    CORBA::release(scmd);
+    return;
+  }
+  
+  <FONT COLOR=#008000>// Front Command</FONT>
+  FrontCmd* frontcmd = FrontCmd::_narrow(cmd);
+  if (is_not_nil(frontcmd)) {
+    Glyph_var keeper = Glyph::_narrow(this);
+    OffsetVisitor v;
+    v.visit_parents(this);
+    for (ULong i = 0; i < v.offset_count(); i++) {
+      Glyph_var parent = v.offset(i)->parent();
+      v.offset(i)->remove();
+      parent->append(this);
+    }
+    need_redraw();
+    CORBA::release(frontcmd);
+    return;
+  }
+
+  <FONT COLOR=#008000>// Back Command</FONT>
+  BackCmd* backcmd = BackCmd::_narrow(cmd);
+  if (is_not_nil(backcmd)) {
+    Glyph_var keeper = Glyph::_narrow(this);
+    OffsetVisitor v;
+    v.visit_parents(this);
+    for (ULong i = 0; i < v.offset_count(); i++) {
+      Glyph_var parent = v.offset(i)->parent();
+      v.offset(i)->remove();
+      parent->prepend(this);
+    }
+    need_redraw();
+    CORBA::release(backcmd);
+    return;
+  }
+
+  <FONT COLOR=#008000>// Ungroup Command</FONT>
+  UngroupCmd* ungroupcmd = UngroupCmd::_narrow(cmd);
+  if (is_not_nil(ungroupcmd)) {
+    XfGlyph_ptr box = offset_->child_;
+    Region_var na = GlyphImpl::natural_allocation(box);
+    TAManipCopier mc(na);
+    mc.visit_children(box);
+    ManipList* ml = mc.manipulators();
+    if (ml->count() == 0) {
+      CORBA::release(ungroupcmd);
+      return;
+    }
+
+    TransformList* tl = mc.transforms();
+
+    Glyph_var holder = Glyph::_duplicate(this);
+    RegionImpl r1, r2;
+    Vertex pt;
+    ULong i;
+    Glyph::DamageInfoSeq d;
+    damages(d);
+    for (i = 0; i < d.length(); i++) {
+      d[i].damaged->begin_update();
+    }
+    extension(nil_info, &r1);
+    need_redraw_region(&r1);
+
+    Long j;
+    for (j = 0; j < ml->count(); j++) {
+      Manipulator* man = ml->item(j);
+      Transform_var tr = man->transformation();
+      tr->postmultiply(tl->item(j));
+      tr->postmultiply(tx_);
+      man->extension(nil_info, &r2);
+    }
+    pt.x = ((r1.upper_.x+r1.lower_.x)-(r2.upper_.x+r2.lower_.x))*0.5f;
+    pt.y = ((r1.upper_.y+r1.lower_.y)-(r2.upper_.y+r2.lower_.y))*0.5f;
+    pt.z = Coord(0);
+
+    for (j = 0; j < ml->count(); j++) {
+      Manipulator* man = ml->item(j);
+      Transform_var tr = man->transformation();
+      tr->translate(pt);
+    }
+    Inserter inserter(*ml);
+    inserter.visit_parents(this);
+
+    Remover* remover = new Remover;
+    remover->visit_parents(this);
+
+    for (i = 0; i < remover->offset_count(); i++) {
+      Glyph_var p = remover->offset(i)->parent();
+      p->need_resize();
+    }
+
+    remover->visit_children(this);
+    remove_viewer();
+
+    SelectCmd unselectcmd(v, false);
+    execute(&unselectcmd);
+
+    delete remover;
+
+    SelectCmd selectcmd(v);
+    for (j = 0; j < ml->count(); j++) {
+      Manipulator* man = ml->item(j);
+      man->execute(&selectcmd);
+    }
+    for (i = 0; i < d.length(); i++) {
+      d[i].damaged->end_update();
+    }
+    CORBA::release(ungroupcmd);
+    return;
+  }
+
+  <FONT COLOR=#008000>// Group Command</FONT>
+  GroupCmd* groupcmd = GroupCmd::_narrow(cmd);
+  if (is_not_nil(groupcmd)) {
+    Selection* sel = v->selection()->copy();
+    long n = sel->count();
+    if (n < 1) {
+      delete sel;
+      CORBA::release(groupcmd);
+      return;
+    }
+    glyphmap_.clear();
+    Manipulator* bm = deep_copy();
+    XfGlyph_var box = bm->body();
+
+    SelectCmd unselectcmd(v, false);
+    Manipulator* m0 = sel->item(0);
+    OffsetVisitor ov;
+    ov.visit_parents(m0);
+
+    Remover* remover = new Remover;
+    RegionImpl r;
+    Vertex center;
+    for (ULong i = 0; i < sel->count(); i++) {
+      Manipulator* m = sel->item(i);
+      m->execute(&unselectcmd);
+      m->extension(nil_info, &r);
+      remover->visit_parents(m);
+      compose(m);
+      box->append(m);
+    }
+    for (ULong j = 0; j < ov.offset_count(); j++) {
+      ov.offset(j)->insert(bm);
+    }
+    delete remover;
+    r.center(center);
+    NaturalCmd nat(v);
+    bm->execute(&nat);
+    r.defined_ = false;
+    bm->extension(nil_info, &r);
+    center.x -= (r.upper_.x+r.lower_.x) * 0.5f;
+    center.y -= (r.upper_.y+r.lower_.y) * 0.5f;
+    Transform_var(bm->transformation())->translate(center);
+
+    bm->need_resize();
+    SelectCmd selectcmd(v);
+    bm->execute(&selectcmd);
+    delete sel;
+    CORBA::release(bm);
+    CORBA::release(groupcmd);
+    return;
+  }
+
+
+    StyleCmd* stylecmd = StyleCmd::_narrow(cmd);
+    if (is_not_nil(stylecmd)) {
+        Figure_var fig = Figure::_narrow(subject_);
+        if (is_not_nil(fig)) {
+            RegionImpl ri;
+            extension(nil_info, &ri);
+            FigureStyle_var s = stylecmd->style();
+            FigureStyle_var fs = fig->figure_style();
+            Font_var f = s->font_attr();
+            Brush_var br = s->brush_attr();
+            Color_var fg = s->foreground();
+            Color_var bg = s->background();
+            if (is_not_nil(f)) {
+                fs->font_attr(f);
+                fig->resize();
+                fig->need_resize();
+            }
+            if (is_not_nil(br)) {
+                fs->brush_attr(br);
+            }
+            if (is_not_nil(fg)) {
+                fs->foreground(fg);
+            }
+            if (is_not_nil(bg)) {
+                fs->background(bg);
+            }
+            extension(nil_info, &ri);
+            need_redraw_region(&ri);
+        } else {
+            Manipulator_var m = Manipulator::_narrow(subject_);
+            if (is_not_nil(m)) {
+                m->execute(cmd);
+            }
+        }
+        CORBA::release(stylecmd);
+        return;
+    }
+
+  <FONT COLOR=#008000>// Expand Command</FONT>
+    ExpandCmd* expcmd = ExpandCmd::_narrow(cmd);
+    if (is_not_nil(expcmd)) {
+        CORBA::release(expcmd);
+        return;
+    }
+
+  <FONT COLOR=#008000>Collapse Command</FONT>
+    CollapseCmd* colcmd = CollapseCmd::_narrow(cmd);
+    if (is_not_nil(colcmd)) {
+        CORBA::release(colcmd);
+        return;
+    }
+  <FONT COLOR=#008000>Run Command</FONT>
+    RunCmd* runcmd = RunCmd::_narrow(cmd);
+    if (is_not_nil(runcmd)) {
+        update_blocked_ = true;
+        editing(!runcmd->run());
+        update_blocked_ = false;
+
+        CORBA::release(runcmd);
+    }
+
+  <FONT COLOR=#008000>// Append Viewer Command</FONT>
+    AppendViewerCmd* avcmd = AppendViewerCmd::_narrow(cmd);
+    if (is_not_nil(avcmd)) {
+        Viewer_var root = avcmd->root();
+        if (is_not_nil(root) && !is_eq(root, this) && !is_eq(root, parent_)) {
+            root->append_viewer(this);
+            CORBA::release(avcmd);
+        } else {
+            CORBA::release(avcmd);
+            return;
+        }
+    }
+    
+  <FONT COLOR=#008000>// Remove Viewer Command</FONT>
+  RemoveViewerCmd* rvcmd = RemoveViewerCmd::_narrow(cmd);
+  if (is_not_nil(rvcmd)) {
+    remove_viewer();
+    CORBA::release(rvcmd);
+  }
+
+  Manipulator_var m = find_body_manip(offset_->child_);
+  if (is_not_nil(m)) {
+    m->execute(cmd);
+  } else {
+    RecurCmdVisitor rcv(cmd);
+    rcv.recur_visit_children(this);
+  }
+}
+
+
+	</PRE>
+	</BODY>
+</HTML>

@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::ElemIterator</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="DocIterator.html">DocIterator</A><P> Allows navigation over the structure of a document.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Element element();<BR></FONT></B>
+</TD></TR></TABLE>
+ element that the iterator is currently iterating 
+ over.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean insert_branch(in CharString nm, in Style style);<BR>boolean append_branch(in CharString nm, in Style style);<BR>boolean prepend_branch(in CharString nm, in Style style);<BR>boolean insert_leaf(in CharString nm, in Range rng, in Style style, in FrescoObject lnk);<BR>boolean remove_child();<BR>long number_children();<BR>void position(in Position pos);<BR>Element current_child();<BR></FONT></B>
+</TD></TR></TABLE>
+ The current_child operation returns the child element 
+ pointed to.  If no child is pointed to or there are no 
+ children, nil is returned.  The insertion functions
+ insert an element and leaf the iterator positioned
+ at the inserted element (ie to fetch the freshly 
+ inserted element one would call current_child()).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void visit_parent();<BR>void visit_child();<BR></FONT></B>
+</TD></TR></TABLE>
+ visit_parent positions the iterator to its parent.  
+ visit_child positions the iterator at the child it 
+ currently points to.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

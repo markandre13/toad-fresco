@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;StyleContext</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/style.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> A style context is similar to an environment in a text formatting
+ system such as Scribe.  Style contexts may be nested
+ hierarchically, and attributes defined in an outer context
+ are visible in an inner context if not otherwise defined.
+ A style context may have a name, a list of aliases for
+ wildcard-matching, a collection of attributes (name-value pairs),
+ a collection of nested contexts, and a parent context.
+.
+ Attribute names may contain "*" characters to specify
+ wildcard matching.  A name of the form A*B will match
+ an attribute B in a nested context named A.  Wildcard names
+ also may begin with a "*," which matches in any descendant context.
+ Thus, *A*B will match an attribute B in any descendant context
+ named A.  Because attributes are inherited, specifying
+ the wildcard name *B is identical to specifying the normal
+ attribute B.
+.
+ In addition to a name, contexts may have a list of associated
+ aliases.  Wildcard matches search using a context's name first,
+ then search using the context's aliases in the reverse order
+ in which they are defined.  Aliases are typically used
+ for indicating a subtype relationship and allowing contexts
+ to inherit attributes specified for a supertype.
+.
+ For example, suppose the root context defines the following
+ attributes:
+..    *Mover*autorepeat: off
+..    *UpMover*autorepeat: on
+ Consider descendant contexts S and T: S's aliases are
+ UpMover and Mover; T's aliases are DownMover and Mover.
+ The name "autorepeat" will be resolved to the value "on"
+ for S and the value "off" for T.
+.
+ The wildcard matching algorithm is intended to be compatible
+ with the X resource manager (Xrm) and support the same user
+ customization functionality.  Wildcard attributes typically
+ are defined only on the root contexts, as loaded from the
+ window system, application defaults files, or command-line
+ arguments.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>StyleContext new_style();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a newly-created style.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>StyleContext parent_style();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the style's parent style, if any.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void link_parent(in StyleContext parent);<BR>void unlink_parent();<BR></FONT></B>
+</TD></TR></TABLE>
+ The link_parent operation sets the parent of a style
+ for the purposes of inheriting attributes.
+ The unlink operation unsets the parent
+ so that attributes are no longer inherited.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Tag link_child(in StyleContext child);<BR>void unlink_child(in Tag link_tag);<BR></FONT></B>
+</TD></TR></TABLE>
+ The link_child operation adds the given style context
+ to the list of nested contexts of this context and
+ returns a tag to be passed when the child is to be
+ removed from the list.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void merge(in StyleContext s);<BR></FONT></B>
+</TD></TR></TABLE>
+ Copy all the attributes, aliases, and nested contexts
+ in the given context into this context.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> CharString context_name;<BR></FONT></B>
+</TD></TR></TABLE>
+ The name attribute defines the context's name
+ for the purposes of wildcard matching.  In Xrm terms,
+ this attribute is the "instance name."
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void alias(in CharString s);<BR></FONT></B>
+</TD></TR></TABLE>
+ Add an alias to the list for the context.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean is_on(in CharString n);<BR></FONT></B>
+</TD></TR></TABLE>
+ Determine whether the given name is defined as an
+ attribute and whether the value is set to "on" or "true."
+ This operation is short-hand for resolving the name
+ to an attribute and calling StyleValue::is_on on the result.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>StyleValue bind(in CharString n);<BR></FONT></B>
+</TD></TR></TABLE>
+ If the given name is already defined in this context,
+ then return the associated attribute.  Otherwise,
+ create and return a new attribute in the context.
+ The priority of the new attribute will be initialized to zero.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void unbind(in CharString n);<BR></FONT></B>
+</TD></TR></TABLE>
+ Remove the attribute with the given name, if any is defined
+ on this context.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>StyleValue resolve(in CharString n);<BR></FONT></B>
+</TD></TR></TABLE>
+ Search for an attribute with the given name
+ (including inherited attributes), returning
+ the associated attribute if found or
+ nil otherwise.  This operation also searches
+ wildcard attributes using the name and alias of this context and,
+ in the case of inherited attributes, the names and aliases
+ of all the contexts between this context and the context
+ where the inherited attribute is defined.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>StyleValue resolve_wildcard(in CharString n, in StyleContext start);<BR></FONT></B>
+</TD></TR></TABLE>
+ Look for a wildcard match in this context,
+ using the given context as the starting point
+ for name and alias comparisons.  This operation
+ is primarily for the context implementation
+ to search its ancestors; application objects
+ usually need not call this operation directly.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>long match(in CharString n);<BR></FONT></B>
+</TD></TR></TABLE>
+ Check to see if a given name matches the context's name
+ or any of its aliases.  This operation returns zero
+ if there is no match, one if the name matches, or
+ two plus the alias number in the case of an alias match.
+ A smaller index value indicates a "closer" match
+ if the aliases represent an ancestry of superclasses.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void visit_aliases(in StyleVisitor v);<BR>void visit_attributes(in StyleVisitor v);<BR>void visit_styles(in StyleVisitor v);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations iterate through the aliases,
+ attributes, and nested contexts in this style context.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void lock();<BR>void unlock();<BR></FONT></B>
+</TD></TR></TABLE>
+ The lock operation acquires exclusive access
+ to the style context until a subsequent call to unlock.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

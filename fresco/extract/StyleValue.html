@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;StyleValue</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/style.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> An attribute is a (name,value) pair, where the value
+ may be written or read in one of several forms.  The value
+ access functions come in pairs, one to read the value and
+ one to write the value.  When an attribute is written,
+ it immediately notifies any observers.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>CharString binding_name();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the attribute's name.  Because the name cannot
+ be changed, this operation can be called without
+ locking the attribute.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean uninitialized();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return whether the attribute value has been defined yet
+ or not.  This test allows attribute update based
+ on priority to handle the case when the attribute
+ is first bound and the priority has not been set.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> long priority;<BR></FONT></B>
+</TD></TR></TABLE>
+ An attribute priority is simply a hint to attribute
+ users as to whether they should override an already-defined
+ value.  The value is not used by the attribute in any
+ operations.  Typically, a style manager will check
+ the priority and only update the attribute's value
+ if the existing priority is lower than the priority
+ of the new value.  Setting an attribute's priority
+ does not cause it to notify its observers.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean is_on();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return true if the value can be interpreted as a boolean;
+ that is if value is the string "on" or the string "true".
+ The string comparision is case-insensitive.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean read_boolean(out boolean b);<BR>void write_boolean(in boolean b);<BR></FONT></B>
+</TD></TR></TABLE>
+ Interpret the value as a boolean that is true or false.
+ If the value is actually a string, this operation
+ returns true if the string is "on" or "true."  The string
+ comparison is case-insensitive.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean read_coord(out Coord c);<BR>void write_coord(in Coord c);<BR></FONT></B>
+</TD></TR></TABLE>
+ If the value is a string, then interpret the string
+ as a real number (see the read_real operation)
+ followed by an optional unit specification. The remaining
+ of the string can be "in" for inches, "cm" for centimeters,
+ "mm" for millimeters, or "pt" for the width in points.
+ For example, the value "10mm" converts to 28.3.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean read_integer(out long i);<BR>void write_integer(in long i);<BR></FONT></B>
+</TD></TR></TABLE>
+ Interpret the value as a 32-bit (optionally signed) integer.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean read_real(out double d);<BR>void write_real(in double d);<BR></FONT></B>
+</TD></TR></TABLE>
+ If the value is a string, interpret the string as a
+ floating point number.  The number has an optional
+ leading plus or minus, zero or more digits to the
+ left and right of the decimal point (the point itself
+ is optional), and an optional exponent specification.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean read_string(out CharString s);<BR>void write_string(in CharString s);<BR></FONT></B>
+</TD></TR></TABLE>
+ Interpret the attribute value as a string.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean read_object(out Object s);<BR>void write_object(in Object s);<BR></FONT></B>
+</TD></TR></TABLE>
+ Interpret the attribute value in general as a reference
+ to an object.  Readers will typically try to narrow
+ the result to the type that they expect.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void lock();<BR>void unlock();<BR></FONT></B>
+</TD></TR></TABLE>
+ Acquire or release exclusive access to the attribute.
+ It is the responsibility of attribute clients to ensure
+ mutual exclusion during updates.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

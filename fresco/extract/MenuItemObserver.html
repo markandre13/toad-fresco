@@ -1,0 +1,13 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;MenuItemObserver</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/menu.idl<BR><P><TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>enum Aspect {<BR>&nbsp;&nbsp;label_aspect, // label_glyph, label_string, font_family, font_style, font_sizemark_aspect, // mark, mark_stateunderline_aspect, // underlinemore_dialog_aspect, // more_dialogmnemonic_aspect, // mnemonicaccelerator_aspect, // acceleratorenabled_aspect, // enabledchild_aspect, // append, prepend, insert, remove, remove_alldefault_item_aspect, // default_itemselect_aspect, // sended out if it's being selected (hilighted) -FvD-deselect_aspect // dito, but if it's being unselected (hilighted) -FvD-<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ The aspect indicates what part of a menu item has been modified.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void update(in Aspect a);<BR></FONT></B>
+</TD></TR></TABLE>
+ Update is called with the aspect that has been modified.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::ViewFactory</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><P> A glyph factory that can be used to build pieces of a documents
+ view.  The factory might build new glyphs for each request, or
+ return shared glyphs.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>View build(in Element elem, in Editor parent);<BR></FONT></B>
+</TD></TR></TABLE>
+ return a glyph to be used to represent a particular 
+ document element.  The factory might build a new glyph
+ or might return a shared glyph.  In the process of 
+ building an element, a builder might call other factories
+ if the element has children.  
+ The factory should register the offset of the glyph
+ with the parents mapped view. If the created glyph is a
+ viewer, it should be connected to the parents in the
+ focus hierarchy if appropriate.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>CharString build_name();<BR></FONT></B>
+</TD></TR></TABLE>
+	name of the factory.  This is used to create a binding
+ through a naming context from element types.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

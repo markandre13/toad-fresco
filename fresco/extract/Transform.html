@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Transform</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/types.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> A transform represents a (logically) 4x4 matrix for use
+ in translating coordinates.  A 2-dimensional implementation
+ may store and manipulate a 3x2 matrix rather than
+ a full 4x4 matrix.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef Coord Matrix[4][4];<BR></FONT></B>
+</TD></TR></TABLE>
+ The Matrix type defines the data that may be contained
+ in a transform.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void copy(in Transform t);<BR></FONT></B>
+</TD></TR></TABLE>
+ Copy the matrix data from the given transform.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void load_identity();<BR></FONT></B>
+</TD></TR></TABLE>
+ Set this transform's matrix to the identity matrix.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void load_matrix(in Matrix m);<BR></FONT></B>
+</TD></TR></TABLE>
+ Copy the given matrix data into this transform.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void store_matrix(out Matrix m);<BR></FONT></B>
+</TD></TR></TABLE>
+ Store this transform's matrix to the given matrix data.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean equal(in Transform t);<BR>boolean identity();<BR>boolean translate_only();<BR>boolean det_is_zero();<BR></FONT></B>
+</TD></TR></TABLE>
+ The equal operation tests if a transformation matrix
+ is the same as a given transform within
+ a standard coordinate tolerance.  The identity operation
+ tests if the matrix is equal to an identity matrix
+ (also with the standard tolerance).  The translate_only
+ operation test if a transform involves translation only.
+ This operation can be useful for optimizing certain rendering
+ operations that can be done faster in the absence of
+ scaling and rotation.  The det_is_zero
+ operation tests if the determinant of the matrix
+ is zero within the standard tolerance.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void scale(in Vertex v);<BR>void rotate(in float angle, in Axis a);<BR>void translate(in Vertex v);<BR></FONT></B>
+</TD></TR></TABLE>
+ Modify the matrix to perform coordinate scaling,
+ rotation, and translation.  The rotation angle
+ is given in degrees.  A 2-dimensional implementation
+ only implements rotate about the z-axis.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void premultiply(in Transform t);<BR>void postmultiply(in Transform t);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations set the matrix to be the result of
+ multiplying the matrix and the given transform.
+ Two operations are necessary because matrix multiplication
+ is not necessarily communative.  Premultiply means
+ the current matrix is on the left-hand side of the
+ multiplication, postmultiply means the current matrix
+ is on the right.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void invert();<BR></FONT></B>
+</TD></TR></TABLE>
+ Set the matrix to its inverse.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void transform_vertex(inout Vertex v);<BR>void inverse_transform_vertex(inout Vertex v);<BR></FONT></B>
+</TD></TR></TABLE>
+ Multiply the given vertex by the transformation matrix
+ to compute transformed or inverse-transformed coordinates.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

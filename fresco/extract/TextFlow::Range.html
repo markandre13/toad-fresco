@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::Range</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> A range within the document between and including two positions.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean equal(in Range rng);<BR>boolean not_equal(in Range rng);<BR>boolean is_before(in Range rng);<BR>boolean is_after(in Range rng);<BR></FONT></B>
+</TD></TR></TABLE>
+ equal and not_equal are a comparison to another document range
+ and determine if two ranges represent the same piece of a document
+ or not.  is_before determines if the given range is before
+ this range or not.  is_after determines if the given range is 
+ after this range or not.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>readonly attribute Position first;<BR>readonly attribute Position last;<BR></FONT></B>
+</TD></TR></TABLE>
+ begin and end points of the document range.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean is_empty();<BR>boolean contains_range(in Range rng);<BR>boolean contains_position(in Position pos);<BR>boolean is_disjoint_from(in Range rng);<BR></FONT></B>
+</TD></TR></TABLE>
+ containment functions for the range.  is_empty determines
+ anything or is simply a position.  contains_range determines
+ if the endpoints of the given range are equal to the endpoints
+ of this range or contained within the endpoints of the range.
+ contains_position determines if the given position is equal
+ to one of the endpoints of this range or between them.  
+ is_disjoint_from determines if the given range is completely
+ outside of the this range.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean intersects(in Range rng);<BR>Range get_intersection(in Range rng);<BR></FONT></B>
+</TD></TR></TABLE>
+ intersects determines if two ranges intersect and returns true
+ if they do, false otherwise.  get_intersection returns the
+ intersection with the given range, or nil if the two ranges
+ don't intersect.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>long length();<BR></FONT></B>
+</TD></TR></TABLE>
+ number of items spaned by the range.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::CompositionIter</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><P> A CompositionIter allows one to navigate over a composition.  An
+ iterator gives relatively efficient access to the structure of the
+ Composition.  The iterator can be positioned in both dimensions.
+ Changes made to the Composition may cause the iterator to become
+ invalid.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void next();<BR>void prev();<BR>boolean done();<BR>boolean is_first();<BR>boolean is_last();<BR>void reset_to_first();<BR>void reset_to_last();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations are based upon the current line the iterator
+ is positioned over.  The next and previous functions move to
+ the next and previous offset respectively within the current
+ line.  The done function determines if the iterator is still
+ positioned over the line.  The is_first and is_last functions
+ determine if the iterator is positioned over an endpoint of the
+ current line.  The reset_to_first and reset_to_last functions
+ place the iterator at an endpoint.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph get_glyph();<BR>CompositionGlyphOffset get_offset();<BR>Glyph line_glyph();<BR>long line();<BR> </FONT></B>
+</TD></TR></TABLE>
+	The function get_glyph gives access to the current child glyph
+	that the iterator is positioned over.  The get_offset operation
+	returns the current child offset that the iterator is
+	positioned over.  The line_glyph operation gives the glyph that
+	represents the entire line that the iterator is positioned
+	over.  The line operation returns the line number of the line
+	currently positioned over.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Coord get_ascent();<BR>Coord get_descent();<BR>Coord height();<BR>Coord get_span();<BR></FONT></B>
+</TD></TR></TABLE>
+	The get_ascent and get_descent operations return the height
+	above and below the baseline respectively.  The height
+	operation returns the total height of the line including
+	separation from the next line.  The get_span operation returns
+	the span of the offset the iterator is currently positioned
+	over along the major axis (the width).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void next_line();<BR>void prev_line();<BR>boolean valid();<BR>boolean forced_break();<BR></FONT></B>
+</TD></TR></TABLE>
+	Move the iterator's position to the start of the next/previous
+	line respectively.  The valid function determines if the
+	iterator is positioned over a line or not.  Even if valid, the
+	iterator may not be positioned over a glyph... a call to
+	reset_to_first() or reset_to_last() may be required to do that
+	(and done() is the associated test).  The forced_break()
+	function determines if the line ends in a forced break, which
+	might be useful for things like determining logical line
+	numbers.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::Subject</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> Model for a sequence of text that may be organized into
+ various structural representations. An arbitrary number of 
+ views may be created for the subject, and are kept up-to-date 
+ through notification.  
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Tag register_interest(in Observer view);<BR>void unregister_interest(in Tag t);<BR></FONT></B>
+</TD></TR></TABLE>
+ register_interest allows an observer to arrange to be 
+ notified of insert or removal of content.
+ unregister_interest allows the observer to discontinue 
+ receiving notifications.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Style style;<BR></FONT></B>
+</TD></TR></TABLE>
+ attributes associated with this document.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean remove(in Range rng);<BR></FONT></B>
+</TD></TR></TABLE>
+ remove the given range from the document.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean insert_char(in Position pos, in CharCode c);<BR>boolean insert_string(in Position pos, in CharString str);<BR>boolean replace_char(in Range rng, in CharCode c);<BR>boolean replace_chars(in Range rng, in CharString str);<BR></FONT></B>
+</TD></TR></TABLE>
+ insert_char adds a character to the document at the given
+ position.  insert_chars has the semantics of insert_char
+ being called repeatedly, but may be more efficient.  The
+ replace_char and replace_chars operations replace a range
+ with the new character(s).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean append_char(in CharCode c);<BR>boolean append_string(in CharString str);<BR>boolean prepend_char(in CharCode c);<BR>boolean prepend_string(in CharString str);<BR></FONT></B>
+</TD></TR></TABLE>
+ convenience functions to place text at the end/begining
+ of the document.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>CharString get_text(in Range rng);<BR></FONT></B>
+</TD></TR></TABLE>
+ fetch the text associated with the given range within the 
+ document (for those elements that have text).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>CharIterator text_navigator(in Range rng);<BR></FONT></B>
+</TD></TR></TABLE>
+ returns an iterator that can be used to navigate over the 
+ character data.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Range span(in Position beg, in Position end);<BR>Position copy_position(in Position pos, in long offs);<BR></FONT></B>
+</TD></TR></TABLE>
+ range allows one to create a range given two positions.
+ Specifying nil for either document position of the range 
+ operation will cause the document boundry to be used. 
+ Specifying nil for the position in copy_position causes
+ the start of the document to be used, allowing one to
+ get a position for any offset into the document.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>long position_to_line(in Position pos);<BR>Range line_to_range(in long line);<BR>long num_lines();<BR></FONT></B>
+</TD></TR></TABLE>
+ position_to_line gives the line/paragraph index 
+ corresponding to the given position.  line_to_range 
+ gives the range within the document that spans the given
+ line/paragraph index.  
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Element default_root_element();<BR>Element root_element(in Tag hierarchy);<BR>Tag add_root_element(in CharString nm, in Style style);<BR>void remove_root_element(in Tag hierarchy);<BR>Element get_root_element(in CharString nm);<BR></FONT></B>
+</TD></TR></TABLE>
+ default_root_element retrieves an element that spans the entire 
+ document.  If the document doesn't have any structure, this will 
+ be the only element. add_root_element and remove_root_element allow
+ alternative structural projections onto the data to be added and
+ removed.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>ElemIterator element_navigator(in Element elem);<BR></FONT></B>
+</TD></TR></TABLE>
+ element_navigator returns an interator over a structural 
+ projection onto the document. 
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

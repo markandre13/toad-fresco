@@ -1,0 +1,252 @@
+<HTML>
+	<HEAD>
+		<TITLE>
+			FRESCO > Painter
+		</TITLE>
+	</HEAD>
+	<BODY BGCOLOR=#FFD080>
+	&nbsp;<BR>
+	<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0>
+		<TR>
+			<TD>
+				<H1>Painter</H1>
+			</TD>
+			<TD ALIGN=RIGHT>
+				[<A HREF="index.html">index</A>]
+			</TD>
+		</TR>
+	</TABLE>
+	<HR>
+	<P>
+		Die Zeichenoperationen orientieren sich an PostScript®. Der Ursprung
+		liegt in der linken unteren Ecke.
+	</P>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Coord to_coord(PixelCoord p, Axis a)<BR>
+		&nbsp;PixelCoord to_pixels(Coord c, Axis a)<BR>
+		&nbsp;Coord to_pixels_coord(Coord c, Axis a)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void begin_path()<BR>
+		&nbsp;void move_to(Coord x, Coord y)<BR>
+		&nbsp;void line_to(Coord x, Coord y)<BR>
+		&nbsp;void curve_to(Coord x, Coord y, Coord x1, Coord y1, Coord x2, Coord y2)<BR>
+		&nbsp;void close_path()
+	</FONT></B></TD></TR><TR><TD>
+		PostScript ähnliche Zeichenoperationen.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void current_lighting(Color)<BR>
+		&nbsp;Color current_lighting()
+	</FONT></B></TD></TR><TR><TD>
+	  The lighting attribute adjusts the current color to simulate a light source.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void current_brush(Brush)<BR>
+		&nbsp;Brush current_brush()
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void current_color(Color)<BR>
+		&nbsp;Color current_color()
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void current_font(Font)<BR>
+		&nbsp;Font current_font()
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void current_pattern(Pattern)<BR>
+		&nbsp;Pattern current_pattern()
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void stroke()
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void fill()
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void line(Coord x0, Coord y0, Coord x1, Coord y1)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void rect(Coord x0, Coord y0, Coord x1, Coord y1)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void fill_rect(Coord x0, Coord y0, Coord x1, Coord y1)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void character(CharCode ch, Coord width, Coord x, Coord y)<BR>
+		&nbsp;void character_charstring(CharString s, Coord x, Coord y)<BR>
+		&nbsp;void character_string(string s, Coord x, Coord y)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void image(in Raster r, in Coord x, in Coord y)<BR>
+		&nbsp;void stencil(in Raster r, in Coord x, in Coord y)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void current_matrix(Transform)<BR>
+    &nbsp;Transform current_matrix()<BR>
+    &nbsp;void push_matrix()<BR>
+    &nbsp;void pop_matrix()<BR>
+    &nbsp;void premultiply(in Transform t)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void clip()<BR>
+		&nbsp;void clip_rect(in Coord x0, in Coord y0, in Coord x1, in Coord y1)<BR>
+		&nbsp;void push_clipping()<BR>
+		&nbsp;void pop_clipping()
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;boolean is_visible(in Region r)<BR>
+		&nbsp;Region visible()
+	</FONT></B></TD></TR><TR><TD>
+		<CODE>visible()</CODE> liefert die Größe des gesamten Fensters zurück, was
+		mehr sein kann
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void comment(in CharString s)
+	</FONT></B></TD></TR><TR><TD>
+	  Fügt einen in der späteren Ausgabe nicht sichtbaren Kommentar hinzu.<BR>
+		Lustig für die Ausgabe von PostScript® Dateien oder ähnlichem.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void page_number(in CharString s)
+	</FONT></B></TD></TR><TR><TD>
+		Fügt Informationen zur Seitennummer hinzu. Auch brauchbar für PostScript®.
+	</TD></TR></TABLE>
+
+<PRE>
+<A NAME="example">
+<FONT COLOR=#008000>/*
+ *
+ * Beispiel für einen zeichnenden Glyph
+ * written 1997 by Mark-André Hopf
+ *
+ */</FONT>
+
+<FONT COLOR=#0000FF>#include &lt;Fresco/base/fresco.h&gt;
+#include &lt;Fresco/defs/layouts.h&gt;
+#include &lt;Fresco/defs/widgets.h&gt;
+#include &lt;Fresco/base/viewers.h&gt;
+#include &lt;Fresco/figures/utility.h&gt;</FONT>
+
+class TMainWindow: ixx_extends(ViewerImpl)
+{
+    public:
+        TMainWindow();
+};
+
+class TPicture: ixx_extends(GlyphImpl)
+{
+    public:
+        void request(Requisition& r, _Ix_Env& _env = _Ix_default_env);
+        void draw(XfGlyphTraversal_ptr, _Ix_Env& = _Ix_default_env);
+};
+
+int main(int argc, char **argv)
+{
+    // CORBA Context erzeugen & mit Xlib Verbindung zum Server aufbauen
+    //------------------------------------------------------------------
+    FrescoContext* fc = FrescoLib::init_default_context("CDraw", argc, argv);
+
+    Viewer_var wnd = new TMainWindow;
+
+    Display_var display = fc-&gt;display_ptr();
+    Screen_var screen = display-&gt;default_screen();
+    mainwindow = screen-&gt;application(wnd);
+    Viewer_var(mainwindow->main_viewer())-&gt;request_focus(wnd, false);
+    mainwindow-&gt;map();
+    display-&gt;run(true);
+    return 0;
+}
+
+TMainWindow::TMainWindow()
+    :ViewerImpl(false)
+{
+    LayoutKit *layoutkit = KitFactory::instance()-&gt;layouts();
+    WidgetKit *widgetkit = KitFactory::instance()-&gt;widgets();
+
+    body(
+        Glyph_var(layoutkit-&gt;back(
+            Glyph_var(layoutkit-&gt;flexible(
+                Glyph_var(new TPicture), Coord(300), Coord(15)
+            )),
+            Glyph_var(widgetkit-&gt;filler())
+        ))
+    );
+}
+
+<FONT COLOR=#008000>// Größe des Fensters festlegen (ohne dies bricht das Programm ab)
+//-----------------------------------------------------------------</FONT>
+void TPicture::request(Glyph::Requisition& r, _Ix_Env& _env)
+{
+    r.x.defined = true;
+    r.x.natural = 320;
+    r.x.maximum = 320;
+    r.x.minimum = 30;
+    r.y.defined = true;
+    r.y.natural = 200;
+    r.y.maximum = 200;
+    r.y.minimum = 30;
+    r.preserve_aspect = false;
+}
+
+<FONT COLOR=#008000>// Zeichnen
+//----------</FONT>
+void TPicture::draw(XfGlyphTraversal_ptr t, _Ix_Env& _env)
+{
+    <FONT COLOR=#008000>// Farben besorgen
+    //-----------------</FONT>
+    DrawingKit *drawingkit = KitFactory::instance()-&gt;drawings();
+    Color_var r = drawingkit-&gt;color_rgb(1,0,0);
+    Color_var g = drawingkit-&gt;color_rgb(0,1,0);
+    Color_var b = drawingkit-&gt;color_rgb(0,0,1);
+
+    <FONT COLOR=#008000>// 3 gefüllte Rechtecke zeichnen
+    //-------------------------------</FONT>
+    Painter_var p = t-&gt;current_painter();
+    p-&gt;current_color(r);
+    p-&gt;rect(Coord(5),Coord(5),Coord(30),Coord(40));
+    p-&gt;fill();
+    p-&gt;current_color(g);
+    p-&gt;rect(Coord(40),Coord(40),Coord(50),Coord(50));
+    p-&gt;fill();
+    p-&gt;current_color(b);
+    p-&gt;rect(Coord(50),Coord(50),Coord(80),Coord(100));
+    p-&gt;fill();
+}
+</PRE>
+
+	</BODY>
+</HTML>

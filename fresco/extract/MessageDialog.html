@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;MessageDialog</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/dialogs.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="Dialog.html">Dialog</A><P> A MessageDialog is a dialog that has a limited set of user choices.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void message(in Glyph g);<BR></FONT></B>
+</TD></TR></TABLE>
+ Interactively changes the message of a dialog box
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>enum Flavor {<BR>&nbsp;&nbsp;error, information, question, warning, working<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ The message dialog flavors represent the different types of messages
+ the user can see.
+ Show the user the indicated message flavor in the dialog.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>enum Choice {<BR>&nbsp;&nbsp;ok, yes, retry, apply, reset, close, pause, no, stop, resume, cancel,help, none<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ The message dialog choices represent the different choices that
+ the user can make.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void show_choice(in Choice c, in Glyph g, in Action a);<BR></FONT></B>
+</TD></TR></TABLE>
+ Show the user the indicated choice and invoke the action when the
+ user responds with that choice.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void hide_choice(in Choice c);<BR></FONT></B>
+</TD></TR></TABLE>
+ Remove the choice.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void choice_action(in Choice c, in Action a);<BR></FONT></B>
+</TD></TR></TABLE>
+ Change the action for the given choice.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void set_choice(in Choice c);<BR></FONT></B>
+</TD></TR></TABLE>
+ This operation informs a modal dialog that it should return after
+ processing of the current event is completed and return the choice.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void set_default_choice();<BR></FONT></B>
+</TD></TR></TABLE>
+ This operation informs a modal dialog that it should return after
+ processing of the current event is completed and return
+ the default choice for the dialog.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Choice get_choice();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the users choice.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Action get_action(in Choice c);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the action for the given choice.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Choice post_modal_choice(in Window show_for);<BR></FONT></B>
+</TD></TR></TABLE>
+ This operation posts the dialog in a modal fashion, waits for
+ the user to respond, then returns the user's choice.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph contents(in Viewer container);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a glyph to be inside the given containing viewer,
+ if one is desired.  If the dialog simply contains a message
+ with no other contents, then this operation returns nil.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

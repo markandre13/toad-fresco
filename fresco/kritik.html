@@ -1,0 +1,35 @@
+<HTML>
+	<HEAD>
+		<TITLE>
+			FRESCO
+		</TITLE>
+	</HEAD>
+	<BODY BGCOLOR=#FFD080>
+		<H1>Kritikpunkte an FRESCO</H1>
+		<DL>
+			<DT>Fresco berücksichtigt nicht die Besonderheiten von X11</H3>
+			<DD><UL>
+					<LI>
+						Für alle Fenster werden Pointer Motion Events vom X11 Server
+						beantragt, was sich im Falle von seriellen Verbindungen
+						stark bemerkbar macht. Egal ob diese benötigt werden oder
+						nicht.
+					<LI>
+						Es werden nicht die vom X11 Server generierten Enter und Leave
+						Events verwendet, sondern über Motion Events simulierte.
+				</UL>
+			<DT><P>Die meisten Objekte sind CORBA Objekte</P>
+			<DD>
+				<P>Ich finde das ein wenig übertrieben und glaube nicht, daß sich
+			    daraus in der Praxis irgendein Nutzen ergibt. Ich persönlich
+			    halte OpenDoc für das bessere Konzept, doch auch das ist von
+			    IBM und Apple inzwischen fallengelassen worden.
+			  </P>
+			<DT><P>Nicht CORBA konform</P>
+			<DD>
+				Ich habe die arge Vermutung, daß die von Fresco benutzte CORBA
+			  Implementierung nicht zum Standard konform ist. (Ich beziehe mich
+			  da auf das C++ Mapping von CORBA 2.0.)
+		</DL>
+	</BODY>
+</HTML>

@@ -1,0 +1,108 @@
+Einfügen eines Buttons in die ToolBox:
+
+- Fügt Buttons mit ´tool_item(..)´ ein
+  (benutzt dabei TellTale in tool_root_tt)
+- Fügt ´tool_bar_´ ein
+
+- Erzeugen eines MenuItems
+  (MenuItem ist in "defs/menu.idl" definiert)
+  In diesem Fall wird ein leaf_item() erzeugt (andere wären, submenu_item()
+  und separator_item()) über das MenuKit
+- Das MenuItem wird initialisiert:
+  attribute string key
+  	Eindeutige ID
+  attribute string label_string
+  attribute Glyph label_glyph
+  attribute KeySym mnemonic
+  	Abkürzung, wenn Menü sichtbar ist
+  attribute KeyChord accelerator
+  	Abkürzung ohne Menüeintrag vorher zu sehen
+  attribute Action item_action
+  	Ausführen
+  attribute Telltale mark_state
+  	Das Aussehen des Buttons
+  (Auf der Serverseite ist dies ein MKMenuItemLeaf)
+  
+---------------------------------------------------------------------
+
+                                 L A Y O U T
+
+Das Layout Management ist hat gleich zwei Fehler, die sich wunderbar
+summieren:
+(1) es enthält mindestens einen fatalen Bug, der mich viel Zeit
+    kostet
+(2) es ist überhaupt nicht dokumentiert (oh, da sind schon ein paar
+    Kommentare, aber die dienen nicht dem Verständnis)
+
+Eine ´vbox´ wird in der LayoutFactory wie folgt erzeugt:
+
+XfGlyph_ptr LayoutKitImpl::vbox()
+{
+    return new Box(
+        new LayoutSuperpose(
+            new LayoutTileReversed(Y_axis), new LayoutAlign(X_axis)
+        )
+    );
+}
+
+- LayoutSuperpose speichert die beiden LayoutManager in ´first_´ und
+  ´second_´.
+- Box nimmt das LayoutSuperPose in ´layout_´ entgegen
+
+
+Die Vererbungshierachie (Klammern geben an, daß diese Klassen nicht in der
+IDL definiert sind):
+	GlyphImpl -> [PolyGlyph] -> [Box]
+	[LayoutManager] -> [LayoutSuperpose]
+
+PolyGlyph
+#############################################################################
+void append(XfGlyph_ptr g)
+	Fügt ein neues Glyph hinten an. Dabei wird das Glyph in ein
+	PolyGlyphOffset gepackt, das dann das Parent des Glyphs wird und
+	dazu dient noch einen Index aufzunehmen, damit alle Glyphs eine
+	Reihenfolge haben.
+
+Box
+#############################################################################
+Methoden
+^^^^^^^^
+Box(LayoutManager*);
+	´requested_´ auf false setzen (dient nur der Optimierung)
+XfGlyph_ptr clone_glyph()
+
+void request(Requisition& r)
+	Deligiert an den LayoutManager weiter
+void extension(const AllocationInfo& a, XfRegion_ptr r)
+void traverse(XfGlyphTraversal_ptr t)
+void need_resize()
+
+[RegionImpl** children_allocations(Region_ptr a)]
+[void traverse_with_allocation(GlyphTraversal_ptr t, Region_ptr a)]
+[void traverse_without_allocation(GlyphTraversal_ptr t)]
+[void child_allocate(Long index, Glyph::AllocationInfo& a)]
+[void modified()]
+
+Attribute
+^^^^^^^^^
+static const int static_size_
+	Die maximale Obergrenze von Kindern (10)
+LayoutManager* layout_
+bool requested_
+Glyph::Requisition requisition_
+
+LayoutManager
+#############################################################################
+Methoden
+^^^^^^^^
+LayoutManager()
+LayoutManager* clone()
+void request(long n, Glyph::Requisition* requests, Glyph::Requisition& result)
+void allocate(long n, Glyph::Requisition* requests, Region_ptr given, LayoutManager::Allocations result)
+static void set_span(RegionImpl* r, Axis a, Coord origin, Coord length, Alignment align)
+
+Attribute
+^^^^^^^^^
+typedef RegionImpl** Allocations
+
+LayoutSuperpose kombiniert 2 oder 3 LayoutManager

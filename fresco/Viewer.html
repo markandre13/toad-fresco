@@ -1,0 +1,127 @@
+<HTML>
+	<HEAD>
+		<TITLE>
+			FRESCO > Viewer
+		</TITLE>
+	</HEAD>
+	<BODY BGCOLOR=#FFD080>
+	&nbsp;<BR>
+	<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0>
+		<TR>
+			<TD>
+				<H1>Viewer</H1>
+			</TD>
+			<TD ALIGN=RIGHT>
+				[<A HREF="index.html">index</A>]
+			</TD>
+		</TR>
+	</TABLE>
+	<HR>
+	<P>
+	Ich hätte das Ding ja "ButtonState" genannt und genau das tut es:
+	</P>
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#0080FF"><B><FONT FACE=helvetica>
+		&nbsp;enum Flag
+	</FONT></B></TD></TR><TR><TD>
+		<TABLE>
+			<TR>
+				<TH>
+					active
+				</TH>
+				<TD>
+					Zwischen ButtonDown und ButtonUp-Events.
+				</TD>
+			</TR>
+			<TR>
+				<TH>
+					chooseable
+				</TH>
+				<TD>
+					Legt fest, ob der Button gewählt werden kann oder nicht.
+				</TD>
+			</TR>
+			<TR>
+				<TH>
+					chosen
+				</TH>
+				<TD>
+					Button ist ausgewählt. (Für Radiobuttons oder Checkboxen.)
+				</TD>
+			</TR>
+			<TR>
+				<TH>
+					enabled
+				</TH>
+				<TD>
+					Ein, wenn der Button Eingaben verarbeitet. (Diese akzeptiert oder
+					im Moment bekommt?)
+				</TD>
+			</TR>
+			<TR>
+				<TH>
+					running
+				</TH>
+				<TD>
+					Der Button führt im Moment sein Aktion aus.
+				</TD>
+			</TR>
+			<TR>
+				<TH>
+					stepping
+				</TH>
+				<TD>
+					Mehrfachwiederholung des Buttons findet im Moment statt.
+				</TD>
+			</TR>
+			<TR>
+				<TH>
+					toggle
+				</TH>
+				<TD>
+					Der Status kann zwischen ausgewählt und nicht ausgewählt
+					durch Anklicken umgeschaltet werden.
+				</TD>
+			</TR>
+			<TR>
+				<TH>
+					visible
+				</TH>
+				<TD>
+					Der Mauszeiger befindet sich über dem Buttons.
+				</TD>
+			</TR>
+		</TABLE>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void set(Telltale::Flag f)
+	</FONT></B></TD></TR><TR><TD>
+		Setzt das Flag.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void clear(Telltale::Flag f)
+	</FONT></B></TD></TR><TR><TD>
+		Löscht das Flag.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;boolean test(Telltale::Flag f)
+	</FONT></B></TD></TR><TR><TD>
+		Liefert den Status der Flags zurück.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#C0C0C0"><B><FONT FACE=helvetica>
+		&nbsp;Telltale current
+	</FONT></B></TD></TR><TR><TD>
+	 The current attribute is by default a nil reference. This attribute is intended to support radio
+	 buttons or other mutually-exclusive choice settings. . If set, then current attribute refers to a
+	 "group" telltale that contains a currently-chosen telltale in the group's current attribute.
+	 When a telltale's chosen flag is changed from clear to set and its current attribute is not nil,
+	 the current attribute refers to a group telltale. The group's current attribute refers to the
+	 previously-chosen telltale, which will have its chosen flag cleared. Then the group's current
+	 attribute will be changed to refer to the newly-chosen telltale. 
+	</TD></TR></TABLE>
+
+	</BODY>
+</HTML>

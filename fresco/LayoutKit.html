@@ -1,0 +1,300 @@
+<HTML>
+	<HEAD>
+		<TITLE>
+			FRESCO > LayoutKit
+		</TITLE>
+	</HEAD>
+	<BODY BGCOLOR=#FFD080>
+	&nbsp;<BR>
+	<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0>
+		<TR>
+			<TD>
+				<H1>LayoutKit</H1>
+			</TD>
+			<TD ALIGN=RIGHT>
+				[<A HREF="index.html">index</A>]
+			</TD>
+		</TR>
+	</TABLE>
+	<HR>
+	<P>
+	Hier finden sich Glyphs zum Positionieren, zum Setzen der Größe von Glyphs, etc..
+	</P>
+	<P>
+	<CODE>
+	// KitFactory Deklaration<BR>
+	#include &lt;Fresco/figures/utility.h&gt;<BR>
+	<BR>
+	FigureKit *figurekit = KitFactory::instance()->figures()
+	</CODE>
+	</P>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph back(Glyph <VAR>body</VAR>, Glyph <VAR>under</VAR>)
+	</FONT></B></TD></TR><TR><TD>
+	  Liefert einen Glyph, bei dem <VAR>under</VAR> hinter <VAR>body</VAR> liegt
+	  und Operationen wie <CODE>append</CODE> an <VAR>body</VAR> weitergegeben
+	  werden.<BR>
+	  Dieser Glyph sollte z.B. in Dialogfenstern genutzt werden, um die Hintergrundfarbe
+	  eines Fensters festzulegen.
+	  <H4>Beispiel:</H4>
+	  <CODE>
+	  Glyph_ptr main_window = layouts->back(<BR>
+	  &nbsp;&nbsp;body, Glyph_var(widgets->filler())<BR> 
+	  );
+	  </CODE>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph clipper(Glyph g)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph create_backdrop()
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph fixed_grid(Grid::Index upper)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph fixed_range(Grid g,Grid::Range r)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph front(Glyph <VAR>body</VAR>, Glyph <VAR>over</VAR>)
+	</FONT></B></TD></TR><TR><TD>
+	  Liefert einen Glyph, bei dem <VAR>over</VAR> vor <VAR>body</VAR> liegt
+	  und Operationen wie <CODE>append</CODE> an <VAR>body</VAR> weitergegeben
+	  werden.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph margin(Glyph <VAR>g</VAR>, Coord <VAR>n</VAR>)
+	</FONT></B></TD></TR><TR><TD>
+	  <IMG SRC="images/margin.gif" BORDER=3 ALIGN=RIGHT>
+	  <P>
+	  Fügt den Glyph <VAR>g</VAR> in einen ihn umgebenden freien Bereich der Größe 
+	  <VAR>n</VAR> ein.
+	  <P>
+	  <H4>Beispiel:</H4>
+	  <CODE>
+	  Glyph_var margin = layouts->margin(button, Coord(15));
+	  </CODE>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph margin_flexible(Glyph <VAR>g</VAR>,Coord <VAR>n</VAR>, Coord <VAR>max</VAR>, Coord <VAR>min</VAR>)
+	</FONT></B></TD></TR><TR><TD>
+		Fügt den Glyph <VAR>g</VAR> in einen ihn umgebenden freien Bereich der Größe
+		<VAR>n</VAR> ein, welcher zwischen <VAR>min</VAR> und <VAR>max</VAR> variert
+		werden kann.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph margin_lrbt(Glyph <VAR>g</VAR>, Coord <VAR>left</VAR>, Coord <VAR>right</VAR>, Coord <VAR>bottom</VAR>, Coord <VAR>top</VAR>)
+	</FONT></B></TD></TR><TR><TD>
+	  <IMG SRC="images/margin_lrbt.gif" BORDER=3 ALIGN=RIGHT>
+		Fügt den Glyph <VAR>g</VAR> in einen ihn umgebenden freien Bereich ein.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph margin_lrbt_flexible(Glyph g,<BR>
+		&nbsp;&nbsp;&nbsp;Coord left, Coord lmax, Coord lmin,<BR>
+		&nbsp;&nbsp;&nbsp;Coord right, Coord rmax, Coord rmin,<BR>
+		&nbsp;&nbsp;&nbsp;Coord bottom, Coord bmax, Coord bmin,<BR>
+		&nbsp;&nbsp;&nbsp;Coord top, Coord tmax, Coord tmin<BR>
+		&nbsp;)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph natural(Glyph g, Coord <VAR>width</VAR>, Coord <VAR>height</VAR>)
+	</FONT></B></TD></TR><TR><TD>
+	  Liefert einen Glyph zurück, welcher die Größe von <VAR>g</VAR> setzt.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph hbox()<BR>
+		&nbsp;Glyph vbox()
+	</FONT></B></TD></TR><TR><TD>
+		Ordnet seine Kinder nach der Reihenfolge des Einfügens von links nach
+		rechts bzw. von	oben nach unten	an.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph hbox_first_aligned()<BR>
+		&nbsp;Glyph vbox_first_aligned()
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph hbox_align_elements(Alignment <VAR>align</VAR>)<BR>
+		&nbsp;Glyph vbox_align_elements(Alignment <VAR>align</VAR>)
+	</FONT></B></TD></TR><TR><TD>
+		Während bei <I>hbox</I> die Ausrichtung am oberen Rand erfolgt bzw. bei
+		<I>vbox</I> am linken Rand, kann man hier durch <VAR>align</VAR> eine
+		Ausrichtung zwischen 0.0 und 1.0 angeben.
+		<H4>Beispiel:</H4>
+		<CODE>
+		// vbox, welche seine Kinder zentriert<BR>
+		Glyph_var g1 = layoutkit->vbox_align_elements(Alignment(0.5));
+		</CODE>
+	</TD></TR></TABLE>
+	
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph overlay()
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph deck()
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph between(Glyph g, Glyph under, Glyph over)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph glue(Axis a, Coord natural, Coord stretch, Coord shrink, Alignment align)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph glue_requisition(Glyph::Requisition r)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph hfil()<BR>
+		&nbsp;Glyph hglue_fil(Coord natural)<BR>
+		&nbsp;Glyph hglue(Coord natural, Coord stretch, Coord shrink)<BR>
+		&nbsp;Glyph hglue_aligned(Coord natural, Coord stretch, Coord shrink, Alignment a)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph hspace(Coord <VAR>n</VAR>)<BR>
+		&nbsp;Glyph vspace(Coord <VAR>n</VAR>)
+	</FONT></B></TD></TR><TR><TD>
+		Ein unveränderlicher Abstand der Größe <VAR>n</VAR>.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph vfil()<BR>
+		&nbsp;Glyph vglue_fil(Coord natural)<BR>
+		&nbsp;Glyph vglue(Coord natural, Coord stretch, Coord shrink)<BR>
+		&nbsp;Glyph vglue_aligned(Coord natural, Coord stretch, Coord shrink, Alignment a)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph shape_of(in Glyph g)<BR>
+		&nbsp;Glyph shape_of_xy(Glyph gx, Glyph gy)<BR>
+		&nbsp;Glyph shape_of_xyz(Glyph gx, Glyph gy, Glyph gz)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph strut(in Font f, in Coord natural, in Coord stretch, in Coord shrink)<BR>
+		&nbsp;Glyph hstrut(in Coord right_bearing, in Coord left_bearing,in Coord natural, in Coord stretch, in Coord shrink)<BR>
+		&nbsp;Glyph vstrut(in Coord ascent, in Coord descent,in Coord natural, in Coord stretch, in Coord shrink)<BR>
+		&nbsp;Glyph spaces(in long count, in Coord each, in Font f, in Color c)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph align(in Glyph g, in Alignment x, in Alignment y)<BR>
+		&nbsp;Glyph align_axis(in Glyph g, in Axis a, in Alignment align)<BR>
+		&nbsp;Glyph halign(in Glyph g, in Alignment x)<BR>
+		&nbsp;Glyph valign(in Glyph g, in Alignment y)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph fixed(in Glyph g, in Coord x, in Coord y)<BR>
+		&nbsp;Glyph fixed_axis(in Glyph g, in Axis a, in Coord size)<BR>
+		&nbsp;Glyph hfixed(in Glyph g, in Coord x)<BR>
+		&nbsp;Glyph vfixed(in Glyph g, in Coord y)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph flexible(Glyph g, Coord stretch, Coord shrink)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph flexible_fil(Glyph <VAR>g</VAR>)
+	</FONT></B></TD></TR><TR><TD>
+		Liefert einen Glyph zurück, mit dem <VAR>g</VAR> in der Größe verändert werden
+		kann und mit der Standardhintergrundfarbe (Hellgrau) hinterlegt ist.
+		<P>
+		<I>
+			siehe auch: 
+				<A HREF="WidgetKit.html#filler">filler()</A>,
+				<A HREF="#back">back()</A>
+		</I>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph flexible_axis(Glyph g, Axis a, Coord stretch, Coord shrink)<BR>
+		&nbsp;Glyph hflexible(Glyph g, Coord stretch, Coord shrink)<BR>
+		&nbsp;Glyph vflexible(Glyph g, Coord stretch, Coord shrink)<BR>
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph natural(Glyph g, Coord width, Coord height)<BR>
+		&nbsp;Glyph natural_axis(Glyph g, Axis a, Coord size)<BR>
+		&nbsp;Glyph hnatural(Glyph g, Coord x)<BR>
+		&nbsp;Glyph vnatural(Glyph g, Coord y)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph hmargin(Glyph g, Coord both)<BR>
+		&nbsp;Glyph hmargin_lr(Glyph g, Coord lmargin, Coord rmargin)<BR>
+		&nbsp;Glyph hmargin_lr_flexible(Glyph g, Coord lmargin, Coord lstretch, in Coord lshrink,Coord rmargin, Coord rstretch, Coord rshrink)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph vmargin(Glyph g, Coord both)<BR>
+		&nbsp;Glyph vmargin_lr(Glyph g, Coord lmargin, Coord rmargin)<BR>
+		&nbsp;Glyph vmargin_lr_flexible(Glyph g, Coord lmargin, Coord lstretch, Coord lshrink,Coord rmargin, Coord rstretch, Coord rshrink)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph lmargin(in Glyph g, in Coord natural)<BR>
+		&nbsp;Glyph lmargin_flexible(in Glyph g, in Coord natural, in Coord stretch, in Coord shrink)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph rmargin(in Glyph g, in Coord natural)<BR>
+		&nbsp;Glyph rmargin_flexible(in Glyph g, in Coord natural, in Coord stretch, in Coord shrink)
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph bmargin(in Glyph g, in Coord natural)<BR>
+		&nbsp;Glyph bmargin_flexible(in Glyph g, in Coord natural, in Coord stretch, in Coord shrink)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph tmargin(Glyph g, Coord natural)<BR>
+		&nbsp;Glyph tmargin_flexible(Glyph g, Coord natural, Coord stretch, in Coord shrink)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	</BODY>
+</HTML>

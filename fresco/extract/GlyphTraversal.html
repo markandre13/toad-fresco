@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;GlyphTraversal</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/glyph.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> The GlyphTraversal interface defines the mechanism for
+ visiting a collection of glyphs.  A traversal is passed
+ to a glyph's traverse operation and maintains common
+ information as well as the stack of information associated
+ with each level of the traversal.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>enum Operation {<BR>&nbsp;&nbsp; draw, pick_top, pick_any, pick_all, other <BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ An operation distinguishes what kind of traversal
+ is being performed.  The common traversals are
+ draw and three kinds of picking, which should
+ result in calls to a draw or pick glyph operation
+ on each leaf during a traversal.  The "other" operation
+ will call the traversal's visit operation on each leaf.
+ The kind of pick specifies the desired result:
+ pick_top indicates that the caller only wishes to find
+ the top-most object that is hit, pick_any returns
+ when any object is hit (possibly avoiding further traversal),
+ and pick_all finds all hit objects.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Operation op();<BR>Operation swap_op(in Operation op);<BR>boolean is_pick_op();<BR></FONT></B>
+</TD></TR></TABLE>
+ Both op and swap_op return the current traversal operation.
+ The swap_op method additionally changes the operation
+ to the given operation.  The is_pick_op operation returns
+ true if the current traversal operation is one of the
+ picking operations (pick_top, pick_any, or pick_all).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void begin_viewer(in Viewer v);<BR>void end_viewer();<BR></FONT></B>
+</TD></TR></TABLE>
+ Record the beginning and end of a trail associated with
+ the given viewer.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>EventFilter event_filter();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a glyph traversal filter that will pass all events
+ to the current viewer of the traversal.  The filter
+ returns the results of the viewer's handle operation.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void traverse_child(in GlyphOffset o, in Region allocation);<BR></FONT></B>
+</TD></TR></TABLE>
+ Continue traversing down to the given child glyph
+ defined by the given offset.  If the given region is nil
+ then the parent's allocation will be used for the child.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void visit();<BR></FONT></B>
+</TD></TR></TABLE>
+ Call the traversal-specific operation on the current glyph.
+ This operation should be called on a leaf glyph
+ (or a composite that wants to do more than traverse
+ its children) when the traversal operation is other.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>GlyphTraversal trail();<BR></FONT></B>
+</TD></TR></TABLE>
+ Copy the current traversal state information.
+ The current trail, transformation, and allocation
+ is copied, but graphics state is not.  Thus, the new trail
+ may be suitable for certain update or picking operations,
+ but is not usable for use in drawing.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph current_glyph();<BR>GlyphOffset current_offset();<BR>Viewer current_viewer();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the information for the current element along the trail.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean forward();<BR>boolean backward();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations move the current glyph along the current trail.
+ The forward operation moves the current glyph away
+ from the viewer; the backward operation moves
+ toward the viewer.  Both operations return true
+ if successful at moving the current glyph.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Display current_display();<BR>Screen current_screen();<BR>Window current_window();<BR>attribute Painter current_painter;<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations access the current state during a traversal.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Region allocation();<BR>boolean bounds(out Vertex lower, out Vertex upper, out Vertex origin);<BR>boolean allocation_is_visible();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations return the current allocation region or
+ information about it.  A traversal may not define
+ an allocation, in which case a nil region is returned.
+ If the allocation region is defined, the bounds operation
+ retrieves the corners and origin and returns true.
+ Otherwise, bounds just returns false without modifying
+ its parameters.
+.
+ The allocation_is_visible operation returns true
+ if the allocation is defined and is visible in
+ the current drawing state (see Painter::is_visible).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Transform current_transform();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the cumulative transformation matrix for
+ the current glyph in the traversal.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Damage damaged();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the damage area that glyphs in the traversal
+ may use to cause a screen update.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void hit();<BR></FONT></B>
+</TD></TR></TABLE>
+ Add the current trail to the list of picked trails
+ during a pick traversal.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> long hit_info;<BR></FONT></B>
+</TD></TR></TABLE>
+ Associated with a hit object may be an additional integer
+ containing arbitrary information.  For example, a character
+ object would use this information to indicate whether
+ pick occurred on the left or right of the character.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>GlyphTraversal picked();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the traversal associated with the most-recently
+ hit object.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void clear();<BR></FONT></B>
+</TD></TR></TABLE>
+ Remove the picked reference to hit objects, potentially
+ releasing the associated traversals.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

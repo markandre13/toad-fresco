@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Viewer</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/viewer.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="Glyph.html">Glyph</A><P> The Viewer interface defines the mechanisms for the logical
+ composition of user interface objects.  Viewer is a Glyph subtype
+ and can delegate the presentation and geometry of the
+ viewer to another glyph using Glyph::body.
+.
+ A viewer implementation should define the pick operation to be
+ opaque in the sense that the viewer should appear as a leaf glyph
+ relative to pick calls.  This approach hides the viewer's
+ structure from surrounding objects.
+.
+ Unlike glyphs, which may be organized with sharing to form
+ a directed-acyclic graph, viewers must be organized in
+ a strict hierarchy.  Using a hierarchy simplifies
+ input handling and focus management.  A separate edge
+ interface like GlyphOffset is therefore not necessary--
+ viewers can perform the operations of both nodes and edges
+ in a hierarchy.
+.
+ Every viewer defines a unique style with an alias identifying
+ the type of viewer.  Application objects should set the name
+ of a viewer's style to provide a convenient mechanism
+ for customizing a particular instance.  Setting a viewer's style
+ using the Glyph::style attribute will actually set the
+ parent style.  By default, the parent style is the style
+ of the viewer's parent.  Furthermore, because of the one-to-one
+ relationship between a viewer and its style, an implementation
+ may choose to represent the viewer and style as a single object
+ that supports both interfaces (where retrieving viewer->style()
+ simply returns the viewer itself).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Viewer parent_viewer();<BR>Viewer next_viewer();<BR>Viewer prev_viewer();<BR>Viewer first_viewer();<BR>Viewer last_viewer();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations provide hierarchy information
+ starting from a viewer, returning the parent,
+ right sibling, left sibling, first child, and last child,
+ respectively.  If the requested viewer does not exist,
+ such as the right sibling for the last viewer
+ in a list, then the operation returns a nil reference.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void append_viewer(in Viewer v);<BR>void prepend_viewer(in Viewer v);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations modify the viewer hierarchy
+ adding a child at the beginning or end of this viewer's
+ list of children.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void insert_viewer(in Viewer v);<BR>void replace_viewer(in Viewer v);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations modify the viewer hierarchy
+ by adding or replacing a new viewer at the position
+ of this viewer.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void remove_viewer();<BR></FONT></B>
+</TD></TR></TABLE>
+ Remove this viewer from its place in the hierarchy.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void set_viewer_links(in Viewer parent, in Viewer prev, in Viewer next);<BR>void set_first_viewer(in Viewer v);<BR>void set_last_viewer(in Viewer v);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations explicitly modify the links between viewers.
+ They need not be called directly, but are used to maintain
+ the viewer tree.
+.
+ The set_viewer_links operation modifies the parent, next, and
+ previous links associated with a viewer.  If the parent
+ is a nil reference, then a nil sibling reference will be
+ ignored.  Otherwise, the parent and siblings will all be set.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Focus request_focus(in Viewer requestor, in boolean temporary);<BR></FONT></B>
+</TD></TR></TABLE>
+ Ask for input focus.  Normally, a viewer will call this
+ operation on its parent.  The parent, in turn, may propagate
+ the call to its parent.  The original caller passes
+ itself as the requestor, and the same requesting viewer
+ is passed if the call is propagated.
+.
+ If focus is granted to the requestor, the operation
+ returns the focus object (normally associated with
+ the root viewer of the hierarchy.  If focus is not granted,
+ then the operation returns nil.
+.
+ Transient dialogs normally request focus temporarily
+ by passing true as the second parameter to request_focus.
+ This flag lets the current focus viewer know that it will
+ probably regain focus shortly and might not wish to change
+ its decoration in the same manner as a normal focus change.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean receive_focus(in Focus f, in boolean primary);<BR></FONT></B>
+</TD></TR></TABLE>
+ Notify a viewer that it has acquired input focus.
+ The operation returns whether the viewer accepts
+ the input focus.  If the viewer does accept, then
+ it should perform the appropriate operations
+ on the focus object, such as installing key translations.
+ If the primary parameter is true, then this viewer
+ is the lowest level viewer receiving focus.  If primary
+ is false, then this viewer contains a descendant
+ that is the new focus.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void lose_focus(in Focus f, in boolean primary, in boolean temporary);<BR></FONT></B>
+</TD></TR></TABLE>
+ Notify a viewer that it is losing input focus.  The focus
+ and primary values are the same values that were previously
+ passed to receive focus.  If the temporary parameter is true,
+ then the viewer will regain shortly, as soon as a transient such
+ as a dialog finishes.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean first_focus();<BR>boolean last_focus();<BR>boolean next_focus();<BR>boolean prev_focus();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations ask that this viewer "move" the input
+ focus inside itself, such as tabbing through the children
+ in the hierarchy.  The first_focus and last_focus
+ operations ask focus to enter the viewer at the beginning
+ or end, respectively.  The next_focus and prev_focus
+ operations ask to move focus to the right or left sibling,
+ respectively.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean handle(in GlyphTraversal t, in Event e);<BR></FONT></B>
+</TD></TR></TABLE>
+ Respond to the given input event.  If the viewer cannot
+ handle the event for any reason, then this operation
+ should return false so that the caller may attempt
+ to find another viewer to handle the event.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void close();<BR></FONT></B>
+</TD></TR></TABLE>
+ Respond to the user closing the viewer.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Telltale state;<BR></FONT></B>
+</TD></TR></TABLE>
+ The viewer's state may affect the appearance of the viewer.
+ If the viewer's enabled flag is on, then the viewer
+ will change the state in response to input events.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

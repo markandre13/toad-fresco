@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Adjustment</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/layouts.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> An adjustment is two segments that represent the possible and
+ current range of values for a bounded value, such as would
+ be used for scrolling.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>struct Settings {<BR>&nbsp;&nbsp;Coord lower, upper, length;<BR>&nbsp;&nbsp;Coord cur_lower, cur_upper, cur_length;<BR>&nbsp;&nbsp;<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ The Settings structure defines the two ranges for
+ an adjustment.  The lower, upper, and length fields
+ define the possible range of values; cur_lower,
+ cur_upper, and define a current range.  Providing
+ both bounds and length is redundant information
+ (since length is always equal to upper minus lower),
+ but is more convenient than picking one representation
+ over the other.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Coord small_scroll;<BR>attribute Coord large_scroll;<BR></FONT></B>
+</TD></TR></TABLE>
+ When used for scrolling, an adjustment provides
+ attributes that define the size of movement
+ for the scroll_forward, scroll_backward,
+ page_forward, and page_backward operations.
+ The small_scroll attribute is for use by the scroll operations;
+ large_scroll for use by the page operations.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void get_settings(out Adjustment::Settings s);<BR></FONT></B>
+</TD></TR></TABLE>
+ Retrieve the current settings of the adjustment.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> AdjustmentConstraint constraint;<BR></FONT></B>
+</TD></TR></TABLE>
+ The constraint is used to constrain the scroll region.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void begin();<BR>void commit();<BR>void cancel();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations control when adjustment changes take effect.
+ Operations to change the settings between a call to begin and
+ commit will be treated as a single transaction in that
+ the adjustment will be locked and no updates will be sent
+ to any observers until the call to commit.  The cancel
+ operations stops the transaction and returns the settings
+ to their value before the previous call to begin.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void scroll_forward();<BR>void scroll_backward();<BR>void page_forward();<BR>void page_backward();<BR>void scroll_begin();<BR>void scroll_end();<BR></FONT></B>
+</TD></TR></TABLE>
+ Request that the adjustment change its current lower
+ position setting.  The scroll operations ask to move
+ the position by the amount determined by the small_scroll
+ attribute; the page operations by the large_scroll amount.
+ The forward operations add the amount; the backward operations
+ subtract the amount.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void scroll_to(in Coord lower);<BR></FONT></B>
+</TD></TR></TABLE>
+ Request that the adjustment change its lower position
+ to the given coordinate.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void scroll_by(in Coord delta);<BR></FONT></B>
+</TD></TR></TABLE>
+ Request that the adjustment change its lower position
+ to add the given delta (which may be negative).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void scale_to(in Coord length);<BR></FONT></B>
+</TD></TR></TABLE>
+ Request that the adjustment change its current length,
+ effectively scaling the adjustment so that it covers
+ more or less of the total segment.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void constrain(inout Coord c);<BR></FONT></B>
+</TD></TR></TABLE>
+ Modify the given coordinate if necessary to keep
+ it within the adjustment's settings.  If the given
+ value is below the adjustment's lower bound, then
+ set it to the lower bound.  If the given value
+ plus the current length is large than the adjustment's
+ upper bound, then set it to be the upper bound minus
+ the current length.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>struct Scrollable {<BR>&nbsp;&nbsp;</FONT></B>
+</TD></TR></TABLE>
+ A scrollable specifies a glyph and an adjustment for that glyph
+ along a single dimension.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph glyph_ptr;<BR>Adjustment adjustment_ptr;<BR></FONT></B>
+</TD></TR></TABLE>
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

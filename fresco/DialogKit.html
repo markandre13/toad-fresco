@@ -1,0 +1,105 @@
+<HTML>
+	<HEAD>
+		<TITLE>
+			FRESCO > DialogKit
+		</TITLE>
+	</HEAD>
+	<BODY BGCOLOR=#FFD080>
+	&nbsp;<BR>
+	<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0>
+		<TR>
+			<TD>
+				<H1>DialogKit</H1>
+			</TD>
+			<TD ALIGN=RIGHT>
+				[<A HREF="index.html">index</A>]
+			</TD>
+		</TR>
+	</TABLE>
+	<HR>
+	Kit zum Erstellen von Dialogen.
+	
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;MessageDialog error(CharString title, Glyph message)
+	</FONT></B></TD></TR><TR><TD>
+		Fehlerdialog mit OK, CANCEL und HELP Buttons.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;MessageDialog information(CharString title, Glyph message)
+	</FONT></B></TD></TR><TR><TD>
+		Informationsdialog mit OK und HELP Buttons.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;MessageDialog question(CharString title, Glyph message)
+	</FONT></B></TD></TR><TR><TD>
+		Fragedialog mit YES, NO, CANCEL und HELP Buttons.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;MessageDialog warning(CharString title, Glyph message)
+	</FONT></B></TD></TR><TR><TD>
+		Warnungsdialog mit OK, CANCEL und HELP Buttons.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;MessageDialog working(CharString title, Glyph message)
+	</FONT></B></TD></TR><TR><TD>
+	  Ein Arbeitsmeldungsdialog mit STOP Button.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;ChooserDialog file_chooser(string initial_directory)<BR>
+		&nbsp;ChooserDialog name_chooser(CosNaming::NamingContext initial_context)
+	</FONT></B></TD></TR><TR><TD>
+		Gibt einen Auswahldialog für Dateien oder Namen zurück.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;PromptDialog prompt(CharString title, Glyph message, FieldSubject subj)
+	</FONT></B></TD></TR><TR><TD>
+		Besitzt OK, APPLY, RESET, CANCEL und HELP Buttons.<BR>
+		<VAR>subj</VAR> darf <CODE>nil<CODE> sein.
+	</TD></TR></TABLE>
+
+	<A NAME="example"><H4>Beispiel:</H4></A>
+<IMG SRC="images/dialogkit_question.gif">
+<PRE>
+<FONT COLOR=#008000>// see how easy it is to create a simple message box ;)</FONT>
+
+void someAction()
+{
+    FigureKit *figurekit = KitFactory::instance()->figures();
+    DialogKit *dialogkit = KitFactory::instance()->dialogs();
+
+    MessageDialog_var dlg = dialogkit->question(
+        CharString_var(FrescoLib::string_ref(
+            "Titletext"
+        )), 
+        Glyph_var(figurekit->label(
+            FigureStyle_var(figurekit->default_style()),
+            CharString_var(FrescoLib::string_ref(
+                "Dialogtext"
+            ))
+        ))
+    );
+    dlg->hide_choice(MessageDialog::help);
+
+    dlg->post_modal(
+        Window_var(
+            Screen_var(
+                Display_var(
+                    FrescoLib::current_context()->display_ptr()
+                )->default_screen()
+            )->top_level(
+                Viewer_var(new BgViewer()),
+                mainwindow <FONT COLOR=#008000>// global Window_var for the application window</FONT>
+            )
+        )
+    );
+}
+
+</PRE>
+	</BODY>
+</HTML>

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::DocIterator</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> Navigation navigation interface for some portion of a document.
+ some kind of way.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void next();<BR>void prev();<BR>boolean valid();<BR>boolean is_first();<BR>boolean is_last();<BR>void reset_to_first();<BR>void reset_to_last();<BR></FONT></B>
+</TD></TR></TABLE>
+ next and prev move the iterator forward and backward in some
+ way that is determined by the implementation.  A document might
+ hand out a number of different kinds of iterators that
+ allow the iterator to be positioned in certain places while
+ ignoring others.  valid() determines if the iterator is still
+ positioned within its range of responsibility.  is_first() and
+ is_last() determine if the iterator is positioned over the
+ begin/end of the iterators range of responsibility.  reset_to_first()
+ and reset_to_last() will position the iterator at the begin/end
+ of the range of responsibility.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Subject get_subject();<BR></FONT></B>
+</TD></TR></TABLE>
+ get_subject returns the document associated with the iterator.  
+ get_element returns the document element that the iterator is currently 
+ positioned to.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Range span;<BR></FONT></B>
+</TD></TR></TABLE>
+ portion of the document that the iterator is responsible for.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

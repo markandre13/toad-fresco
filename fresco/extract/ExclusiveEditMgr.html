@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;ExclusiveEditMgr</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/applic.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="EditMgr.html">EditMgr</A><P> An ExclusiveEditMgr coordinates edit access among a set of 
+ subjects. When an "edit transaction" ends
+ on a given subject, the EditMgr notifies all the other
+ subjects in the set allowing them to "equalize" their state
+ with the modified subject.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Tag append_subject(in FrescoObject subject);<BR>void remove_subject(in Tag t);<BR>FrescoObject subject(in Tag t);<BR>Tag nil_subject();<BR>Tag first_subject();<BR>Tag next_subject();<BR>unsigned long subject_count();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations allow adding and removing subjects as
+ well as visiting and accessing subjects. 
+ The nil_subject() operation returns the tag used to
+ represent a nil subject. This is returned by next_subject()
+ when there are no more subjects to visit and first_subject()
+ when the list is empty. It can also be passed to begin_edit()
+ and begin_edit_wait in order to begin a transaction.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean begin_edit(in Tag subject);<BR>void begin_edit_wait(in Tag subject);<BR>void abort_edit();<BR>void end_edit();<BR></FONT></B>
+</TD></TR></TABLE>
+ Begin, end, or abort an edit transaction. The subject
+ passed to begin_edit is considered the "current" subject
+ until the end of the transaction. Only a single transaction
+ can occur at any given time. The value of the nil_subject()
+ operation may be passed as the subject tag. 
+ 
+ The begin_edit operation returns false if a transaction is
+ already taking place. The end_edit and abort_edit operations 
+ both notify observers of the ExclusiveEditMgr, so an attached
+ observer can attempt another begin_edit. (Attach the observer
+ before the initial call to begin_edit in order to ensure
+ the notification is not missed.)
+ 
+ The begin_edit_wait operation blocks if a transaction
+ is already taking place and returns after the transaction
+ is acquired. 
+ 
+ Whenever a Command is externally applied to the 
+ current subject during a transaction, that command
+ should be logged using log_command. At the transaction's end,
+ the list of commands logged during the transaction are applied
+ to each remaining subject. Again, the value of nil_subject()
+ may be used to set the current subject when beginning a
+ transaction. In this case any logged commands will be applied
+ to all subjects. 
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

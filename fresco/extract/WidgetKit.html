@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;WidgetKit</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/widgets.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> WidgetKit provides operations for creating common types
+ of buttons, and scrolling objects, as well as styled
+ frames and labels.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph inset_frame(in Glyph g);<BR>Glyph filled_inset_frame(in Glyph g);<BR>Glyph outset_frame(in Glyph g);<BR>Glyph filled_outset_frame(in Glyph g);<BR>Glyph bright_inset_frame(in Glyph g);<BR>Glyph filled_bright_inset_frame(in Glyph g);<BR>Glyph hilite_frame(in Glyph g, in Telltale t, in Coord thickness,in float xalign, in float yalign);<BR>Glyph filled_hilite_frame(in Glyph g, in Telltale t, in Coord thickness,in float xalign, in float yalign);<BR>Glyph push_button_frame(in Glyph g, in Telltale t, in Coord thickness,in float xalign, in float yalign);<BR>Glyph filled_push_button_frame(in Glyph g, in Telltale t, in Coord thickness,in float xalign, in float yalign);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations provide a beveled frame around the given glyph.
+ The inset_frame operation uses dark shading in the upper left
+ and light shading in the lower right to make the contents
+ of the frame appear to be recessed.  The outset_frame operation
+ reverses the shading to make the contents appear to project
+ out of the frame.  The bright_inset_frame operation is
+ like inset_frame but uses a brighter background color and
+ is a thinner frame.  The hilite_frame operation dynamically
+ selects the type of frame based on the telltale state.  The 
+ push_button_frame creates a similar telltale driven frame
+ that looks like the beveled frame of a push button.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph indicator(in Telltale t);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a glyph that changes its color depending on the telltale
+ state
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph filler();<BR>Glyph color_filler(in Color c);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a glyph that simply fills its given allocation
+ with either the default widget background (light gray)
+ for the filler operation or a specific color for
+ the color_filler operation.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph hseparator();<BR>Glyph vseparator();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations provide inset separators to go between glyphs.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FieldEditor field_editor(in FieldSubject subj, in long width, in long maximum);<BR>FieldEditor managed_field_editor(in ExclusiveEditMgr mgr,in Tag subj, in FieldEditorData fe_data);<BR></FONT></B>
+</TD></TR></TABLE>
+ The field_editor operation returns a field editor used
+ to input and edit a string of text. The subj argument
+ is a FieldSubject which will be notified when the field
+ editor commits changes. (By default, changes are committed when
+ the user presses the Enter or Esc keys.) If the subj argument
+ is nil, then then a subject will be created for it.
+ The width argument, specified in characters, determines
+ the natural size of the text field. 
+ The maximum argument, also specified in characters,
+ limits the number of characters the field editor will allow
+ during input. If maximum is set to zero, then the user is
+ allowed to input any number of characters.
+.
+ The managed_field_editor returns a field_editor edited
+ under the control of a exclusive edit manager. 
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FieldSubject field_subject();<BR>ExclusiveEditMgr field_edit_manager();<BR> </FONT></B>
+</TD></TR></TABLE>
+ The field_subject operation returns a FieldSubject
+ use with a field editor. This CharString will notify
+ its observers whenever the field editor commits changes.
+ 
+ The field_edit_manager operation returns an exclusive
+ edit manager for editing FieldSubjects.
+ 
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Inset field_inset(in FieldSubject subj, in FieldEditorData vdata,in ExclusiveEditMgr mgr);<BR>FieldEditorData field_editor_data(in long width, in long maximum);<BR>ViewerCreator field_editor_creator();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations return an inset for field data, as well
+ as editor data and editor creator for instantiting a FieldEditor
+ for the inset.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Telltale telltale_group();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a telltale object suitable for use with radio buttons
+ or other groups of mutually-exclusive choice objects.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>ExclusiveEditMgr exclusive_edit_mgr(in CmdExecutor c);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return exclusive edit manager which uses the given
+ command executor. 
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Button push_button(in Glyph g, in Action a);<BR>Button default_button(in Glyph g, in Action a);<BR>Button palette_button(in Glyph g, in Action a);<BR>Button transparent_button(in Glyph g, in Action a);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a button that frames the given glyph and
+ executes the given action when clicked.  A default button
+ adds some decoration to indicate to the user that
+ it is the common choice.  Unlike a push or default button,
+ a palette button can be chosen.  A transparent button
+ is like a push button without any of the decoration.
+ a palette button can be chosen.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph checkmark(in Telltale t);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a checkmark which indicates the state of the telltale.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Button check_box(in Glyph g, in Action a);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a check box with the check to the left of the
+ given glyph.  A check box is a toggle button: choosing it
+ when already chosen will cause it to become unchosen.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph radio_flag(in Telltale t);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a radio flag which indicates the state of the telltale.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Button radio_button(in Glyph g, in Action a, in Telltale group);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a radio button with the given glyph to the right
+ of the flag that indicates whether the button is chosen.
+ A radio button has a telltale group so that only one button
+ in a group will be chosen at any given time.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Adjustment bounded_float(in float lower, in float upper, in float initial);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return an adjustment for a floating point value
+ with given bounds and initial value.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Viewer slider(in Axis a, in Adjustment adj);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a slider displayed along the given axis that
+ modifies the given adjustment.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Viewer scroll_bar(in Axis a, in Adjustment adj);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a scroll bar displayed along the given axis that
+ modifies the given adjustment.  A scroll bar is just a slider
+ with movers on either side that adjust in fixed increments.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Viewer panner(in Adjustment x, in Adjustment y);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a panner that is displayed as a rectangular thumb
+ in a two-dimensional area.  The thumb's X position adjusts
+ the first adjustment parameter; the thumb's y position
+ adjusts the second parameter.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Button up_mover(in Adjustment a);<BR>Button down_mover(in Adjustment a);<BR>Button left_mover(in Adjustment a);<BR>Button right_mover(in Adjustment a);<BR></FONT></B>
+</TD></TR></TABLE>
+ Movers are buttons that modify an adjustment by a fixed
+ amount.  The buttons show an arrow pointing up, down, left,
+ or right.  The right and down movers increment the
+ adjustment's current setting.  The left and up movers
+ decrement the setting.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Viewer viewer_group(in Glyph g);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a viewer with the given glyph as its body.
+ The viewer may contain other viewers and will
+ interpret tab to move focus in child order.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>DialogKit dialog_kit();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return an object reference for a kit that builds dialogs.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MenuKit menu_kit();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return an object reference for a kit that builds menus.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void draw_beveled_rectangle(in Painter p, in Coord thickness,in Color light, in Color medium, in Color dark,in Coord left, in Coord bottom, in Coord right, in Coord top);<BR></FONT></B>
+</TD></TR></TABLE>
+ Draw a beveled rectangle with the given thickness,
+ upper-left color (light), middle color (medium), and
+ lower-right color (dark).  If medium is nil, then
+ no drawing is done on the interior of the rectangle.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

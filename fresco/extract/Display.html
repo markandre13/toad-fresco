@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Display</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/display.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> A display is the unit of window system control; typically it
+ consists of a single screen, keyboard, and a mouse or other
+ pointing device.  A display also defines a single stream
+ of events, possibly from multiple devices.  The name "display"
+ is therefore a bit misleading.  The display object does not represent
+ a physical device where pixels are presented (that is what
+ a screen represents), but rather is a particular service
+ that supports both presentation and interaction.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef long ScreenNumber;<BR></FONT></B>
+</TD></TR></TABLE>
+ The ScreenNumber type defines the representation of
+ screen numbers.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef long CursorPattern[16];<BR></FONT></B>
+</TD></TR></TABLE>
+ This type defines the data that describes a 16x16 bitmap
+ for a cursor mask.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>StyleContext style();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the style associated with a display.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>DrawingKit drawing_kit();<BR></FONT></B>
+</TD></TR></TABLE>
+ In addition to screen access and update, a display
+ provides a name service for drawing objects such as
+ colors and fonts.  The drawing_kit operation on a display
+ returns a drawing kit that provides this service.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Screen display_screen(in Display::ScreenNumber n);<BR>Display::ScreenNumber number_of_screens();<BR>Screen default_screen();<BR></FONT></B>
+</TD></TR></TABLE>
+ For displays with multiple screens, the screen
+ operation returns the screen object corresponding
+ to the given index.  The number_of_screens returns
+ the total number of screens the display has;
+ a screen number should be between zero and
+ the number of screens minus one.  The default_screen
+ operation returns the default screen as defined
+ by the display.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Cursor cursor_from_data(in short x, in short y, in CursorPattern pat, in CursorPattern mask);<BR>Cursor cursor_from_bitmap(in Raster b, in Raster mask);<BR>Cursor cursor_from_font(in Font f, in long pat, in long mask);<BR>Cursor cursor_from_index(in long n);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations return cursors that can be used
+ on windows on the display.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void run(in boolean b);<BR>boolean running();<BR></FONT></B>
+</TD></TR></TABLE>
+ Given a value of true as its parameter, the run operation
+ executes a main loop that reads and dispatches input events,
+ terminating when the run operation is called with a value
+ of false.  The run operation is also responsible
+ for handling screen update, though redisplay will
+ typically be handled by a separate thread.  The running
+ operation returns the current state of the loop.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void run_one_event();<BR></FONT></B>
+</TD></TR></TABLE>
+ Wait for one input event, dispatch it, and then return.
+ This operation allows widgets effectively to grab
+ control of input events within the context of own
+ execution.  For example, one might wish to post a dialog and
+ wait for the user to dismiss it to determine a return value.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Tag add_filter(in EventFilter f);<BR>Tag add_general_filter(in EventFilter f);<BR>void remove_filter(in Tag add_tag);<BR></FONT></B>
+</TD></TR></TABLE>
+ The add_filter operation requests that all user events
+ be passed to the filter before processing them further.
+ The add_general_filter operation makes the same request
+ for all events, including window maintenance events.
+ If the filter's handle operation returns true,
+ then no other processing will occur.  Otherwise,
+ the event will be handled as if the filter
+ were not present.  If several filters are defined,
+ they will be queried in the reverse order in which
+ they are defined.  To stop filtering, the tag returned
+ by add_filter or add_general_filter should be passed
+ to the remove_filter operation.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>string keysym_to_string(in KeySym k);<BR>KeySym string_to_keysym(in string s);<BR></FONT></B>
+</TD></TR></TABLE>
+ Convert a string to or from a keysym.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void need_repair(in Window w);<BR></FONT></B>
+</TD></TR></TABLE>
+ Notify the display that the given window has been damaged
+ and should be repaired the next time the display is repaired.
+ If called during event processing, the need_repair
+ operation will put the window on a list to be repaired
+ before blocking for input.  Otherwise, if need_repair
+ is called asynchronously while the input thread is blocked,
+ then the display will be repaired immediately.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void repair();<BR></FONT></B>
+</TD></TR></TABLE>
+ Repair all damaged windows on all screens on the display.
+ This operation usually need not be called directly
+ from application objects.  Incurring or extending damage
+ is normally sufficient to cause a repair to happen
+ in the near future.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void flush();<BR>void flush_and_wait();<BR></FONT></B>
+</TD></TR></TABLE>
+ Repair all damaged windows on the display and ensure that
+ any pending requests have been sent to the window system.
+ The flush_and_wait operation additionally waits for
+ an acknowledgment from the window system indicating
+ that the request have been processed.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void ring_bell(in float pct_loudness);<BR></FONT></B>
+</TD></TR></TABLE>
+ Sound the system bell.  The parameter specifies the volume
+ as a fraction of the possible loudness.  For example,
+ a value of 0.75 specifies a volume that is three-quarters
+ as loud as possible.  If the value is not positive, no sound
+ is made.  If the parameter value is greater than or equal
+ to one, then the volume is as loud as possible.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void close();<BR></FONT></B>
+</TD></TR></TABLE>
+ Terminate the connection to the display.  Once a connection
+ is closed, it cannot be re-opened.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> boolean auto_repeat;<BR></FONT></B>
+</TD></TR></TABLE>
+ If the value of this attribute is true, then the display's
+ keyboard will auto-repeat keys that are depressed.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> float key_click_volume;<BR></FONT></B>
+</TD></TR></TABLE>
+ The key click volume is specified as a fraction of the
+ possible loudness.  For example, a value of 0.75 specifies
+ a volume that is three-quarters as loud as is possible.
+ If the value is not positive, no sound will be made.
+ If the value is greater than or equal to one, then
+ the volume will be as loud as possible.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> float pointer_acceleration;<BR>attribute long pointer_threshold;<BR></FONT></B>
+</TD></TR></TABLE>
+ These two attributes control the pointer responsiveness.
+ Pointer movement will be multiplied by the acceleration
+ when it moves more than the number of pixels specified
+ by the threshold.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> float pointer_double_click_threshold;<BR></FONT></B>
+</TD></TR></TABLE>
+ This attribute holds time difference, in seconds,
+ between two clicks below which the second click
+ may be interpreted as a double click event.
+ The default value is 250 milliseconds.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean software_error(in string s);<BR></FONT></B>
+</TD></TR></TABLE>
+ This function can be used to post a software error message and
+ returns true if the developer indicates that they would like to
+ try to continue execution.  This function should only be used
+ while developing software.  It should NOT be used for any
+ expected errors that could occur in the final version
+ of the software.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef sequence<Window> WindowSeq;<BR>WindowSeq windows();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return all the Fresco windows associated with this display.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

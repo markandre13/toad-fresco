@@ -1,0 +1,206 @@
+<HTML>
+	<HEAD>
+		<TITLE>
+			FRESCO
+		</TITLE>
+	</HEAD>
+	<BODY BGCOLOR=#FFD080>
+	<H1>FDRAW</H1>
+	<PRE>
+int main(int argc, char** argv) {
+  <FONT COLOR=#008000>// init Fresco and CORBA</FONT>
+  FrescoContext* fc = FrescoLib::init_default_context(
+    "FDraw", argc, argv, options
+  );
+  
+  // ...
+  
+  <FONT COLOR=#008000>// create FDraw object and start application</FONT>
+  Viewer_var fdraw = new FDraw;
+    
+  Display_var display = fc->display_ptr();
+  Screen_var screen = display->default_screen();
+  Window_var window = screen->application(fdraw);
+  Viewer_var(window->main_viewer())->request_focus(fdraw, false);
+  window->map();
+  display->run(true);
+                            
+  return 0;
+}
+
+<HR>
+<H2>FDraw</H2>
+
+class FDraw : public Editor {
+{
+  <B>FDraw::FDraw(XfGlyph::Requisition* req)</B>
+  {
+    <FONT COLOR=#008000>// get pointers some of the factories (KitFactory stores'em
+    // in static variables. A man sane in mind should do the same
+    // thing directly, saves a hundered lines of code like these!)</FONT>
+    FigureKit* figures = KitFactory::instance()->figures();
+    LayoutKit* layouts = KitFactory::instance()->layouts();
+    WidgetKit* widgets = KitFactory::instance()->widgets();
+    MenuKit* menus = KitFactory::instance()->menus();
+
+    running_ = false;
+
+    <FONT COLOR=#008000>// create the base objects for the menubar
+    // (more mind splicing code...)</FONT>
+    run_menu_root_ = menus->submenu_item();
+    run_menu_bar_ = menus->menu_bar(run_menu_root_);
+    run_menu_manager_ = menus->menu_manager(run_menu_root_);
+    run_menu_manager_->root_menu(run_menu_bar_);
+
+    <FONT COLOR=#008000>// set the viewer (what???) i'll find out soon</FONT>
+    FigViewer_var fv = new FDrawViewer(this, &running_);
+    set_viewer(fv);
+
+    <FONT COLOR=#008000>// without a call to 'body' the whole application ends up in
+    // a segmentation fault! And: the call to 'interior()' does the 
+    // main initialisation of this window</FONT>
+    body(Glyph_var(layouts->back(
+      Glyph_var(<A HREF="#interior">interior()</A>),
+      Glyph_var(widgets->filler())
+    )));
+
+    // provide factories for the Externalization service
+    static Boolean bound = false;
+    if (bound == false) {
+      streaming_bind(FDrawManip);
+      streaming_bind(Separator);
+      streaming_bind(SeparatorManip);
+      bound = true;
+    }
+  }
+
+  <A NAME="interior">
+  <B>Glyph_ptr interior()</B>
+  {
+    <FONT COLOR=#008000>// another attempt to waste time...</FONT>
+    LayoutKit* layouts = KitFactory::instance()->layouts();
+    WidgetKit* widgets = KitFactory::instance()->widgets();
+    MenuKit* menus = KitFactory::instance()->menus();
+
+    <FONT COLOR=#008000>// a 'deck' displays only one of its children at a time</FONT>
+    deck_ = layouts->deck();
+
+    <FONT COLOR=#008000>// now we create 2 children and put'em into the deck</FONT>
+    /* bottom layer: run mode */
+    {
+      <FONT COLOR=#008000>// modify the menubar</FONT>
+      MenuItem_var menu = menu_item_string("File", 'F');
+      menu->append(
+        MenuItem_var(button_item_string(
+        "Edit", 'E', new RunEditAction(this, false)
+      ))
+      );
+      run_menu_root_->append(menu);
+      run_menu_root_->append(MenuItem_var(menus->separator_item()));
+      run_menu_bar_->need_resize();  // a hack to get run_menu_bar to update
+
+      <FONT COLOR=#008000>// now we put the menubar and the viewer into the first child</FONT>
+      Glyph_ptr run = layouts->vbox();
+      run->append(
+        Glyph_var(layouts->halign(run_menu_bar_, Coord(0.5)))
+      );
+      run->append(viewer_);
+      card_[1] = run;
+    }
+
+    /* top layer: edit mode */
+    {
+      <FONT COLOR=#008000>// no, there seems to be no reason why we call these methods right here:</FONT>
+      commands();     <FONT COLOR=#008000>// create the menubar</FONT>
+      <A HREF="#tools">tools()</A>;        <FONT COLOR=#008000>// create the toolbar</FONT>
+
+      <FONT COLOR=#008000>// create glyph for the edit mode</FONT>
+     <IMG SRC="fdraw.gif"><BR>
+      Glyph_var toolbox = layouts->vbox();
+      toolbox->append(tool_bar_);
+      Glyph_var glue = layouts->vfil();
+      toolbox->append(glue);
+
+      Glyph_var hbox = layouts->hbox();
+      hbox->append(
+        Glyph_var(layouts->valign(
+           Glyph_var(widgets->filled_outset_frame(toolbox)), Coord(0.5)
+        ))
+      );
+      hbox->append(viewer_);
+
+      Glyph_ptr edit = layouts->vbox();
+      edit->append(menu_bar_);
+      edit->append(hbox);
+
+      card_[0] = edit;
+    }
+
+    deck_->append(card_[0]);
+    cur_card_ = 0;
+    return widgets->inset_frame(deck_);
+  }
+  
+  <A NAME="tools">
+  <B>void tools()</B>
+  {
+    <FONT COLOR=#008000>// another attempt to waste time...</FONT>
+    LayoutKit_ptr layouts = KitFactory::instance()->layouts();
+    MenuKit_ptr menus = KitFactory::instance()->menus();
+    WidgetKit_ptr widgets = KitFactory::instance()->widgets();
+    FigureKit_ptr figures = KitFactory::instance()->figures();
+    FigureStyle_var fs = figures->default_style();
+
+    <FONT COLOR=#008000>// ...
+    // create an object for line manipulation</FONT>
+    Manipulator_var line_manip = new <A HREF="LineManip.html">LineManip</A>(
+      FigLine_var(figures->line(fs, Coord(0), Coord(0), Coord(0), Coord(0)))
+    );
+    <FONT COLOR=#008000>// ...</FONT>
+    Tool_var line_tool = new CreateTool(line_manip);
+    <FONT COLOR=#008000>// ...</FONT>
+    <FONT COLOR=#008000>// these variables are defined and initialized in the Editor class:
+    //   RootTelltale *tool_root_tt_ = new RootTelltale;
+    //   MenuItem* tool_root_        = menus->submenu_item();
+    //   ToolBar* tool_bar_ = menus->tool_bar(tool_root_);
+    //   tool_manager_ = menus->menu_manager(tool_root_);
+    //   tool_manager_->root_menu(tool_bar_);</FONT>
+    MenuItem_var line_menu = tool_item(
+        "Line",
+        Glyph_var(figures->line(fs, Coord(0), Coord(0), Coord(15), Coord(15))),
+        viewer_, line_tool, tool_root_tt_
+    );
+    <FONT COLOR=#008000>// ...</FONT>
+    tool_root_->append(line_menu);
+    <FONT COLOR=#008000>// ...</FONT>
+    tool_root_->default_item(select_menu);
+    tool_root_tt_->default_item(select_menu);
+
+    tool_bar_->need_resize();  // a hack to get the tool_bar to update
+  }
+};
+
+<HR>
+<H2>FDrawViewer</H2>
+class FDrawViewer : ixx_extends(FigViewer)
+{
+  FDrawViewer(Editor *ed, Boolean* running)
+    :FigViewer(ed)
+  {
+    <FONT COLOR=#008000>// the manual says: "a group can contain one or more figures"</FONT>
+    Glyph_var group = KitFactory::instance()->figures()->group();
+    Manipulator_var manip = new <A HREF="PolyManip.html">PolyManip</A>;
+    manip->body(group);
+
+    narrowgt_ = nil; 
+    offsets_ = nil;   
+    glyphs_ = nil;
+    running_ = running;
+
+    body(manip);
+    append_viewer(manip);
+  }
+}
+	</PRE>
+	</BODY>
+</HTML>

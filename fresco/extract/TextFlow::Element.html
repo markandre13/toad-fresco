@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::Element</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> Structural element of the document.  A completely unstructured 
+ document will simply have one element.  An element is meant to
+ be somewhat like an SGML element.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Tag register_interest(in Observer view);<BR>void unregister_interest(in Tag t);<BR></FONT></B>
+</TD></TR></TABLE>
+ register_interest allows an observer to arrange to be notified
+ of changes that occur within its range of interest.  
+ unregister_interest allows the observer to discontinue 
+ receiving notifications.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Element parent();<BR></FONT></B>
+</TD></TR></TABLE>
+ owning parent.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>CharString kind_name();<BR></FONT></B>
+</TD></TR></TABLE>
+ The name of the element type.  
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Style style;<BR></FONT></B>
+</TD></TR></TABLE>
+ attributes associated with this element.  
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean equal(in Element elem);<BR></FONT></B>
+</TD></TR></TABLE>
+ determine if two elements represent the same place in the
+ the element structure.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean is_leaf();<BR></FONT></B>
+</TD></TR></TABLE>
+ indicates if this element is a leaf in the tree structure.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> FrescoObject elem_data;<BR></FONT></B>
+</TD></TR></TABLE>
+ The data associated with the element.  The data should
+ be narrowable to an interface that is appropriate for the
+ the type of element.  
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Range span();<BR></FONT></B>
+</TD></TR></TABLE>
+ range returns the document range that this element bounds.  
+ position returns the document position for some offset into 
+ the element.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Subject subject();<BR></FONT></B>
+</TD></TR></TABLE>
+ document this element is a member of.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Element position_to_element(in Position pos);<BR></FONT></B>
+</TD></TR></TABLE>
+ gives the child element that spans the given 
+ position, if any elements span that position.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

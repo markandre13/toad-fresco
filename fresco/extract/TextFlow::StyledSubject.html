@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::StyledSubject</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="Subject.html">Subject</A><P> interface for a styled document.  The StyledSubject implements a 
+ simple set of policies that maintain various element structures 
+ over the document that resemble the Rich Text Format (RTF)
+ Specification 
+.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean insert_glyph(in Position pos, in Glyph g);<BR>boolean append_glyph(in Glyph g);<BR>boolean prepend_glyph(in Glyph g);<BR></FONT></B>
+</TD></TR></TABLE>
+ adds the given glyph at the specified position
+ in the document.  
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Style add_style(in CharString nm, in Style parent);<BR>boolean remove_style(in CharString nm);<BR>Style named_style(in CharString nm);<BR>Style current_style(in Position pos);<BR>boolean change_paragraphs(in Range rng, in CharString sty_name);<BR>boolean change_characters(in Range rng, in CharString sty_name);<BR>void change_font_family(in Range rng, in CharString family);<BR>void change_font_size(in Range rng, in Coord size);<BR>void change_bold(in Range rng, in boolean bold);<BR>void change_italic(in Range rng, in boolean italic);<BR>void change_underline(in Range rng, in boolean underline);<BR>void change_foreground(in Range rng, in CharString color);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations allow one to setup a range so that any
+ attribute changes will override the default.  This basically
+ sets up a range to enable instance-specific attributes 
+ that will override the class attributes.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Element paragraph_style_element(in Position pos);<BR>Element character_style_element(in Position pos);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations give access to the elements used to 
+ represent paragraphs and character style runs.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

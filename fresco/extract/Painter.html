@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Painter</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/drawing.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> The painter interface provides a very simple set of operations
+ to perform resolution-independent drawing.  The intent is
+ to provide enough functionality to implement common
+ two-dimensional text and structured graphics objects,
+ but the operations should be considered neither
+ complete nor particularly convenient.  Some glyphs or viewers
+ will need to use more sophisticated graphics libraries,
+ such as for 3D graphics or image blending.  It is important
+ that a painter implementation be able to use such
+ graphics libraries directly and thus allow mixing of
+ painter-based objects and objects that make direct calls
+ to another graphics library.
+.
+ A painter object represents the state necessary to perform
+ drawing.  If an application wishes to have multiple threads
+ drawing at the same time, then each thread should have
+ a separate painter.  Unlike X, where a graphics context may be
+ used in different windows, a painter is bound to one and
+ only one output area (either a portion of the screen or
+ a device for printing).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Coord to_coord(in PixelCoord p, in Axis a);<BR>PixelCoord to_pixels(in Coord c, in Axis a);<BR>Coord to_pixels_coord(in Coord c, in Axis a);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations convert between pixels and coordinates
+ on the painter's screen or a printer page.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void begin_path();<BR>void move_to(in Coord x, in Coord y);<BR>void line_to(in Coord x, in Coord y);<BR>void curve_to(in Coord x, in Coord y, in Coord x1, in Coord y1,in Coord x2, in Coord y2);<BR>void close_path();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations define a path for drawing as in PostScript.
+ The move_to operation sets the current position of the
+ path, line_to extends the path to a new position along
+ a straight line, and curve_to extends the path along
+ a Bezier curve.
+.
+ As an example of the drawing operations, the following
+ code draws a filled triangle with corners (x1,y1), (x2,y2) and
+ (x3,y3):
+..    painter->begin_path();
+..    painter->move_to(x1, y1);
+..    painter->line_to(x2, y2);
+..    painter->line_to(x3, y3);
+..    painter->close_path();
+..    painter->fill();
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Color current_lighting;<BR></FONT></B>
+</TD></TR></TABLE>
+ The lighting attribute adjusts the current color to simulate
+ a light source
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Brush current_brush;<BR>attribute Color current_color;<BR>attribute Font current_font;<BR>attribute Pattern current_pattern;<BR></FONT></B>
+</TD></TR></TABLE>
+ These attributes are used by the drawing operations.
+ It is the responsibility of objects that perform
+ drawing to set these attributes explicitly, or save and
+ restore them if desired.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void stroke();<BR>void fill();<BR></FONT></B>
+</TD></TR></TABLE>
+ The stroke operation draws the current color along
+ the current path using the current brush.  The fill operation
+ draws the current color inside the current path.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void line(in Coord x0, in Coord y0, in Coord x1, in Coord y1);<BR>void rect(in Coord x0, in Coord y0, in Coord x1, in Coord y1);<BR>void fill_rect(in Coord x0, in Coord y0, in Coord x1, in Coord y1);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations are short-hand for drawing common paths.
+ The line and rect operations stroke a line segment and
+ rectangle, respectively.  The fill_rect operation fills
+ a rectangle path.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void character(in CharCode ch, in Coord width, in Coord x, in Coord y);<BR>void character_charstring(in CharString s, in Coord x, in Coord y);<BR>void character_string(in string s, in Coord x, in Coord y);<BR></FONT></B>
+</TD></TR></TABLE>
+ The character operation draws the specified character from
+ the current font in the current color, aligning the origin of
+ the character with the given position.
+ The width parameter is merely a hint as to the width of the given
+ character in the current font.  A painter may use the hint
+ to buffer several characters in a single drawing request,
+ doing so without explicitly computing the character's width.
+ The character_charstring and character_string operations are
+ short-hand for repeatedly using the character operation for
+ each character while each time incrementing the x coordinate
+ by the character width.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void image(in Raster r, in Coord x, in Coord y);<BR>void stencil(in Raster r, in Coord x, in Coord y);<BR></FONT></B>
+</TD></TR></TABLE>
+ The image operation draws the given raster with its origin
+ at the given position.  The stencil operation draws
+ the current color through the mask defined by the raster,
+ aligning its origin with the given position.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Transform current_matrix;<BR>void push_matrix();<BR>void pop_matrix();<BR>void premultiply(in Transform t);<BR></FONT></B>
+</TD></TR></TABLE>
+ The current_matrix attribute defines the current transformation
+ matrix applied to coordinates when drawing.  The
+ push_matrix and pop_matrix operations can be used
+ to save and restore the matrix.  The premultiply operation
+ modifies the current matrix to contain the result of
+ multiplying it by the given transformation matrix.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void clip();<BR>void clip_rect(in Coord x0, in Coord y0, in Coord x1, in Coord y1);<BR>void push_clipping();<BR>void pop_clipping();<BR></FONT></B>
+</TD></TR></TABLE>
+ The clip operation restricts subsequent drawing to be
+ inside the current path.  The clip_rect operation restricts
+ drawing within the given rectangle.  Clipping is cumulative;
+ that is, two consecutive clip operations will result
+ in a clipping region that is the intersection of the
+ paths specified by the two requests.  The push_clipping and
+ pop_clipping operations can be used to save and restore
+ the current clipping region.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean is_visible(in Region r);<BR>Region visible();<BR></FONT></B>
+</TD></TR></TABLE>
+ The is_visible operation returns true if any portion
+ of the given region is within the drawing area defined
+ by the clipping region.  The visible operation returns
+ the current clip region.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void comment(in CharString s);<BR></FONT></B>
+</TD></TR></TABLE>
+ This operation may write an annotation in the stream of
+ output commands.  As such, it has no effect on the actual
+ image generated by the output commands.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void page_number(in CharString s);<BR></FONT></B>
+</TD></TR></TABLE>
+ This operation generates page number information where
+ meaningful, such as when generating PostScript.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

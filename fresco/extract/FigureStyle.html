@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;FigureStyle</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/figures.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="StyleContext.html">StyleContext</A><P> A figure style provides a type-checked interface to the
+ predefined figure attributes.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Color background;<BR></FONT></B>
+</TD></TR></TABLE>
+ Figures with a "fill_stroke" mode use the background
+ color for filling.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Brush brush_attr;<BR></FONT></B>
+</TD></TR></TABLE>
+ Figures with a "stroke" or "fill_stroke" mode use
+ the brush to draw the outline of the figure.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Font font_attr;<BR></FONT></B>
+</TD></TR></TABLE>
+ Labels use the font attribute for drawing and computing
+ the bounding box of labels.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Color foreground;<BR></FONT></B>
+</TD></TR></TABLE>
+ Figures with a "fill" mode use the foreground color
+ for filling.  Figures with a "stroke" or
+ "fill_stroke" mode use the foreground color
+ to draw the outline of the figure.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

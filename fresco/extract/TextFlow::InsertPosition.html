@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::InsertPosition</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><P> A place within a document view that represents where
+ things can be inserted into the document.  It gives a 
+ way to navigate through the document view.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> boolean insert_enable;<BR>attribute Position dot;<BR>attribute Position mark;<BR>attribute Element insert_element;<BR></FONT></B>
+</TD></TR></TABLE>
+ insert_enable controls the visibility of the insert marker.
+ dot is the location within the document subject
+ where edit focus is currently positioned. mark can be 
+ used to indicate a selection.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean position_from_pick(in GlyphTraversal t, in Vertex pt);<BR></FONT></B>
+</TD></TR></TABLE>
+ set the insert position from a traversal.  The nearest
+ possible location that will allow an insert position is
+ chosen along the hit line.  The return value indicates
+ if a position was found.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>long forward(in long amount);<BR>long backward(in long amount);<BR>long up(in long amount);<BR>long down(in long amount);<BR></FONT></B>
+</TD></TR></TABLE>
+ navigation functions.  The forward and backward operations
+ will move the insert position forward and backward 
+ respectively by the given amount based on mapped view 
+ locations that can be visited by the insert marker, or as 
+ much as possible if the request can't be fully carried out.
+ The up and down operations move along the minor axis 
+ (typically vertical) while attempting to keep the same 
+ distance along the major formatted axis (typically 
+ horizontal).  The amount actually moved is returned.	
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void end_of_line();<BR>void begin_of_line();<BR></FONT></B>
+</TD></TR></TABLE>
+ move the insert position of the end/begining of the 
+ line it's currently positioned over.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

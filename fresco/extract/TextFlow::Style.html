@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::Style</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="CosNaming::NamingContext.html">CosNaming::NamingContext</A>, <A HREF="CosStream::Streamable.html">CosStream::Streamable</A><P> type-safe interface to character and paragraph formatting
+ styles.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Style copy();<BR>void merge(in Style style);<BR></FONT></B>
+</TD></TR></TABLE>
+ copy() creates a copy of this style.  merge() binds
+ all of the attributes of the given context into this
+ context.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Style parent;<BR></FONT></B>
+</TD></TR></TABLE>
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> CharString font_family;<BR>attribute Coord font_size;<BR>attribute boolean bold;<BR>attribute boolean italic;<BR>attribute boolean underline;<BR>attribute CharString foreground;<BR>readonly attribute Color color;<BR>readonly attribute Font font;<BR></FONT></B>
+</TD></TR></TABLE>
+ result of attribute settings used for the actual 
+ character formatting.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>enum ParaAlign {<BR>&nbsp;&nbsp; left, right, center, justify <BR>};<BR>attribute Coord first_line_indent;<BR>attribute Coord right_indent;<BR>attribute Coord left_indent;<BR>attribute Coord line_spacing;<BR>attribute ParaAlign alignment;<BR>attribute long outline_level;<BR></FONT></B>
+</TD></TR></TABLE>
+ specifies a collection of attributes to be considered
+ for paragraph formatting.
+ result of attribute settings used for the actual
+ paragraph formatting.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

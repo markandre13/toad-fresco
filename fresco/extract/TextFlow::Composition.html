@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::Composition</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="Glyph.html">Glyph</A><P> A Composition tiles its children along an axis, creating breaks
+ as needed when no more children will fit.  Breaks will only be
+ created in glyph locations (ie offsets) that have the Breakable 
+ interface registered at it.  One can use the normal glyph interface
+ and register breakable interfaces with the offsets, or use the
+ alternative interface that takes a breakable when adding glyphs.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void breakable_append(in Glyph g, in Breakable b);<BR>void breakable_prepend(in Glyph g, in Breakable b);<BR></FONT></B>
+</TD></TR></TABLE>
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>long num_lines();<BR>CompositionIter get_iterator(in long line);<BR></FONT></B>
+</TD></TR></TABLE>
+ The function get_iterator gives an iterator positioned over
+ the given line.  The lines are indexed starting at 0.  The 
+ num_lines function gives the total number of lines contained.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Glyph background;<BR></FONT></B>
+</TD></TR></TABLE>
+ The background is rendered after formatting has been updated
+ but before the children of the composition.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

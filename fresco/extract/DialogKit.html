@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;DialogKit</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/dialogs.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> DialogKit provides operations for creating common types of
+ message dialogs.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MessageDialog error(in CharString title, in Glyph message);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create an error message dialog with ok, cancel, and help buttons.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MessageDialog information(in CharString title, in Glyph message);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create an information message dialog with ok, and help buttons.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MessageDialog question(in CharString title, in Glyph message);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a question message dialog with yes, no, cancel, and
+ help buttons.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MessageDialog warning(in CharString title, in Glyph message);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a warning message dialog with ok, cancel, and help buttons.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MessageDialog working(in CharString title, in Glyph message);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a working message dialog with a stop button.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>ChooserDialog file_chooser(in string initial_directory);<BR>ChooserDialog name_chooser(in CosNaming::NamingContext initial_context);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a chooser for files or names, given an initial place
+ from which to start.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>PromptDialog prompt(in CharString title, in Glyph message, in FieldSubject subj);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a prompt dialog with ok, apply, reset, cancel, and help
+ buttons. If subject argument is nil, one will be created.
+ Return the default glyph for the various flavors and choices.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

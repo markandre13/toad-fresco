@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;MenuManager</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/menu.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> A menu manager is the controller for a menu bar.  It examines the
+ events destined for the a menu bars window and activates the
+ menu bar when appropriate.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MenuItem root();<BR></FONT></B>
+</TD></TR></TABLE>
+ The root function returns the root menu item that was used
+ to construct the menu bar.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void root_menu(in Menu m);<BR></FONT></B>
+</TD></TR></TABLE>
+ The root menu to be used when opening menus should be set
+ before opening the menus or handling viewer events.  The
+ menu should have been created using the root menu item.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean handle_viewer_event(in GlyphTraversal t, in Event e);<BR></FONT></B>
+</TD></TR></TABLE>
+ The handle viewer event function deals with key events that
+ open/close menus and with accelerators.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void open_menus(in Window w);<BR>void close_menus();<BR></FONT></B>
+</TD></TR></TABLE>
+ The open menus and close menus functions activate and deactivate menu
+ bar event processing.  The open menus function should be passed the
+ window that contains the menu bar viewer.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Screen filter_screen();<BR></FONT></B>
+</TD></TR></TABLE>
+ The filter_screen function returns the screen of the window
+ that is watched for menu bar events.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Tag add_window(in Window w);<BR>void remove_window(in Tag t);<BR></FONT></B>
+</TD></TR></TABLE>
+ These functions allow events to be passed to the indicated
+ window during menu bar event processing.  They are typically
+ used by pulldown menus created from the menu bar.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void select(in MenuItem item, in boolean flap);<BR>MenuItem selection();<BR>void unselect();<BR></FONT></B>
+</TD></TR></TABLE>
+ The selection functions are used to change or query the
+ current selection.  The flap flag indicates that submenus
+ should be displayed for the selected item.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void activate();<BR></FONT></B>
+</TD></TR></TABLE>
+ The activate function activates the currently selected menu
+ item.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

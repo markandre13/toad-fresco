@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Damage</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/glyph.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> A damage object represents the smallest unit of screen update.
+ Typically, there will be one damage object for each main viewer.
+ Before a draw traversal begins, the damage object is normally
+ used to set the painter's clipping region and then reset
+ to be empty.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void incur();<BR></FONT></B>
+</TD></TR></TABLE>
+ Request an update on the entire region defined by the damage.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void extend(in Region r);<BR></FONT></B>
+</TD></TR></TABLE>
+ Extend the current update area to include the given region.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Region current();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the current region that has been requested for update.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void begin_update();<BR>void end_update();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations control when damage may be repaired.
+ Within the outermost begin-end pair of calls the damage area
+ will not be repaired, allowing one to perform multiple
+ operations that incur damage without the possibility of
+ a redisplay occuring until after the end_update call that
+ matches the first begin_update call.  Nested calls have
+ no effect other than to record the nesting level.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Window window_ptr();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the window object associated with the damage.
+ There may be multiple damage areas within a window, but
+ a damage object can only be associated with one window.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

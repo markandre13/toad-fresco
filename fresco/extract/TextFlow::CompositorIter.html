@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::CompositorIter</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="CompositionIter.html">CompositionIter</A><P> Extends the iterators capabilities to allow a compositor to
+ make changes to the compositions structure.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void set_span(in Coord natural);<BR></FONT></B>
+</TD></TR></TABLE>
+ Set the allocated span along the major axis for the glyph 
+ the iterator is currently positioned over.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean get_requirement(out Glyph::Requirement r);<BR></FONT></B>
+</TD></TR></TABLE>
+	get the requirement along the major axis for the glyph
+	currently positioned over.  Returns true if there is a
+	requirement to return.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void penalty(in Coord len, out long break_penalty, out long resize_penalty);<BR></FONT></B>
+</TD></TR></TABLE>
+ Determine the penalty for breaking at this position.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean break_line(in Coord len);<BR></FONT></B>
+</TD></TR></TABLE>
+	Break the line the iterator is positioned over at the offset
+	the iterator is positioned over.  If the operation is
+	successful the iterator will be positioned at the beginning of
+	the line following the break.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void remove_break();<BR></FONT></B>
+</TD></TR></TABLE>
+ Remove the break from the current line, effectively joining 
+ the next line with the current line.
+ The function warp_to_line() changes the iterator position to 
+ the beginning of the given line.  
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> boolean changed;<BR></FONT></B>
+</TD></TR></TABLE>
+ lines can be marked for later processing.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

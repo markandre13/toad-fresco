@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;FieldEditor</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/widgets.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="Viewer.html">Viewer</A><P> A field editor is a viewer that allows editing a single line of
+ text.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>ExclusiveEditMgr field_edit_manager();<BR>  FieldSubject field_subject();<BR>string get_current();<BR></FONT></B>
+</TD></TR></TABLE>
+ A field editor may be attached to a field subject. It
+ changes this subject (and notifies its observers) whenever
+ text modifications are "committed" using the return key. 
+ If the subject is independently updated, then, upon update
+ notification, the field editor changes its current contents
+ to match the subject. 
+ The get_current operation provides direct access to the
+ field editor's current contents. Note that this may
+ not necessarily match the current value of the field subject. 
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FrescoObject enter_notifier();<BR>FrescoObject input_notifier();<BR></FONT></B>
+</TD></TR></TABLE>
+ The enter_notifier operation returns an object which notifies
+ its observers whenever modifications are "committed" using the
+ return key. The input_notifier operation returns an object
+ which notifies its observers when each visible character
+ is input into the field editor. (Visible characters do not
+ include such things cursor movement and return keys.)
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Adjustment scroll_adjustment();<BR></FONT></B>
+</TD></TR></TABLE>
+ This operation returns an adjustment that changes whenever
+ scrolling occurs. A scrollbar, for example, can be attached to
+ this adjustment.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

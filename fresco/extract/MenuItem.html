@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;MenuItem</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/menu.idl<BR><P> MenuItems are used to define the content of menus.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef sequence<MenuItem> Path;<BR></FONT></B>
+</TD></TR></TABLE>
+ Paths are used to identify how to reach one menu item from
+ another.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> string key;<BR></FONT></B>
+</TD></TR></TABLE>
+ Each menu item in a menu should have a unique key so that a
+ specific menu item can be searched for.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> MenuItem parent;<BR></FONT></B>
+</TD></TR></TABLE>
+ Child menu items point back to their parents.  The parent
+ attribute can be used to get or set a childs parent.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Tag attach(in MenuItemObserver observer);<BR>void detach(in Tag attach_tag);<BR></FONT></B>
+</TD></TR></TABLE>
+ Menu items can be observed for changes by attaching a menu item
+ observer to the menu item using the attach member.  Menu item
+ observers are not reference counted by menu items because we
+ assume that the menu item observer will detach before its life
+ is over.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>enum TypeId {<BR>&nbsp;&nbsp; submenu, leaf, separator <BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ The types represent general types of menu items.  Submenu items
+ contain more menu items.  Leaf items are things like buttons,
+ check boxes, etc.  A separator item is used to visually indicate
+ separate groups of items.
+ Get the items type.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Glyph label_glyph;<BR>attribute string label_string;<BR>attribute string font_family;<BR> // nil means defaultattribute string font_style;<BR> // nil means defaultattribute Coord font_size;<BR> // 0 means default</FONT></B>
+</TD></TR></TABLE>
+ These attributes are used to create the visual representation
+ of the menu items label.  At least one of the label glyph or
+ string must be provided.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>enum MarkId {<BR>&nbsp;&nbsp; unmarked, checkmark, radiomark <BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ The marks represent different types of leaf menu items.
+ Checkmarks are used for on/off states and radiomarks are used
+ for one of many items.
+ The mark determines the visual representation of the mark that
+ appears in the menu item.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Telltale mark_state;<BR></FONT></B>
+</TD></TR></TABLE>
+ The mark state controls the appearance of a menu items mark.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> boolean underline;<BR></FONT></B>
+</TD></TR></TABLE>
+ The underline attribute is used to underline the label in a
+ menu item.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> boolean more_dialog;<BR></FONT></B>
+</TD></TR></TABLE>
+ The more dialog attribute is used to indicate that if the menu
+ item is chosen the user will be prompted for more information
+ before the action completes.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> KeySym mnemonic;<BR></FONT></B>
+</TD></TR></TABLE>
+ The mnemonic is used to traverse open menus using the keyboard.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> KeyChord accelerator;<BR></FONT></B>
+</TD></TR></TABLE>
+ The accelerator is used to execute an menu item action using
+ the keyboard.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> boolean enabled;<BR></FONT></B>
+</TD></TR></TABLE>
+ The enabled state of the menu item is used to enable/disable
+ execution of the menu items action.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Action item_action;<BR></FONT></B>
+</TD></TR></TABLE>
+ The item action attribute is used to execute the menu items
+ functionality.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>readonly attribute long count;<BR></FONT></B>
+</TD></TR></TABLE>
+ The count is the number of child menu items within a
+ composite menu item.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MenuItem item(in long i);<BR></FONT></B>
+</TD></TR></TABLE>
+ The item function can be used to access a specific
+ child menu item.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void prepend(in MenuItem item);<BR>void append(in MenuItem item);<BR>void insert(in long i, in MenuItem item);<BR>void remove(in long i);<BR>void remove_all();<BR></FONT></B>
+</TD></TR></TABLE>
+ Child menu items are added/removed using the prepend, append,
+ insert, remove, and remove_all functions.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> MenuItem default_item;<BR></FONT></B>
+</TD></TR></TABLE>
+ The default_item function returns the child menu item that
+ should be the default.  If there is no default then nil
+ will be returned.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void notify_observers(in MenuItemObserver::Aspect a);<BR></FONT></B>
+</TD></TR></TABLE>
+ Send to all observers the given aspect-notification
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

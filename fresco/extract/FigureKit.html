@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;FigureKit</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/figures.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> FigureKit provides operations for creating common
+ two-dimensional figures, including as rectangles, circles,
+ polygons, and B-splines.  Once created, figures cannot be
+ altered other than through the transformation matrix
+ accessed by the Glyph::transform operation.
+.
+ All figures have a style defined by the FigureStyle interface,
+ which can be accessed by getting the Glyph::style attribute.
+ Setting a figure's style using the Glyph::style attribute
+ will actually set the parent style.  Furthermore, because
+ of the one-to-one relationship between a figure and its style,
+ an implementation may choose to represent the figure and
+ style as a single object that supports both interfaces
+ (where retrieving a figure's style simply returns the
+ figure itself).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef sequence<Vertex> Vertices;<BR></FONT></B>
+</TD></TR></TABLE>
+ The Vertices type defines a sequence of vertex structures
+ for figures with an arbitrary number of vertices,
+ such as polygons and B-splines.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>enum Mode {<BR>&nbsp;&nbsp; fill, stroke, fill_stroke <BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ Mode is an enumeration type the controls figure drawing.
+ If the mode is "fill" then the figure fills its area
+ with its style's foreground color.  If the mode is "stroke"
+ then the figure paints its outline with its style's brush and
+ foreground color.  If the mode is "fill_stroke" then
+ the figure fills its area with its style's background color and
+ paints the outline with the style's brush and foreground color.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigureStyle default_style();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a default style to use for figures.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigureStyle new_style(in StyleContext parent);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a new figure style that inherits from the given style.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph figure_root(in Glyph child);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a glyph that centers its body by transformation.
+ This kind of glyph should be put around a collection
+ of figures that are inside a layout object such as a box.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph import_idraw(in CharString s);<BR></FONT></B>
+</TD></TR></TABLE>
+ Read an idraw file and return a glyph
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigRaster image(in Raster r);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a figure that draws the raster.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigRaster stencil(in FigureStyle s, in Raster r);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a figure that draws the raster bitmap in the foreground
+ color of the given style.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigLabel label(in FigureStyle s, in CharString str);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a text label with the given style.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigLabel outset_label(in FigureStyle s, in CharString str);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return an outset text label with the given style.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigPoint point(in FigureStyle s, in Coord x, in Coord y);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a figure that draws a point in the foreground color
+ of the given style.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigLine line(in FigureStyle s, in Coord x0, in Coord y0, in Coord x1, in Coord y1);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a figure that draws a line from (x0,y0) to (x1,y1)
+ using the brush and foreground color of the given style.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigRectangle rectangle(in FigureKit::Mode m, in FigureStyle s,in Coord left, in Coord bottom, in Coord right, in Coord top);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a rectangle with lower-left corner (left,bottom) and
+ upper-right corner (right,top).  The mode parameter controls
+ whether the rectangle is filled, stroked, or both.
+ The style parameter controls which brush and colors are used
+ for drawing.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigCircle circle(in FigureKit::Mode m, in FigureStyle s,in Coord x, in Coord y, in Coord r);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a circle with center (x,y) and radius r.
+ The mode parameter controls whether the circle
+ is filled, stroked, or both.  The style parameter
+ controls which brush and colors are used for drawing.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigEllipse ellipse(in FigureKit::Mode m, in FigureStyle s,in Coord x, in Coord y, in Coord r1, in Coord r2);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return an ellipse with center (x,y) and radii r1 and r2.
+ The mode parameter controls whether the ellipse
+ is filled, stroked, or both.  The style parameter
+ controls what brush and colors are used for drawing.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigVertex open_bspline(in FigureKit::Mode m, in FigureStyle s, in FigureKit::Vertices v);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a B-spline curve that uses the given vertices
+ as control points.  The curve is "open" in that
+ the last and first control points are not connected.
+ The mode parameter controls whether the area is filled,
+ stroked, or both.  The style parameter controls which
+ brush and colors are used for drawing.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigVertex closed_bspline(in FigureKit::Mode m, in FigureStyle s, in FigureKit::Vertices v);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a B-spline curve that uses the given vertices
+ as control points.  The curve is "closed" in that
+ the last and first control points are automatically connected.
+ The mode parameter controls whether the area is filled,
+ stroked, or both.  The style parameter controls which
+ brush and colors are used for drawing.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigVertex multiline(in FigureKit::Mode m, in FigureStyle s, in FigureKit::Vertices v);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a list of lines defined by pair-wise of vertices,
+ effectively yielding an "open" polygon.  The mode parameter
+ controls whether the area is filled, stroked, or both.
+ The style parameter controls which
+ brush and colors are used for drawing.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>FigVertex polygon(in FigureKit::Mode m, in FigureStyle s, in FigureKit::Vertices v);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the polygon defined by the given vertices.
+ The last and first vertices are automatically connected.
+ The mode parameter controls whether the area is filled,
+ stroked, or both.  The style parameter controls which
+ brush and colors are used for drawing.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph fitter(in Glyph g);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a glyph that simply transforms its body to fit
+ into the space available.  That is, a fitter uses
+ its allocation and its body's requested size to compute
+ a transform to make the two sizes match.  The fitter
+ uses this transform during a traversal so that the
+ body will be allocated its natural size, but will be
+ transformed to drawn within the fitter's area.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph group();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a group that can contain one or more figures.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

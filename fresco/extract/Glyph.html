@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Glyph</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/glyph.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> The Glyph interface defines the common operations for all objects
+ that have a geometry and may be drawn.  The name "glyph"
+ is borrowed from typography to connote simple, lightweight objects 
+ with an instance-specific appearance.  Glyphs also have a size
+ and origin for the purposes of layout.  The Glyph interface provides
+ operations for geometry management, drawing, picking, and
+ a directed-acyclic structure (not strictly hierarchical).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>struct Requirement {<BR>&nbsp;&nbsp;boolean defined;<BR>&nbsp;&nbsp;Coord natural, maximum, minimum;<BR>&nbsp;&nbsp;Alignment align;<BR>&nbsp;&nbsp;<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ If the defined flag is true, a requirement specifies
+ a natural size, maximum size, minimum size, and
+ alignment.  A composite may "stretch" a requirement
+ from its natural size to its maximum size or "shrink"
+ the requirement from the natural to minimum size.
+ It is possible to have negative sizes, such as for
+ "backwards" space.  The alignment is a fraction that
+ indicates the origin of the area.  An alignment of zero
+ means the origin is at the lower coordinate value;
+ an alignment of one means it is at the upper coordinate value.
+ Alignments can be negative or larger than one to indicate
+ the origin is outside the natural position.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>struct Requisition {<BR>&nbsp;&nbsp;Requirement x, y, z;<BR>&nbsp;&nbsp;boolean preserve_aspect;<BR>&nbsp;&nbsp;<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ A requisition contains a requirement for each axis and
+ a flag indicating whether the natural aspect ratios
+ should be preserved if the glyph is stretched or shrunk.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>struct AllocationInfo {<BR>&nbsp;&nbsp;Region clipping;<BR>&nbsp;&nbsp;Region allocation;<BR>&nbsp;&nbsp;Transform transformation;<BR>&nbsp;&nbsp;Damage damaged;<BR>&nbsp;&nbsp;<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ The AllocationInfo structure contains specific
+ cumulative geometry information.  This information
+ is used to determine what regions to damage
+ in order to redraw a glyph.
+ Note that clipping uses window relative coordinates
+ while allocation uses glyph relative coordinates.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef sequence<AllocationInfo> AllocationInfoSeq;<BR></FONT></B>
+</TD></TR></TABLE>
+ AllocationInfoSeq is a list of AllocationInfo
+ structures to handle the possibility that a glyph
+ appears several places at once on the screen.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef sequence<GlyphOffset> OffsetSeq;<BR></FONT></B>
+</TD></TR></TABLE>
+ OffsetSeq is a list of glyph offsets.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>struct DamageInfo {<BR>&nbsp;&nbsp;Damage damaged;<BR>&nbsp;&nbsp;<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef sequence<DamageInfo> DamageInfoSeq;<BR></FONT></B>
+</TD></TR></TABLE>
+ DamageSeq is a list of Damage objects.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Glyph clone_glyph();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a logical copy of this glyph.  Style information
+ for the target glyph is also copied, but inherited styles
+ are not copied.  The target data may be locked while
+ the copy is in progress.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> StyleContext style;<BR></FONT></B>
+</TD></TR></TABLE>
+ A glyph may use the style attribute to customize
+ the font, colors, and other characteristics
+ of the glyph's appearance.  Usage of the style attribute
+ is optional--a glyph may choose to ignore setting
+ of the style and may return nil when the style
+ is retrieved.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Transform transformation();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a transformation matrix associated with the glyph.
+ If a glyph implementation does not provide a transform,
+ this operation will return nil.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void request(out Requisition r);<BR></FONT></B>
+</TD></TR></TABLE>
+ This operation asks for a glyph's desired geometry.
+ The computation should be fast to allow a composite glyph
+ to compute rather than store its components' requisitions.
+ In general, if a requisition might be expensive to compute
+ then a glyph should store its own requisition.  A composite glyph
+ therefore generally should store its requisition rather
+ than traverse its components.  A composite can assume
+ that GlyphOffset::notify will be called if the requisition
+ of one of its children changes.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void extension(in AllocationInfo a, in Region r);<BR></FONT></B>
+</TD></TR></TABLE>
+ This operation extends the given region by the
+ bounds of where this glyph would draw when given
+ the allocation and transform defined by the AllocationInfo.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void shape(in Region r);<BR></FONT></B>
+</TD></TR></TABLE>
+ This operation extends the given region by the
+ precise shape where this glyph would naturally draw.
+ Calling shape may be more costly than calling extension
+ (which just computes bounds) and therefore should only
+ be called by composites that wish to perform layout
+ using the actual area where the object would draw.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void traverse(in GlyphTraversal t);<BR></FONT></B>
+</TD></TR></TABLE>
+ Start traversing a glyph and its components.  The traversal
+ object defines the operation on each glyph.  Normally,
+ a composite will call traverse recursively on each
+ of its components.
+.
+ N.B.: Because traversal state must be held by the caller
+ past a call to traverse, an extra reference to the
+ traversal parameter object is \emphasis{not} passed
+ to the traverse operation.  Therefore, contrary to
+ normal conventions, an implementation of the traverse operation
+ should \emphasis{not} unref the parameter.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void draw(in GlyphTraversal t);<BR></FONT></B>
+</TD></TR></TABLE>
+ Display this glyph using the painter and allocation
+ specified by the given traversal.  No clipping or translation
+ is automatic for this operation--the allocation specifies
+ the position and size of this glyph for the purposes
+ of layout.  However, a composite glyph may set clipping
+ or transformations on the traversal's painter before
+ the composite draws its children.
+.
+ There is no guarantee that a call to draw will affect
+ the screen immediately because of the possibility
+ (indeed, likelihood) that the window is double-buffered.
+ Furthermore, drawing order is important for glyphs when
+ they overlap in the same plane.  A glyph's draw operation
+ therefore should not be called directly, but implicitly
+ will be called as part of the screen update process.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void pick(in GlyphTraversal t);<BR></FONT></B>
+</TD></TR></TABLE>
+ Find the glyphs that intersect a point or rectangle
+ specified in window-relative coordinates.  Conceptually,
+ picking is like drawing and determining what glyphs
+ intersect the point or region.  When pick returns,
+ the traversal contains a list of the glyph trails
+ that were hit.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Glyph body;<BR></FONT></B>
+</TD></TR></TABLE>
+ The body attribute defines a glyph as the recipient
+ of operations.  Glyphs that have a body defined
+ are typically "filters" that decorate, align, or
+ otherwise adjust the appearance of the body.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void append(in Glyph g);<BR>void prepend(in Glyph g);<BR></FONT></B>
+</TD></TR></TABLE>
+ Add the given glyph to this composite.  If the receiver
+ is not actually a composite, the operation will be ignored.
+ If the receiver has a body glyph, it should pass the operation
+ on to the body.  In this way, "wrapper" glyphs can
+ alter appearance without affecting structural operations.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Tag add_parent(in GlyphOffset parent_offset);<BR>void remove_parent(in Tag add_tag);<BR></FONT></B>
+</TD></TR></TABLE>
+ Add or remove a parent for this glyph.  Because
+ a glyph could possibly be added more than once as a child
+ of the same parent, an offset represents
+ the parent edge.  The add_parent operation returns
+ a tag that the offset retains to remove itself
+ from the child's parent list when the edge is removed.
+ The child should not hold a reference to its parent
+ (otherwise it would create a cycle), so the parent_offset
+ is not passed with a reference and should not be unref'd
+ by the add_parent operation.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>GlyphOffset first_child_offset();<BR>GlyphOffset last_child_offset();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the offset of the first or last of this glyph's
+ list of children.  Both operations will return nil
+ if the glyph has no children.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void parent_offsets(inout OffsetSeq parents);<BR></FONT></B>
+</TD></TR></TABLE>
+ Get the offsets of the parents of this glyph.
+ The parameter is inout to allow the caller to allocate
+ a fixed size array for the result.  If this glyph
+ has more parents than the maximum size given for the list,
+ then it will allocate new storage for the list.
+ The caller therefore must check to see whether the
+ resulting size is smaller or now to deallocate
+ the list elements correctly.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void allocations(inout AllocationInfoSeq a);<BR></FONT></B>
+</TD></TR></TABLE>
+ Compute cumulative information for each allocation
+ of the glyph.  This operation normally need not
+ be called directly; instead application objects
+ usually call need_redraw or need_resize.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void damages(inout DamageInfoSeq d);<BR></FONT></B>
+</TD></TR></TABLE>
+ Compute the list of Damage objects that a glyph is
+ involved with.  This list is useful for batching
+ updates by calling begin_update and end_update on
+ the Damage objects.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void need_redraw();<BR>void need_redraw_region(in Region r);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations request that a glyph cause its appearance
+ on the screen to be refreshed. If the glyph appears
+ in multiple places in a window or in several windows,
+ the glyph should be redrawn in all the places.
+ A glyph may choose not to implement these operations
+ Under the assumption that update is either not possible
+ or will be handled by higher-level glyphs.
+.
+ The need_redraw operation asks that the entire glyph
+ be redrawn; need_redraw_region specifies an area
+ relative to the glyph's coordinate space. One use of
+ need_redraw_region is to redraw the region surrounding the 
+ merged before and after areas of a transformed glyph.
+ 
+ Note these operations do not actually cause an immediate
+ screen update; they merely notify the system that
+ a draw traversal is desired in the near future.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void need_resize();<BR></FONT></B>
+</TD></TR></TABLE>
+ This operation is similar to need_redraw, but
+ includes the additional possibility that the glyph's
+ natural size has changed.  This operation implies
+ two redraw requests (which will be handled with
+ a single draw traversal), one for the glyph's original area
+ and one for the glyph's new area.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean restore_trail(in GlyphTraversal t);<BR></FONT></B>
+</TD></TR></TABLE>
+ This operation attempts to restore the traversal state
+ (allocation and drawing state) for the given traversal
+ The return value indicates whether restoration is successful.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

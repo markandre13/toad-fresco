@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;EditMgr</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/applic.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> An EditMgr maintains a list of commands for undo/redo.
+ An EditMgr does not normally execute commands. Rather, commands
+ are executed externally and then logged with the EditMgr.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void log(in Command cmd);<BR>void unlog();<BR></FONT></B>
+</TD></TR></TABLE>
+ The log operation appends a command to the end of the
+ command list. The unlog operation removes the command
+ from the end of the list.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean forward();<BR>boolean backward();<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations move the current command along the list. The
+ forward operation moves it away from the start; the backward
+ moves it toward the start. Both operations return true if
+ successful in moving the current command.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Command current_command();<BR></FONT></B>
+</TD></TR></TABLE>
+ Returns the current command in the list.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void empty();<BR>void trim();<BR></FONT></B>
+</TD></TR></TABLE>
+ The empty operation removes all commands from the list. The
+ trim operation truncates the list from one past the current
+ end.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

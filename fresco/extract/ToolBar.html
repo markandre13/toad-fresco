@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;ToolBar</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/menu.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="Menu.html">Menu</A>, <A HREF="Viewer.html">Viewer</A><P> A tool bar object is a viewer that controls a palette of tools.
+ Currently tools are implemented using menu items.
+.
+ When a tool bar needs to update its appearance because of
+ a change in the menuitem hierarchy, its need_resize function
+ should be called.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MenuItem root();<BR></FONT></B>
+</TD></TR></TABLE>
+ The root function returns the root menu item that was used
+ to construct the menu bar.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MenuItem current();<BR></FONT></B>
+</TD></TR></TABLE>
+ The current menu item is the current active tool in a tool bar.
+ If it defines an action, the action will be executed.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

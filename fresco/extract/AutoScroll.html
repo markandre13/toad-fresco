@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;AutoScroll</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/layouts.idl<BR><P> An auto-scroll assists a viewer in automatically scrolling the
+ view when the user is interacting with something in the view
+ and the mouse is moved past the edge of the viewers allocation.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>struct PreferencesInfo {<BR>&nbsp;&nbsp;float initial_delay;<BR>&nbsp;&nbsp;float repeat_delay;<BR>&nbsp;&nbsp;<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ The initial delay controls how much delay there is before the
+ first auto-scroll occurs.  The repeat delay controls how much
+ delay there is between successive auto-scrolls.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> AutoScroll::PreferencesInfo preferences;<BR></FONT></B>
+</TD></TR></TABLE>
+ The initial delay controls how much delay there is before the
+ first auto-scroll occurs.  The repeat delay controls how much
+ delay there is between successive auto-scrolls.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean handle(in GlyphTraversal traversal, in Event e);<BR></FONT></B>
+</TD></TR></TABLE>
+ Handle update and stop based on event location relative to the
+ allocation.  Returns true if the auto-scroller is active.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void auto_scroll(in float x_amount, in float y_amount);<BR></FONT></B>
+</TD></TR></TABLE>
+ Auto-scroll using the scroll amounts.  The scroll amounts are
+ fractions of the adjustments small scroll.  So to scroll by
+ the small scroll amount to the upper x and lower y use an
+ x amount of +1 and a y amount of -1.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void stop();<BR></FONT></B>
+</TD></TR></TABLE>
+ Stop auto-scrolling.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

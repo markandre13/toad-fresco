@@ -1,0 +1,208 @@
+<HTML>
+	<HEAD>
+		<TITLE>
+			FRESCO > WidgetKit
+		</TITLE>
+	</HEAD>
+	<BODY BGCOLOR=#FFD080>
+	&nbsp;<BR>
+	<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0>
+		<TR>
+			<TD>
+				<H1>WidgetKit</H1>
+			</TD>
+			<TD ALIGN=RIGHT>
+				[<A HREF="index.html">index</A>]
+			</TD>
+		</TR>
+	</TABLE>
+	<HR>
+		<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph inset_frame(Glyph <VAR>g</VAR>)<BR>
+		&nbsp;Glyph filled_inset_frame(Glyph <VAR>g</VAR>)
+	<BR></FONT></B></TD></TR><TR><TD>
+		<IMG SRC="images/inset_frame.gif" ALIGN=RIGHT>
+		Rahmen für Vertiefung.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph outset_frame(Glyph <VAR>g</VAR>)<BR>
+		&nbsp;Glyph filled_outset_frame(Glyph <VAR>g</VAR>)
+	<BR></FONT></B></TD></TR><TR><TD>
+		<IMG SRC="images/outset_frame.gif" ALIGN=RIGHT>
+		Rahmen für Erhöhung.
+	</TD></TR></TABLE>
+
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph bright_inset_frame(Glyph g)<BR>
+		&nbsp;Glyph filled_bright_inset_frame(Glyph g)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph hilite_frame(Glyph g, Telltale t, Coord thickness,float xalign, float yalign)<BR>
+		&nbsp;Glyph hilite_frame(Glyph g, Telltale t, Coord thickness,float xalign, float yalign)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph push_button_frame(in Glyph g, Telltale t, Coord thickness, float xalign, float yalign)<BR>
+		&nbsp;Glyph filled_push_button_frame(in Glyph g, Telltale t, Coord thickness, float xalign, float yalign)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph indicator(in Telltale t)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph filler()
+	<BR></FONT></B></TD></TR><TR><TD>
+		Glyph in der voreingestellten Hintergrundfarbe (Hellgrau), der z.B. als
+		Fensterhintergrund verwendet werden kann.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph color_filler(Color c)
+	<BR></FONT></B></TD></TR><TR><TD>
+		Glyph in der angegebenen Farbe.
+		<H4>Beispiel:</H4>
+		<CODE>
+			DrawingKit *drawingkit = KitFactory::instance()->drawings();<BR>
+			WidgetKit *widgetkit =  KitFactory::instance()->widgets();<BR>
+			Color_var c = drawingkit->color_rgb(0,0,1);<BR>
+			Glyph_var lightblue = widgetkit->color_filler(c);<BR>
+		</CODE>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph hseparator()<BR>
+		&nbsp;Glyph vseparator()<BR>
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;FieldEditor field_editor(in FieldSubject subj, in long width, in long maximum);<BR>
+		&nbsp;FieldEditor managed_field_editor(in ExclusiveEditMgr mgr,in Tag subj, in FieldEditorData fe_data)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;FieldSubject field_subject()<BR>
+		&nbsp;ExclusiveEditMgr field_edit_manager()<BR>
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Inset field_inset(in FieldSubject subj, in FieldEditorData vdata,in ExclusiveEditMgr mgr)<BR>
+		&nbsp;FieldEditorData field_editor_data(in long width, in long maximum)<BR>
+		&nbsp;ViewerCreator field_editor_creator()
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Telltale telltale_group()
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;ExclusiveEditMgr exclusive_edit_mgr(in CmdExecutor c)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Button push_button(in Glyph g, in Action a)<BR>
+		&nbsp;Button default_button(in Glyph g, in Action a)<BR>
+		&nbsp;Button palette_button(in Glyph g, in Action a)
+		&nbsp;Button transparent_button(in Glyph g, in Action a)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph checkmark(in Telltale t)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Button check_box(in Glyph g, in Action a)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Glyph radio_flag(in Telltale t)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Button radio_button(in Glyph g, in Action a, in Telltale group)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Adjustment bounded_float(in float lower, in float upper, in float initial)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Viewer slider(in Axis a, in Adjustment adj)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Viewer scroll_bar(in Axis a, in Adjustment adj)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Viewer panner(in Adjustment x, in Adjustment y)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Button up_mover(Adjustment a)<BR>
+		&nbsp;Button down_mover(Adjustment a)<BR>
+		&nbsp;Button left_mover(Adjustment a)<BR>
+		&nbsp;Button right_mover(Adjustment a)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;Viewer viewer_group(in Glyph g)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;DialogKit dialog_kit()
+	<BR></FONT></B></TD></TR><TR><TD>
+		Das <A HREF="DialogKit.html">DialogKit</A> dient zum Erstellen von Dialogen.
+		Den Zeiger kann man auch über
+		<P>
+		<CODE>
+		DialogKit   *dialogkit   = KitFactory::instance()->dialogs();
+		</CODE>
+		</P>
+		erhalten.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;MenuKit menu_kit()
+	<BR></FONT></B></TD></TR><TR><TD>
+		Das <A HREF="MenuKit.html">MenuKit</A> dient zum Erstellen von Menübalken.
+		Den Zeiger kann man auch über
+		<P>
+		<CODE>
+		MenuKit   *menukit   = KitFactory::instance()->menus();
+		</CODE>
+		</P>
+		erhalten.
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;void draw_beveled_rectangle(Painter p, Coord thickness, Color light, Color medium, Color dark, Coord left, Coord bottom, Coord right, Coord top)
+	<BR></FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	</BODY>
+</HTML>

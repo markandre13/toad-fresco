@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;CharString</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/types.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> CharString represents a sequence of characters,
+ where a character is a logical value rather than
+ a specific physical size.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef sequence<CharCode> Data;<BR></FONT></B>
+</TD></TR></TABLE>
+ The data in a character string can be interpreted
+ as a sequence of character codes.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef sequence<char> CharData;<BR></FONT></B>
+</TD></TR></TABLE>
+ The CharData type is useful for extracting the data
+ from 8-bit strings.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef unsigned long HashValue;<BR></FONT></B>
+</TD></TR></TABLE>
+ A hash value is computed from the characters in the string.
+ If the hash values of two strings are different, then the
+ strings differ in content.  If the hash values are the same,
+ the strings may or may not differ.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>HashValue hash();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a hash value for the string.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>unsigned long count();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the number of characters in the string.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void copy(in CharString s);<BR></FONT></B>
+</TD></TR></TABLE>
+ Copy the contents of the given string into this string.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean equal(in CharString s);<BR>boolean case_insensitive_equal(in CharString s);<BR></FONT></B>
+</TD></TR></TABLE>
+ Compare two strings and return true if they contain
+ the same characters.  The case_insensitive_equal operation
+ returns true if the strings only differ in case.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void get_data(inout Data d);<BR>void get_char_data(inout CharData d);<BR></FONT></B>
+</TD></TR></TABLE>
+ Retrieve the characters in the string as a sequence
+ of either 8-bit values or character codes.  The parameters
+ are inout so that a caller can provide a buffer.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void put_data(in Data d);<BR>void put_char_data(in CharData d);<BR></FONT></B>
+</TD></TR></TABLE>
+ Store the given 8-bit or character code data
+ into the string.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>string string_ptr();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a CORBA::String object for the string.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef unsigned long KeySym;<BR>typedef sequence<KeySym> KeyChord;<BR></FONT></B>
+</TD></TR></TABLE>
+ A keysym is an integer value that identifies
+ a key (as opposed to an interpretation of that key
+ in a particular character set).  X11 defines
+ the standard keysym values supported by Fresco;
+ some platforms may offer additional possible values.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef float Coord;<BR></FONT></B>
+</TD></TR></TABLE>
+ User interface objects specify positions and sizes in terms
+ of coordinates.  The Coord type represents a position or distance
+ in units of printer's points (1/72 of an inch).  Coord might
+ better be defined as an interface from the perspective
+ of abstraction, but for practical reasons it is defined
+ as a typedef.  For applications with simple graphics needs,
+ the use of floating point coordinates is typically
+ not a problem.  Applications with more sophisticated text
+ or graphics usually need to manipulate floating point
+ coordinates anyway.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica></FONT></B>
+</TD></TR></TABLE>
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef long PixelCoord;<BR></FONT></B>
+</TD></TR></TABLE>
+ The PixelCoord type represents a position or distance in
+ units of screen pixels.  PixelCoord values are inherently
+ resolution-dependent and generally should be avoided.
+ However, some user interfaces need to guarantee that they
+ produce output that is precisely balanced in terms of pixels.
+ Coord values are resolution-independent, but one cannot rely
+ on precise output at low resolutions.  Coordinates are normally
+ rounded-off to guarantee that objects that abut in coordinates
+ will abut on the screen.
+.
+ This approach introduces the possibility that the same Coord
+ value might be converted to two different PixelCoord values.
+ To avoid such an occurrence, an application object should
+ convert the coordinate value to a PixelCoord and then back
+ to a Coord before using it.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica></FONT></B>
+</TD></TR></TABLE>
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>enum Axis {<BR>&nbsp;&nbsp; X_axis, Y_axis, Z_axis <BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ Axis is a type for specifying a dimension of cartesian coordinates.
+ Many user interface operations, especially involving layout,
+ can be parameterized by dimension.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica></FONT></B>
+</TD></TR></TABLE>
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>struct Vertex {<BR>&nbsp;&nbsp; Coord x, y, z;<BR>&nbsp;&nbsp; <BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ A vertex is a 3-dimensional point.  A Fresco implementation
+ may only implement 2d operations and therefore will ignore
+ the z-field of vertices.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica></FONT></B>
+</TD></TR></TABLE>
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef float Alignment;<BR></FONT></B>
+</TD></TR></TABLE>
+ An alignment is a floating point value that represents
+ a relative position.  Alignments are typically between
+ zero and one inclusive, with zero indicating the position
+ is aligned with the lower point and one indicating
+ alignment with the higher point.  For example, an alignment
+ of zero along the X-axis indicates that the position
+ is left-aligned, a value of one means the position is
+ right-aligned.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica></FONT></B>
+</TD></TR></TABLE>
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

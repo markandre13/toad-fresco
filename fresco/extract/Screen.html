@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Screen</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/display.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> A screen represents a physical array of pixels.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Coord dpi;<BR></FONT></B>
+</TD></TR></TABLE>
+ This attribute contains the resolution, or "dots-per-inch"
+ (dpi) of the screen.  Initially, the value is the hardware
+ resolution.  It can be changed to a different value for use
+ in the conversion to and from pixel coordinates.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Display display_ptr();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the display that contains the screen.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Coord width();<BR>Coord height();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the screen dimensions in resolution-independent
+ coordinates.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>PixelCoord to_pixels(in Coord c, in Axis a);<BR>Coord to_coord(in PixelCoord p, in Axis a);<BR>Coord to_pixels_coord(in Coord c, in Axis a);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations convert coordinates between points and
+ pixels using the screen's resolution along the given axis.
+ The to_pixels_coord operation is equivalent to
+ calling to_coord(to_pixels(c)), which effectively
+ rounds the coordinate out to the nearest pixel boundary.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void move_pointer(in Coord x, in Coord y);<BR></FONT></B>
+</TD></TR></TABLE>
+ Change the current position of the input pointer to the
+ given position relative to the root window of the screen.
+ This operation can surprise users and generally
+ should be avoided.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Window application(in Viewer v);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a new application window for the given viewer.
+ An application should create a single application window,
+ which may make information about command-line arguments
+ available to a session manager.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Window top_level(in Viewer v, in Window group_leader);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a new top-level window for the given viewer.
+ A top-level window can have a "group leader," which is
+ typically an application window.  A window manager
+ might allow quick control of all windows with the
+ same group leader, such as when iconifying or deiconifying.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Window transient(in Viewer v, in Window transient_for);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a new transient window for the given viewer.
+ A transient window is often treated specially by
+ window mangers.  It may be decorated differently
+ (or not at all), or automatically unmapped when the
+ main window is iconified.  Transient windows are used
+ for temporary controls, such as dialog boxes,
+ but not for unmanaged windows such as popups or pulldowns.
+ A transient is usually associated with another managed window.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Window popup(in Viewer v);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a new popup window for the given viewer.
+ A popup window is unmapped directly to a screen without
+ window manager interaction (or knowledge).  In the X
+ window system, a popup window will override the normal
+ redirection of map requests to window managers.  Popups
+ on X also will request that the pixels under the popup
+ be saved to avoid a subsequent exposure when the popup
+ is unmapped.  Popups should only be used for temporary
+ windows, such as popup or pulldown menus.  Because they
+ do not go through the window manager, popups must be
+ placed explicitly.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Window icon(in Viewer v);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a new icon window for the given viewer.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::CompositionGlyphOffset</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="GlyphOffset.html">GlyphOffset</A><P> Glyphs within the composition have more info associated 
+ with them, so the offset is specialized.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean is_equal(in CompositionGlyphOffset offs);<BR></FONT></B>
+</TD></TR></TABLE>
+ compare to another offset to see if it represents the
+ same offset.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>long line();<BR></FONT></B>
+</TD></TR></TABLE>
+ line number this offset is currently associated with
+ (if broken, the offset will not actually be in the
+ line).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Breakable break_info;<BR></FONT></B>
+</TD></TR></TABLE>
+ Each position within the composition (offset) can have 
+ break information associated with it.  If no information
+ is associated with the offset (default behavior), the
+ offset will not be considered for a break.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void breakable_insert(in Glyph g, in Breakable b);<BR></FONT></B>
+</TD></TR></TABLE>
+ alternative insert interface for the offset that allows
+ one to set the breakable behavior at the same time.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

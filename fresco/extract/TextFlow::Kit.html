@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::Kit</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P><TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Subject field_subject(in string init_text);<BR>Editor field_editor(in Subject sub, in Coord min_width);<BR></FONT></B>
+</TD></TR></TABLE>
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Subject unstyled_subject();<BR>StyledSubject styled_subject();<BR></FONT></B>
+</TD></TR></TABLE>
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Editor unscrolled_view(in Subject subject);<BR>Editor scrolled_view(in Subject subject);<BR></FONT></B>
+</TD></TR></TABLE>
+ create views of documents
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void register_builder(in ViewFactory vb);<BR></FONT></B>
+</TD></TR></TABLE>
+ register a glyph factory that can be used to build pieces
+ of a documents view.  This can be used to extend the 
+ capabilities of a particular document kit by another 
+ document kit or other components.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>ViewFactory get_builder(in Element elem);<BR>ViewFactory get_named_builder(in CharString nm);<BR></FONT></B>
+</TD></TR></TABLE>
+ return the type of factory to use for the given kind of
+ element.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#808080">
+<B><FONT FACE=helvetica> Style style;<BR></FONT></B>
+</TD></TR></TABLE>
+ naming context for document creation.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Composition lr_composition(in Compositor strategy, in Glyph composite);<BR>Composition tb_composition(in Compositor strategy, in Glyph composite);<BR></FONT></B>
+</TD></TR></TABLE>
+ A lr_composition arranges its children from left to right. A 
+ tb_composition arranges its children from top to bottom. 
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Compositor simple();<BR>Compositor tex();<BR>Compositor array(in long n);<BR></FONT></B>
+</TD></TR></TABLE>
+ Strategies objects for composing compositions.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Breakable static_breakable(in Axis a, in long break_penalty, in long resize_penalty, in Glyph prebreak, in Glyph inbreak, in Glyph postbreak);<BR>Breakable lr_forced_break(in Glyph pre, in Glyph sep, in Glyph post);<BR>Breakable tb_forced_break(in Glyph pre, in Glyph sep, in Glyph post);<BR></FONT></B>
+</TD></TR></TABLE>
+ static_breakable provides a  a Breakable interface
+ where the breaking behavior is static (ie it doesn't 
+ generate new glyphs depending upon how the break is requested).
+ lr_forced_break and tb_forced_break is a convenience interface 
+ to static breakable where the break is guaranteed to take place 
+ (ie break penalty is good).
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

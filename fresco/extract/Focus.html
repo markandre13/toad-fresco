@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Focus</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/viewer.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> Every viewer hierarchy has a focus object at the root
+ that holds shared information for all the viewers.
+ In addition to maintaining which viewer has input focus,
+ the focus object can coordinate input translation,
+ shared menubar state, and shared tool palettes.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void map_keystroke(in KeySym k, in Action a);<BR>void map_keychord(in KeyChord k, in Action a);<BR></FONT></B>
+</TD></TR></TABLE>
+ Specify a translation for a key event to an action.
+ The map_keystroke operation defines the mapping for
+ a given keysym, map_keychord maps a sequence of keysyms.
+ The order of modifiers in a keychord is ignored;
+ an event will be mapped if the modifiers in the sequence
+ are down.
+.
+ If the main viewer receives a key event that is mapped,
+ it will perform the action immediately rather than
+ pass it to the focus viewer.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MenuItem menu_bar();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the menu item used for the shared menu bar.  If no
+ shared menu bar exists then a nil reference is returned.
+ When a viewer receives primary focus it may add items to the
+ shared menu bar.  These items will be automatically removed
+ when the viewer loses focus.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MenuItem tool_bar();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the menu item used for the shared tool bar.  If no
+ shared tool bar exists then a nil reference is returned.
+ When a viewer receives primary focus it may add items to the
+ shared tool bar.  These items will be automatically removed
+ when the viewer loses focus.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void install_menus();<BR></FONT></B>
+</TD></TR></TABLE>
+ After modifying the menubar and toolbar menuitem structure,
+ install the actual menus into the outermost viewer
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

@@ -1,0 +1,213 @@
+<HTML>
+	<HEAD>
+		<TITLE>
+			FRESCO > MenuKit
+		</TITLE>
+	</HEAD>
+	<BODY BGCOLOR=#FFD080>
+	&nbsp;<BR>
+	<TABLE WIDTH=100% CELLSPACING=0 CELLPADDING=0 BORDER=0>
+		<TR>
+			<TD>
+				<H1>MenuKit</H1>
+			</TD>
+			<TD ALIGN=RIGHT>
+				[<A HREF="index.html">index</A>]
+			</TD>
+		</TR>
+	</TABLE>
+	<HR>
+	Kit zum Erstellen von Menübalken.
+	
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;string keychord_to_string(KeyChord k)<BR>
+		&nbsp;KeyChord string_to_keychord(string s)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;MenuItem submenu_item()<BR>
+		&nbsp;MenuItem leaf_item()<BR>
+		&nbsp;MenuItem separator_item()
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;MenuManager menu_manager(MenuItem item)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;MenuBar menu_bar(MenuItem item)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;ToolBar tool_bar(MenuItem item)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000"><B><FONT FACE=helvetica>
+		&nbsp;PopupMenu popup_menu(MenuItem item)<BR>
+		&nbsp;PopupMenu pulldown_menu(MenuItem item)<BR>
+		&nbsp;PopupMenu pullright_menu(MenuItem item)
+	</FONT></B></TD></TR><TR><TD>
+	</TD></TR></TABLE>
+
+	<A NAME="example"><H4>Beispiel:</H4></A>
+	<IMG SRC="images/menubar_example.gif" ALIGN=right>
+<PRE>
+<FONT COLOR=#008000>/*
+ *
+ * Beispiel für einen Menübalken
+ * written 1997 by Mark-André Hopf
+ *
+ */
+</FONT>
+typedef unsigned long ulong;
+
+<FONT COLOR=#0000FF>#include &lt;iostream.h&gt;
+
+#include &lt;Fresco/base/fresco.h&gt;
+#include &lt;Fresco/defs/layouts.h&gt;
+#include &lt;Fresco/defs/widgets.h&gt;
+#include &lt;Fresco/base/viewers.h&gt;</FONT>
+
+<FONT COLOR=#008000>// declares 'KitFactory':</FONT>
+<FONT COLOR=#0000FF>#include &lt;Fresco/figures/utility.h&gt;</FONT>
+
+<FONT COLOR=#008000>// declare 'ActionCallback'
+// (should be '#include &lt;Fresco/base/action.h&gt;' in the final
+// FRESCO release, which will never come)</FONT>
+<FONT COLOR=#0000FF>#include "<A HREF="action.h">action.h</A>"</FONT>
+
+<FONT COLOR=#008000>// declares 'QuitCmd' class</FONT>
+<FONT COLOR=#0000FF>#include &lt;Fresco/figures/commands.h&gt;</FONT>
+
+class TMainWindow: ixx_extends(ViewerImpl)
+{
+    public:
+        TMainWindow();
+	
+    private:
+        MenuItem_var mb_root;
+        MenuBar_var mb_bar;
+        MenuManager_var mb_mgr;
+
+	void menuNew();
+        void menuOpen();
+        void menuSave();
+        void menuSaveAs();
+};
+
+int main(int argc, char **argv)
+{
+    <FONT COLOR=#008000>// CORBA Context erzeugen & mit Xlib Verbindung zum Server aufbauen
+    //------------------------------------------------------------------</FONT>
+    FrescoContext* fc = FrescoLib::init_default_context("MenuBarExample", argc, argv);
+
+    <FONT COLOR=#008000>// Fenster erzeugen und Anwendung starten
+    //----------------------------------------</FONT>
+    Viewer_var wnd = new TMainWindow;
+    Display_var display = fc-&gt;display_ptr();
+    Screen_var screen = display-&gt;default_screen();
+    Window_var window = screen-&gt;application(wnd);
+    Viewer_var(window-&gt;main_viewer())-&gt;request_focus(wnd, false);
+    window-&gt;map();
+    display-&gt;run(true);
+    return 0;
+}
+
+TMainWindow::TMainWindow()
+    :ViewerImpl(false)
+{
+    <FONT COLOR=#008000>// get factory kits
+    //------------------</FONT>
+    FigureKit *figurekit = KitFactory::instance()-&gt;figures();
+    LayoutKit *layoutkit = KitFactory::instance()-&gt;layouts();
+    WidgetKit *widgetkit = KitFactory::instance()-&gt;widgets();
+    MenuKit   *menukit   = KitFactory::instance()-&gt;menus();
+    DrawingKit *drawingkit = KitFactory::instance()-&gt;drawings();
+
+    <FONT COLOR=#008000>// create menubar
+    //----------------</FONT>
+    mb_root = menukit-&gt;submenu_item();
+        mb_bar = menukit-&gt;menu_bar(mb_root);          // Menübalken
+            mb_mgr  = menukit-&gt;menu_manager(mb_root); // Manager
+            mb_mgr-&gt;root_menu(mb_bar);                // Top
+	
+    <FONT COLOR=#008000>// create menubar 'File' pulldown
+    //--------------------------------</FONT>
+    MenuItem *pd;
+    pd = menu_item_string("File", 'F');
+        pd->append(MenuItem_var(button_item_string(
+            "New", 'N', Action_var(
+                new ActionCallback&lt;TMainWindow&gt;(this,TMainWindow::menuNew)
+        ))));
+        pd->append(MenuItem_var(button_item_string(
+            "Open", 'O', Action_var(
+                new ActionCallback&lt;TMainWindow&gt;(this,TMainWindow::menuOpen)
+        ))));
+        pd->append(MenuItem_var(button_item_string(
+            "Save", 'S', Action_var(
+                new ActionCallback&lt;TMainWindow&gt;(this,TMainWindow::menuSave)
+        ))));
+        pd->append(MenuItem_var(button_item_string(
+            "Save As..", 'A', Action_var(
+                new ActionCallback&lt;TMainWindow&gt;(this,TMainWindow::menuSaveAs)
+        ))));
+        
+        pd->append(menukit->separator_item());
+        
+        pd->append(MenuItem_var(button_item_string(
+            "Quit", 'Q', Action_var(new QuitCmd())
+        )));
+    mb_root-&gt;append(pd);
+
+    <FONT COLOR=#008000>// stretch menubar horizontally
+    //------------------------------</FONT>
+    mb_root-&gt;append(menukit-&gt;separator_item());
+
+    <FONT COLOR=#008000>// force FRESCO to recalculate the menubar size (it's a hack)
+    //------------------------------------------------------------</FONT>
+    mb_bar-&gt;need_resize();
+
+    <FONT COLOR=#008000>// place menubar
+    //---------------</FONT>
+    Glyph_var g1 = layoutkit-&gt;vbox();
+    g1->append(mb_bar);
+    body(
+        Glyph_var(layoutkit->back(
+            Glyph_var(layoutkit->flexible_fil(g1)),
+            Glyph_var(widgetkit->filler())
+	))
+    );
+}
+
+<FONT COLOR=#008000>// Callbacks
+//-----------</FONT>
+void TMainWindow::menuNew()
+{
+    cout << "menuNew!!!\n";
+}
+
+void TMainWindow::menuOpen()
+{
+    cout << "menuOpen!!!\n";
+}
+
+
+void TMainWindow::menuSave()
+{
+    cout << "menuSave!!!\n";
+}
+
+
+void TMainWindow::menuSaveAs()
+{
+    cout << "menuSaveAs!!!\n";
+}
+
+</PRE>
+	</BODY>
+</HTML>

@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;TextFlow::Observer</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/text.idl<BR><P> interface for a Text::Subject observer.  An observer can register 
+ to receive notifications of change for the portion of a subject 
+ that it is interested in.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void insert(in Range rng);<BR></FONT></B>
+</TD></TR></TABLE>
+ notification that there was an insert into the document.  The 
+ given range bounds the freshly inserted region.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void remove(in Range rng);<BR></FONT></B>
+</TD></TR></TABLE>
+ notification that a portion of the document has been 
+ removed.  The range is given in terms of what the view last
+ saw (ie before updating sticky positions).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void changed(in Range rng);<BR></FONT></B>
+</TD></TR></TABLE>
+ An attribute changed for the given range.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void element_insert(in Element elem, in Element right_sib);<BR>void element_remove(in Element elem);<BR></FONT></B>
+</TD></TR></TABLE>
+ notification of structural changes.  These are sent to
+ the parent element.  The given element is the element
+ that was inserted or removed.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

@@ -1,0 +1,117 @@
+<HTML>
+  <HEAD>
+    <TITLE>
+       FRESCO
+    </TITLE>
+  </HEAD>
+  <BODY BGCOLOR=#FFD080>
+  <H1>LineManip</H1>
+  <PRE>
+class _figures_impl_dll LineManip
+ :ixx_extends(<A HREF="FigureManip.html">FigureManip</A>)
+{
+  FigLine* figline_;
+
+  <B>LineManip(FigLine* = nil, LineManip* m = nil)</B>
+  {
+    figline_ = FigLine::_duplicate(f);
+    if (is_nil(figline_) && is_not_nil(m)) {
+      figline_ = FigLine::_duplicate(m->figline_);
+    }
+    subject_ = Glyph::_duplicate(figline_);
+    body(figline_);
+  }
+  
+  <B>virtual ~LineManip()</B>
+  {
+    CORBA::release(figline_);
+  }
+  
+  <B>virtual Boolean grasp(Tool&, FigViewer&, SelectInfo*, GlyphTraversal_ptr, Event_ptr)</B>
+  {
+    Boolean ok = FigureManip::grasp(tool, fv, si, t, e);
+    if (is_not_nil(CreateTool::_cast(info_->tool_))) {
+      figline_->pt1(info_->pt_);
+      figline_->pt2(info_->pt_);
+      figline_->resize();
+    }
+    return ok;
+  }
+
+  <B>virtual Boolean manipulate(GlyphTraversal_ptr, Event_ptr)</B>
+  {
+    switch (e->type()) {
+      case Event::motion:
+      case Event::enter:
+      case Event::leave:
+      case Event::up:
+        break;
+      case Event::focus_in:
+      case Event::focus_out:
+        return true;
+      default:
+        return false;
+    }
+    Boolean ok = true;
+    if (is_not_nil(CreateTool::_cast(info_->tool_))) {
+      Vertex pt;
+      RegionImpl ri;
+      extension(nil_info, &ri);
+
+      pt.x = e->pointer_x(); pt.y = e->pointer_y(); pt.z = Coord(0);
+      info_->t_.transform_vertex(pt);
+      figline_->pt2(pt);
+      figline_->resize();
+      info_->pt_ = pt;
+
+      extension(nil_info, &ri);
+      need_redraw_region(&ri);
+      if (is_not_nil(info_->sinfo_->a_)) {
+        compose(this);
+      }
+      need_resize();
+      if (e->type() == Event::up) {
+        ok = false;
+      }
+    } else {
+      ok = Manipulator::manipulate(t, e);
+    }
+    return ok;
+  }
+
+  <B>virtual void draw_handles(XfGlyphTraversal_ptr)</B>
+  {
+    if (selected_ && editing_) {
+      Painter_var po = gt->current_painter();
+      Transform_var tx = figline_->transformation();
+
+      po->push_matrix();
+      po->premultiply(tx_);
+      po->premultiply(tx);
+      TransformImpl ti;
+      Transform_var tm = po->current_matrix();
+      ti.copy(tm);
+      tm->load_identity();
+
+      Vertex v1 = figline_->pt1();
+      Vertex v2 = figline_->pt2();
+
+      ti.transform_vertex(v1);
+      ti.transform_vertex(v2);
+
+      po->current_color(color_[black]);
+      po->fill_rect(
+        v1.x - half_dot, v1.y - half_dot,
+        v1.x + half_dot, v1.y + half_dot
+      );
+      po->fill_rect(
+        v2.x - half_dot, v2.y - half_dot,
+        v2.x + half_dot, v2.y + half_dot
+      );
+      po->pop_matrix();
+    }
+  }
+}
+	</PRE>
+	</BODY>
+</HTML>

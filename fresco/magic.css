@@ -1,0 +1,19 @@
+BODY {    
+	font-family	: serif;
+	font-size	: 14px;
+	background-color: #FFD080;
+}
+H1 {
+	font-family	: sans-serif;
+	font-weight	: bold;  
+	font-size	: 26px;
+	text-transform	: none;
+}
+H2 {
+	font-family	: sans-serif;
+	font-weight	: bold;
+	font-size	: 20px;
+}
+PRE {
+	font-family	: monospace;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;FrescoObject</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/types.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="CosStream::Streamable.html">CosStream::Streamable</A><P> All Fresco subjects support the FrescoObject interface,
+ which defines operations for accessing an object's type and
+ for holding a reference to an object.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Tag attach(in FrescoObject observer);<BR>void detach(in Tag attach_tag);<BR>void disconnect();<BR></FONT></B>
+</TD></TR></TABLE>
+ To avoid circularities, an object may have an "uncounted"
+ reference to another object.  To ensure the reference
+ is valid, the holder of an uncounted reference may "attach"
+ to the referenced object, and "detach" when no longer storing
+ a reference to the object or be notified via the "disconnect"
+ operation if the object is destroyed.  The tag returned
+ from the attach operation is the value that should be passed
+ to the detach operation.
+.
+ One may call the attach and detach operations
+ on any object, but the object's implementation may choose
+ to ignore these requests.  Thus, this functionality
+ has no \emphasis{required} overhead per object.
+ This approach allows a simple interface
+ to objects while giving flexibility to implementations.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void notify_observers();<BR>void update();<BR></FONT></B>
+</TD></TR></TABLE>
+ Uncounted references (see the attach operation) provide
+ a simple mechanism for update notification.  All objects
+ support a "notify_observers" operation for the object
+ being observed and an "update" operation for the observer.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef long CharCode;<BR></FONT></B>
+</TD></TR></TABLE>
+ CharCode is a value that denotes a character from
+ a particular character set, such as Unicode.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica></FONT></B>
+</TD></TR></TABLE>
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

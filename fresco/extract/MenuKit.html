@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;MenuKit</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/menus.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> Menu kit provides operations for creating common types of menu items
+ and menus.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>string keychord_to_string(in KeyChord k);<BR>KeyChord string_to_keychord(in string s);<BR></FONT></B>
+</TD></TR></TABLE>
+ !!! These should be member functions of Event. -denis
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MenuItem submenu_item();<BR>MenuItem leaf_item();<BR>MenuItem separator_item();<BR></FONT></B>
+</TD></TR></TABLE>
+ The submenu, leaf, and separator item functions are used to create
+ the three basic types of menu items.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MenuManager menu_manager(in MenuItem item);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a menu manager to manage the control of the menus for
+ a tree of menu items.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>MenuBar menu_bar(in MenuItem item);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a menu bar for a menu item.
+ Create a vertical layouted menu_bar; might be handy for 
+ tear-off menus (which are neither tool_bars (which con-
+ sist of buttons) nor popups (which are only tmp window, as
+ far as I understand
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>ToolBar tool_bar(in MenuItem item);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a tool bar for a menu item.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>PopupMenu popup_menu(in MenuItem item);<BR>PopupMenu pulldown_menu(in MenuItem item);<BR>PopupMenu pullright_menu(in MenuItem item);<BR></FONT></B>
+</TD></TR></TABLE>
+ Create a popup, pulldown, or pullright menu for a menu item.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

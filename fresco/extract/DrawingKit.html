@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;DrawingKit</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/drawing.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> The DrawingKit interface defines operations for creating
+ common drawing objects, such as brushes, colors, and fonts.
+ The initial creation of these objects may be
+ display-dependent because the naming of objects
+ is often resolved per-display.  However, the objects themselves
+ are not display-dependent; they may be used on displays other
+ than the one associated with the drawing kit.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>typedef sequence<octet> Data8;<BR>typedef sequence<long> Data32;<BR></FONT></B>
+</TD></TR></TABLE>
+ These types define sequences of 8-bit or 32-bit values.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>StyleContext style();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the default style for the drawing kit, as defined
+ by the display from which the drawing kit was created.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Brush simple_brush(in Coord width);<BR>Brush dither_brush(in Coord width, in long p);<BR>Brush patterned_brush(in Coord width, in Data32 p);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations create brushes.  The brush operation
+ creates a solid brush with a given width, the dither_brush
+ operation creates a brush with a line style specified
+ by a bit vector.  The least significant 16 bits
+ of the pattern parameter are interpreted as a bit pattern,
+ with ones specifying foreground segments and zeroes
+ specifying background segments.
+.
+ The patterned_brush operation defines the line style
+ from an array of 32-bit integer that specify the length
+ of successive foreground and background segments.
+ Even-numbered array indices (starting from zero) specify
+ the length of the foreground segments, odd-numbered indices
+ specify the background segments.  The count is the number
+ of entries in the array.  The count can be zero, which
+ specifies a solid brush.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Pattern solid_pattern();<BR>Pattern halftone_pattern();<BR>Pattern stipple(in Data32 d);<BR>Pattern stipple_4x4(in unsigned long p);<BR></FONT></B>
+</TD></TR></TABLE>
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Color color_rgb(in Color::Intensity r, in Color::Intensity g, in Color::Intensity b);<BR>Color find_color(in CharString n);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations return color objects.  The objects
+ may be newly-created or may be shared with other
+ users of the same color.  The color_rgb operation
+ returns a color with the given RGB intensities,
+ as defined relative to the drawing kit's display.
+ The find_color operation returns the color object (if any)
+ associated with the given name.  Color name tables
+ may be managed per-display, so the result of this operation
+ also depends on the drawing kit's display.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Color resolve_color(in StyleContext s, in CharString n);<BR>Color foreground(in StyleContext s);<BR>Color background(in StyleContext s);<BR></FONT></B>
+</TD></TR></TABLE>
+ These operations return a color defined for a particular
+ style.  The operations resolve a name in the style
+ to a string value and then do the equivalent of
+ a find_color operation on that value.  The resolve_color
+ operation looks for a color by name.  The foreground operation
+ is equivalent to resolve_color with the name "foreground,"
+ the background operation looks for the name "background."
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Font find_font(in CharString fullname);<BR>Font find_font_match(in CharString font_family, in CharString font_style, in Coord ptsize);<BR></FONT></B>
+</TD></TR></TABLE>
+ The find_font operation returns the font object defined
+ by the given full name.  The find_font_match operation
+ finds the best-matching font for the given family,
+ style, and point size.  Both operations require a lookup
+ that may be display-dependent.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Font resolve_font(in StyleContext s, in CharString n);<BR>Font default_font(in StyleContext s);<BR></FONT></B>
+</TD></TR></TABLE>
+ The resolve_font operation returns a font specified
+ for a particular style.  This operation is equivalent
+ to resolving the name in the style to a string value and
+ calling find_font on that value.  The default_font operation
+ is equivalent to calling resolve_font on the name "font."
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Raster bitmap_from_data(in Data8 d,in Raster::Index rows, in Raster::Index columns,in Raster::Index origin_row, in Raster::Index origin_column);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a bitmap created from the given data, sizes, and origin.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Transform transform_matrix(in Transform::Matrix m);<BR>Transform identity_matrix();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a new transformation matrix.  The transform
+ operation is given a complete matrix, the identity_transform
+ returns an identity matrix.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Region bounding_box();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a region suitable for representing a bounding box.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Painter printer(in CharString output);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return a painter that generates printer output.
+ The interpretation of the parameter string is system-dependent.
+ It could, for example, denote the name of a file in which
+ to generate PostScript.  Alternatively, it could contain
+ the name of a system printer where output should be sent.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>

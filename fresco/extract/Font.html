@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD><TITLE>Fresco 0.1.7 Reference Manual</TITLE></HEAD><BODY BGCOLOR=#FFC080><TABLE WIDTH=100% CELLPADDING=0 CELLSPACING><TR><TD><B><BIG><FONT FACE=helvetica>&nbsp;Font</FONT></BIG></B>
+</TD><TD ALIGN=RIGHT><FONT FACE=helvetica>[<A HREF="index.html">index</A>]</FONT></TD></TR></TABLE>
+<HR><P>
+<B><FONT FACE=helvetica>declared in file:</FONT></A></B> /opt/Fresco/Fresco/defs/drawing.idl<BR><B><FONT FACE=helvetica>ancestors:</FONT></B> <A HREF="FrescoObject.html">FrescoObject</A><P> A font defines a mapping between character codes and their
+ appearance on the screen.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>struct Info {<BR>&nbsp;&nbsp;Coord width, height;<BR>&nbsp;&nbsp;Coord left_bearing, right_bearing;<BR>&nbsp;&nbsp;Coord ascent, descent;<BR>&nbsp;&nbsp;Coord font_ascent, font_descent;<BR>&nbsp;&nbsp;<BR>};<BR></FONT></B>
+</TD></TR></TABLE>
+ The Info structure defines font metric information
+ for a character, string, or summary information
+ for the entire font.  The width and height fields
+ define the overall dimensions.  The left_bearing and
+ right_bearing fields denote the left and right edges
+ inside the width.  The ascent and descent fields
+ define the distance to the baseline from the top and
+ bottom, respectively.  The font_ascent and font_descent
+ fields return the summary baseline information for the font,
+ as opposed to the character-specific distances provided
+ by ascent and descent.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>boolean equal(in Font f);<BR>unsigned long hash();<BR></FONT></B>
+</TD></TR></TABLE>
+ The equal operation tests whether two font objects
+ refer to the same font information.  The hash operation
+ will return the same value for two equal fonts,
+ though there is also some chance it will return
+ the same value for two unequal fonts.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>CharString fullname();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the full name of the font.  The syntax of the name
+ is platform-dependent.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>CharString encoding();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the character set identification, such as "iso8859"
+ for ISO Latin.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>CharString font_family();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the family name of the font.  The syntax of the
+ name is platform-independent, i.e., "courier" regardless
+ of where the font came from (Mac, Win32, or X11).
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>CharString font_style();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the style of the font.  The syntax of the style
+ is a set of attribute names separated by blank characters,
+ i.e., "", "bold," "bold italic," or "outline condense."
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Coord point_size();<BR></FONT></B>
+</TD></TR></TABLE>
+ Return the point size of the font.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>void font_info(out Font::Info i);<BR>void char_info(in CharCode c, out Font::Info i);<BR>void string_info(in CharString s, out Font::Info i);<BR></FONT></B>
+</TD></TR></TABLE>
+ Return font metric information.  The font_info operation
+ returns summary metrics for all characters, char_info
+ returns metrics for a particular character, and
+ string_info returns metrics for a string of characters.
+<TABLE WIDTH=100% CELLPADDING=2><TR><TD BGCOLOR="#FF8000">
+<B><FONT FACE=helvetica>Raster bitmap(in CharCode c);<BR></FONT></B>
+</TD></TR></TABLE>
+ The bitmap operation creates a bitmap for
+ a given character in the font.  In this case the bitmap
+ width and height will reflect the actual size of
+ the character and the bitmap origin will correspond
+ to the character's left bearing and baseline.
+<HR><SMALL><FONT FACE=helvetica>This reference is an extract from the Fresco 0.1.7 IDL files:<BR>Copyright &copy; 1992-94 Silicon Graphics,&nbsp;Inc.<BR>Copyright &copy; 1993-94 Fujitsu,&nbspLtd.<BR>Copyright &copy; 1995 Sun Microsystems,&nbspInc.<BR>Copyright &copy; 1997 Mark-André&nbsp;Hopf<BR></FONT></BODY></HTML>
